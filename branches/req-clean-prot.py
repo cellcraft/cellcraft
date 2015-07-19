@@ -3,13 +3,9 @@
 
 
 import math, sys, wget, gzip, os, glob
-from collections import *
+from os import *
+from sys import *
 from Bio.PDB import *
-from Bio.SeqUtils.CheckSum import seguid
-from Bio import SeqIO
-from Bio import *
-from Bio.Alphabet import IUPAC
-from Bio.Seq import Seq
 
 
 ### Variables
@@ -51,7 +47,7 @@ def model_prot(pdbin):
 
 ### HELP/usage
 
-if sys.argv[0] == "- h":
+if argv[0] == "- h":
   # coments/usage
   print '''
   Usage: get_prot [PDB ID]... [??]...
@@ -72,7 +68,7 @@ if sys.argv[0] == "- h":
 
 
  # Incorrect pdb id givenmolecules
-elif len(sys.argv[1]) < 4:
+elif len(argv[1]) < 4:
   # coments/usage
   print '''
   PDB id should contain 4 characters (e.g. 1p38).
@@ -92,80 +88,54 @@ else:
          PDB id should contain 4 characters (e.g. 1p38).
          Please, try again as following:
          python get_prot.py '1p38 4cfm'
-         ''' % (sys.argv[0], sys.argv[0])
+         ''' % (argv[0], argv[0])
          exit(0)
       elif len(i) > 4:
          print '''
          PDB id should contain 4 characters (e.g. 1p38).
          Please, try again as following:
          python get_prot.py '1p38 4c6d'
-         ''' % (sys.argv[0], sys.argv[0])
+         ''' % (argv[0], argv[0])
          exit(0)
 
   # Check if already downloaded, replace
   for b in mypdbs:
       if glob.glob(b+'.pdb'): 
           os.remove(b+'.pdb') 
-      if glob.glob(b+'.fa'):
-          os.remove(b+'.fa')
 
   #### Generate a unit for each pdb file
   for b in mypdbs:
       
-      ## Request pdb files from Protein Data bank
+      # Request pdb files from Protein Data bank
       PDB = 'http://www.rcsb.org/pdb/files/'+b+'.pdb'
       h = wget.download(PDB, bar=None)
 
-      ## Get secuence of polipeptides and print it to let the people know what are they uploading
+      # Get secuence of polipeptides and print it to let the people know what are they uploading
       p = PDBParser()
       seq = p.get_structure(b, h)
 
-      ## Clean the structure and leave only the protein
+      # Give the sequence/s of the protein/s
+      ppd = PPBuilder()
+      print "\n", b, "\n"
+      z = 0
+      fil = open("hola", 'w')
+      for pp in ppd.build_peptides(seq):
+          fil.write('>'+b+'_'+z+'\n'+pp.get_sequence())
+          print pp.get_sequence()
+          z = z+1
+      fil.close()   
+
+      # Clean the structure and leave only the protein
       class NonHetSelect(Select):
           def accept_residue(self, residue):
-                  return 1 if residue.id[0] == " " else 0
+              return 1 if residue.id[0] == " " else 0
       io = PDBIO()
       io.set_structure(seq)
       io.save(h, NonHetSelect())
 
-      ## Get the sequence/s of the protein/s
-      ppd = PPBuilder()
-      chains = defaultdict(list)
-      print "\n", b, "\n"
-      fil = open(b+'.fa', 'w')
-      for pp in ppd.build_peptides(seq):
-          for model in pp:
-              for chain in model:
-                  c = chain.get_full_id()
-                  ch = c[2]
-          a = pp.get_sequence()
-          chains[ch].append(a)
-          #print "This is/are the seq/s of ", b, "\n", pp.get_sequence(), "\n"
-
-      ## Concatenate sequences if are from a fragmented chain
-      concatenated = Seq("", IUPAC.protein)
-      print "This is/are the seq/s of ", b, "\n"
-      for c, s in chains.iteritems():
-         if len(s) > 1:
-             for i in s:
-                     concatenated += i
-             s = concatenated
-         chains[c] = s
-         print c, [chains[c]]   
-      
-      ## Identify if monomer or oligomer
-      if len(chains) == 1:
-          idx = '00'
-          print "\nProtein is a monomer\n"
-      else:
-          idx = '01'
-          print "\nProtein is a polimer\n"
-
-      ## Identify repeated chains
-      if idx == '01':
-          print "\nLet's check if monomers are equal:\n"      
-
-
+      # Identify homologue sequences and manage them separatelly
+           
+ 
 
       # Modell gaps 
 

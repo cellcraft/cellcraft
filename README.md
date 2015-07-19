@@ -7,4 +7,15 @@
 
 
 2. Modelling
-	- Modeller
+	- blastpgp
+	- clustalw
+	- aconvert
+	- mod9v7
+	- stamp
+	- transform
+	- loopp
+	- psipred
+	- dssp
+	- hmmbuild
+	- hmmcalibrate
+	- hmmalign
