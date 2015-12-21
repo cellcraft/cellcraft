@@ -65,6 +65,9 @@ class protein():
 	# all info in server
         pass
 
+class NonHetSelect(Select):
+    def accept_residue(self, residue):
+        return 1 if residue.id[0] == " " else 0
 
 class complex():
     def __init__(self, pdbin):
@@ -103,11 +106,10 @@ class complex():
 	# get list of polypeptide chains in pdb
 	self.chains = chs.keys()
 
-	# for each chain in chains get a cleaned pdb
-
+	# clean the heteroatoms from pdb
 	io = PDBIO()
-        io.set_structure(seq)
-#        io.save(h, self.accept_residue())
+	io.set_structure(seq)
+	io.save("non_het.pdb", NonHetSelect())
 
     # if protein complex, define chains (apply everythin for each chain)
     def prot_complex(self):
