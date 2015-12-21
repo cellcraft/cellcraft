@@ -65,9 +65,22 @@ class protein():
 	# all info in server
         pass
 
+# protein pdb cleaner (BioPython)
 class NonHetSelect(Select):
     def accept_residue(self, residue):
         return 1 if residue.id[0] == " " else 0
+
+# select chain from pdb (BioPython)
+class ChainSelect(Select):
+    # create the chain name variable for Select class
+    def __init__(self, chname):
+	self.chname = chname
+ 
+    def accept_chain(self, chain):
+        if chain.get_id() == self.chname:
+            return 1
+        else:
+            return 0
 
 class complex():
     def __init__(self, pdbin):
@@ -75,11 +88,6 @@ class complex():
         # primarykey = pdb_id_uniprot_id
         # pdb_id
         # uniprot_id
-        pass
-
-    # select only aa in the pdb file
-    def accept_residue(residue):
-        return 1 if residue.id[0] == " " else 0
 
     # get and clean the PDB file from database
     def get_clean_pdb(self):
@@ -87,41 +95,48 @@ class complex():
         PDB = 'http://www.rcsb.org/pdb/files/'+self.pdb_id+'.pdb'
         h = wget.download(PDB, bar=None)
         
-	# get chains	
+	# get the polypeptide chains from pdb
+	self.p = PDBParser()
+	self.seq = self.p.get_structure(self.pdb_id, h)
 
-	# parse find polypeptide chains
-	p = PDBParser()
-	seq = p.get_structure(self.pdb_id, h)
+	# clean the heteroatoms from pdb and save pdb as "clean_pdbid.pdb"
+	io = PDBIO()
+	io.set_structure(self.seq)
+	io.save('clean_'+self.pdb_id+'.pdb', NonHetSelect())
+
+    # if protein complex, define chains (apply everythin for each chain)
+    def split_complex(self):
+	# get list of polypeptide chains in pdb
 	ppd = PPBuilder()
-	chs = defaultdict(list)
+        chs = defaultdict(list)
         print "\n", self.pdb_id, "\n"
         fil = open(self.pdb_id+'.fa', 'w')
-        for pp in ppd.build_peptides(seq):
+        for pp in ppd.build_peptides(self.seq):
             for model in pp:
                 for chain in model:
                     c = chain.get_full_id()
                     ch = c[2]
             a = pp.get_sequence()
             chs[ch].append(a)
-	# get list of polypeptide chains in pdb
-	self.chains = chs.keys()
-
-	# clean the heteroatoms from pdb
+        self.chains = chs.keys()
+        # for each chain generate a pdb and call class protein
 	io = PDBIO()
-	io.set_structure(seq)
-	io.save("non_het.pdb", NonHetSelect())
+	self.seq = self.p.get_structure(self.pdb_id, 'clean_'+self.pdb_id+'.pdb') 
+	for i in self.chains:
+            io.set_structure(self.seq)
+	    io.save(self.pdb_id+'_'+i+'.pdb', ChainSelect(i))	  
 
-    # if protein complex, define chains (apply everythin for each chain)
-    def prot_complex(self):
-        # for each chain call class protein and get all the variables
-        pass
-
+    # define protein features of monomers protein class inheritance
+    def monomer_feat(protein):
+	pass
+ 	
 # create an instance with a prot/prot complex
 pdbin = sys.argv[1]
 print pdbin
 
 mycomplex = complex(pdbin)
 mycomplex.get_clean_pdb()
+mycomplex.split_complex()
 listchains = mycomplex.chains
 
 print listchains
