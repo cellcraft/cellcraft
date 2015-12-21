@@ -1,0 +1,4 @@
+# Define resources for protein analysis
+
+# aminoacids
+aa_list = ['ALA','ARG','ASN','ASP','ASX','CYS','CYM','CYX','GLN','GLU','GLX','GLY','HIS','HIE','HIP','HID','ILE','LEU','LYS','MET','PHE','PRO','SER','THR','TRP','TYR','UNK','VAL']

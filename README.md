@@ -1,21 +1,14 @@
-# cellcraft
+       ######## The Cellcraft Project ########
 
 ## Needed packages
-1. Python
-	- Biopython
-	- wget, gzip, numpy, 
+
+- Biopython
+- wget, gzip, numpy, 
+
+## Install Cellcraft in your computer
 
 
-2. Modelling
-	- blastpgp
-	- clustalw
-	- aconvert
-	- mod9v7
-	- stamp
-	- transform
-	- loopp
-	- psipred
-	- dssp
-	- hmmbuild
-	- hmmcalibrate
-	- hmmalign
+## Usage
+
+
+## Contact
