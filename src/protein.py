@@ -7,7 +7,8 @@ from Bio import SeqIO
 from Bio import *
 from Bio.Alphabet import IUPAC
 from Bio.Seq import Seq
-
+from xml.dom import minidom
+import urllib
 
 
 # Define features for input object protein
@@ -15,6 +16,11 @@ from Bio.Seq import Seq
 class protein():
     # define protein info
     def __init__(self,pdbin):
+	self.pdb_id = pdbin
+	# define uniprot_id from PDB website
+	url_str = 'http://www.rcsb.org/pdb/rest/hmmer?structureId='+self.pdb_id
+	xml_str = urllib.urlopen(xml_str).read()
+	xmldoc = minidom.parseString(xml_str)
 	# primarykey = pdb_id_uniprot_id
         # pdb_id
 	# uniprot_id
