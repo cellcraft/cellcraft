@@ -16,8 +16,9 @@ import numpy as np
 
 class protein():
     # define protein info
-    def __init__(self,pdbin):
+    def __init__(self,pdbin,chainId):
 	self.pdb_id = pdbin
+	self.chainId = chainId
 	# define uniprot_id from PDB website
 #	url_str = 'http://www.rcsb.org/pdb/rest/hmmer?structureId='+self.pdb_id
 #	xml_str = urllib.urlopen(url_str).read()
@@ -39,9 +40,35 @@ class protein():
 	pass
 
     # define color for each prot
-    def prot_color():
+    def prot_color(self):
 	# get into data the codes
 	pass
+
+    # get coordinates out of pdb
+    def get_coord(self):
+	io = PDBIO()
+	self.p = PDBParser()
+	self.seq = self.p.get_structure(self.pdb_id, 'clean_'+self.pdb_id+'.pdb')
+        io.set_structure(self.seq)
+        io.save(self.pdb_id+'_'+self.chainId+'.pdb', ChainSelect(self.chainId))
+        self.chain = self.p.get_structure(self.pdb_id+'_'+self.chainId, self.pdb_id+'_'+self.chainId+'.pdb')
+
+        # save coordinates in zeros.matrix of num_linesX3 dimension
+        self.num_lines = sum(1 for line in open(self.pdb_id+'_'+self.chainId+'.pdb'))
+        for line in open(self.pdb_id+'_'+self.chainId+'.pdb'):
+            if line.find("ATOM") == -1:
+                self.num_lines -=1
+        self.coord = np.zeros((self.num_lines,3), dtype=np.float)
+        for model in self.chain:
+            for chain in model:
+                count = 0
+                for residue in chain:
+                    for atom in residue:
+                        cd = atom.get_coord()
+                        self.coord[count][0] = cd[0]
+                        self.coord[count][1] = cd[1]
+                        self.coord[count][2] = cd[2]
+                        count += 1
 
     # obtain aa sequence
     def get_aa_seq(self):
@@ -131,49 +158,3 @@ class complex():
             a = pp.get_sequence()
             chs[ch].append(a)
         self.chains = chs.keys()
-        # for each chain generate a pdb and coordinates file
-	io = PDBIO()
-	for i in self.chains:
-	    self.seq = self.p.get_structure(self.pdb_id, 'clean_'+self.pdb_id+'.pdb')
-            io.set_structure(self.seq)
-	    io.save(self.pdb_id+'_'+i+'.pdb', ChainSelect(i))	 
-	    self.chain = self.p.get_structure(self.pdb_id+'_'+i, self.pdb_id+'_'+i+'.pdb')
-
-	    # save coordinates in zeros.matrix of num_linesX3 dimension
-	    num_lines = sum(1 for line in open(self.pdb_id+'_'+i+'.pdb'))
-	    for line in open(self.pdb_id+'_'+i+'.pdb'): 
-		if line.find("ATOM") == -1: 
-		    num_lines -=1
-	    coord = np.zeros((num_lines,3), dtype=np.float)
-	    for model in self.chain:
-		for chain in model:
-		    count = 0
-		    for residue in chain:
-			for atom in residue:
-			    cd = atom.get_coord()
-			    coord[count][0] = cd[0]
-			    coord[count][1] = cd[1]
-			    coord[count][2] = cd[2]
-			    count += 1
-			np.savetxt(self.pdb_id+'_'+i+'coord.txt', coord)
-
-    # define protein features of monomers protein class inheritance
-    def monomer_feat(protein):
-	# call to properties
-	# call to item
-	pass
- 	
-# create an instance with a prot/prot complex
-pdbin = sys.argv[1]
-print pdbin
-
-mycomplex = complex(pdbin)
-mycomplex.get_clean_pdb()
-mycomplex.split_complex()
-listchains = mycomplex.chains
-
-print listchains
-
-
-
-

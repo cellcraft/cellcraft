@@ -15,13 +15,13 @@ from protein import *
 
 # transform pdb into bocks cellcraft
 class item_cellcraft():
-    def __init__(self, item1, threshold, blocksize): # add weigth in future
-	self.item = item1
+    def __init__(self, coordinates, threshold, blocksize): # add weigth in future
+	self.item = coordinates
 	self.threshold = threshold
 	self.size = blocksize # unit cell
-	self.x = item1[0]
-	self.y = item1[1]
-	self.z = item1[2]
+	self.x = self.item[0]
+	self.y = self.item[1]
+	self.z = self.item[2]
 
     # define the volume that item will need -> get dimensions 
     def vol_prot(self):
@@ -70,17 +70,3 @@ class item_cellcraft():
 # calculate max-min
 def cal_minmax(maxi, mini):
     return int(maxi)-int(mini)
-
-# from main loop the structures to parse through item
-item1 = sys.argv[1]
-print item1
-
-protA = item_cellcraft(item1, 5, 1) # coordinates initially in amstrongs
-protA.vol_prot()
-#protA.def_blocks()
-
-# m.c. points for each block in protein
-#blocks = protA.blocklist
-
-
-

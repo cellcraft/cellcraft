@@ -10,15 +10,14 @@ from Bio.Seq import Seq
 from xml.dom import minidom
 import urllib
 import numpy as np
-import protein
-from src import item
-#from src.item import *
-#from src.envelop import *
-#from src.lipid import *
-#from src.nucleotide import *
-#from src.compounds import *
-#from src.usage import *
-#from src.errorcheck import *
+from src.protein import *
+from src.item import *
+from src.envelope import *
+from src.lipid import *
+from src.nucleotide import *
+from src.compounds import *
+from src.usage import *
+from src.errorcheck import *
 
 
 # create an instance with a prot/prot complex
@@ -31,3 +30,17 @@ mycomplex.split_complex()
 listchains = mycomplex.chains
 
 print listchains
+
+# for each protein in PDB
+for i in listchains:
+    # obtain matrix of coordenates
+    myprot = protein(pdbin,i)
+    myprot.get_coord()
+    mymatrix = myprot.coord
+    numatoms = myprot.num_lines
+    print mymatrix
+    print numatoms
+
+    # obtain grid
+    
+
