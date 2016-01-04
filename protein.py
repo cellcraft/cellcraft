@@ -56,11 +56,6 @@ class protein():
         print 'This is the sequence of '+pdbin+':\n', aa_seq_pdb
         return aa_seq_pdb 
 
-    # define weigth array with specific weigths for atoms that need special importance (active site...) when parsed in the grid
-    def atom_weigth(self):
-	# for the moment lets keep it as all the same weigth
-	pass
-
     # define the ligands, inhibitors, effectors...
     def compounds_prot(self):
 	# get KEEG_chemicals for that KEGG_id

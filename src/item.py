@@ -1,27 +1,55 @@
+import math, sys, gzip, os, glob
+import wget
+from collections import *
+from Bio.PDB import *
+from Bio.SeqUtils.CheckSum import seguid
+from Bio import SeqIO
+from Bio import *
+from Bio.Alphabet import IUPAC
+from Bio.Seq import Seq
+from xml.dom import minidom
+import urllib
+import numpy as np
+from protein import *
 
 
+# transform pdb into bocks cellcraft
 class item_cellcraft():
-    def __init__(self, threshold, blocksize):
-	# define threshold
-	# get name of item
-	# define blocksize
-	pass
+    def __init__(self, item1, threshold, blocksize): # add weigth in future
+	self.item = item1
+	self.threshold = threshold
+	self.size = blocksize # unit cell
+	self.x = item1[0]
+	self.y = item1[1]
+	self.z = item1[2]
 
-    # rotate item if needed to center 
+    # define the volume that item will need -> get dimensions 
+    def vol_prot(self):
+        self.lenx = cal_minmax(np.amax(self.x),np.amin(self.x))
+ 	self.leny = cal_minmax(np.amax(self.y),np.amin(self.y))
+	self.lenz = cal_minmax(np.amax(self.z),np.amin(self.z)) 
+	print self.lenx,self.leny,self.lenz
+
+    # rotate item if needed to center ->  new dimensions, needed????????
     def move_item(self, refrot, reftrans):
 	# transport item to ref position
 	# get the rotated structures of item for given refs
 	pass
 
-    # define the volume that item will need 
-    def vol_prot(self):
-        # calculate the vol each needs
-        pass
+    # parse a vector with specific weigths in atoms that require special importance (active site....)
+    def weight_atoms(self): # add weigth in future
+	pass
 
-    # parse item throuh the grid
+    # parse item throuh the grid -> give: grid cell unit (A), dimensions (A) X,Y,Z
     def def_blocks(self):
-        # generate a 3d grid for my coordinates
-        # get volumen of my item to know boundaries according to blocksize units defined
+	# unit cell -> define number of unit cells (bin)
+	self.ncellx = int(self.lenx/blocksize)
+	self.ncelly = int(self.leny/blocksize)
+	self.ncellz = int(self.lenz/blocksize)
+	nbin = max(self.cellx,self.ncelly,self.ncellz)
+
+	x, y = np(self.x,self.y)
+	hist, xedges, yedges = np.histogramdd(x, y, bins=nbin)		
         # use a 3d histogram (numpy 3d bin)
         # define empty or full by threshold
         pass
@@ -37,7 +65,22 @@ class item_cellcraft():
     # define the moment the data is requested    
     def date_time(self):
         # date and time of the data generation
+	pass
 
+# calculate max-min
+def cal_minmax(maxi, mini):
+    return int(maxi)-int(mini)
+
+# from main loop the structures to parse through item
+item1 = sys.argv[1]
+print item1
+
+protA = item_cellcraft(item1, 5, 1) # coordinates initially in amstrongs
+protA.vol_prot()
+#protA.def_blocks()
+
+# m.c. points for each block in protein
+#blocks = protA.blocklist
 
 
 
