@@ -53,7 +53,7 @@ if inpformat == "-pdbprot":
 #        mymatrix = myprot.coord
 #        numatoms = myprot.num_lines
 
-        # obtain grid
+#        # obtain grid
 #        mygrid = item_cellcraft(mymatrix,1,1)
 #        mygrid.vol_prot()
 #        mygrid.def_blocks()
@@ -100,10 +100,10 @@ if inpformat == "-pdbprot":
     # for each lipid in PDB
     #for i in listlips:
          # obtain matrix of coordenates
-    
+
          # obtain grid
 
-elif inpformat == "-autopack": 
+elif inpformat == "-autopack":
     print("Here new protokol to get matrix with coordenates")
 
 elif inpformat == '-memb':

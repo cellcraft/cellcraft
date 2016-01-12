@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 from collections import *
+from grid import *
 from Bio.PDB import *
 from Bio.SeqUtils.CheckSum import seguid
 from Bio import SeqIO
@@ -14,7 +15,6 @@ import numpy as np
 
 # colors EC id:color id
 col = {'1':'6', '2':'1', '3':'9', '4':'2', '5':'5', '6':'4', '0':'7'}
-
 # testure path name:texture id
 text = defaultdict(list)
 names = ['Metabolism', 'Genetic Information Processing', 'Human Diseases', 'Drug Development', 'Environmental Information Processing', 'Cellular Processes', 'Organismal Systems']
@@ -40,7 +40,6 @@ class protein():
     def get_coord(self):
         io = PDBIO()
         self.p = PDBParser()
-        
         # self.seq is the sequence of aa for this chain
         self.seq = self.p.get_structure(self.pdb_id, 'clean_'+self.pdb_id+'.pdb')
 
@@ -108,7 +107,8 @@ class protein():
                 self.ECs.append('EC:'+self.refid[0][b])
             elif m != None:
                 self.EnsemblIds.append(self.refid[0][b])
-            b += 1       
+            b += 1
+
         # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
         if len(self.ECs) == 0:
             self.ECs.append('EC:0.0.0.0')
@@ -174,9 +174,6 @@ class protein():
                 self.KPathways['Metabolism'].append('Unknown')
                 break
          
-        # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
-        if len(self.ECs) <= 1 and len(self.ECs[0]) == 0:
-            self.ECs[0] = 'EC:0.0.0.0'
 
     # define color and texture for each prot
     def prot_color(self):
@@ -189,7 +186,7 @@ class protein():
             c = 0
             l = 0
             while l < len(self.KPathways):
-                new = len(list(self.KPathways.values())[l]) 
+                new = len(list(self.KPathways.values())[l])
                 if new > c:
                     c = new
                     mypath = list(self.KPathways.keys())[l]
@@ -205,7 +202,7 @@ class protein():
         client = MongoClient()
         self.db = client[self.dbname]
         protein = self.db['protein']
-        self.db.protein.insert({
+        self.pid = self.db.protein.insert({
             'pdbid':self.pdb_id,
             'uniprotid':self.uniprotId,
             'organism':self.Org,
@@ -227,7 +224,7 @@ class protein():
         # get KEEG_chemicals for that KEGG_id
         pass
 
-    # Generate a modell of the protein '/home/celsa/Documents/Pompeu Fabra/SBI/steps.txt' 
+    # Generate a modell of the protein '/home/celsa/Documents/Pompeu Fabra/SBI/steps.txt'
     def model_prot(self):
         # development in further steps when aa_seq_pdb != aa_seq 
         print("1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
@@ -241,7 +238,6 @@ class protein():
     #            if re.findall(i,files) != None:
     #                for file in filter(lambda x: re.findall(i, x), files):
     #                    os.remove(os.path.join(root, file))
-        
 
 # protein pdb cleaner (BioPython)
 class NonHetSelect(Select):
@@ -253,12 +249,24 @@ class ChainSelect(Select):
     # create the chain name variable for Select class
     def __init__(self, chname):
         self.chname = chname
- 
     def accept_chain(self, chain):
         if chain.get_id() == self.chname:
             return 1
         else:
             return 0
+
+def add_pdb(pdbin,threshold,blocksize):
+    Protcomplex = protein_complex(pdbin)
+    if os.path.isfile(path+pdbin+".pdb"):
+        pass
+    else:
+        Protcomplex.get_PDB()
+    Protcomplex.clean_pdb()
+    Protcomplex.split_complex()
+    Protcomplex.load_chain_info()
+    Protcomplex.load_grid(threshold,blocksize)
+    return Protcomplex.grid.values,{p.pid:i for i,p in enumerate(Protcomplex.proteins)}
+
 
 class protein_complex():
     def __init__(self, pdbin):
@@ -295,3 +303,26 @@ class protein_complex():
             a = pp.get_sequence()
             chs[ch].append(a)
         self.chains = chs.keys()
+
+    def load_chain_info(self):
+        self.proteins = []
+        for i in self.chains:
+            GOs = []
+            EntrezIds = []
+            ENSEMBLids = []
+            ECs = []
+            KOpathIDs = []
+            KPathways = defaultdict(list)
+            myprot = protein(pdbin, chain, GOs, EntrezIds, ENSEMBLids, ECs, KOpathIDs, KPathways,'try')
+            # obtain IDs
+            myprot.get_ids()
+            myprot.prot_color()
+            myprot.genjson_tomongo()
+            self.proteins.append(myprot)
+
+    def load_grid(self,threshold,blocksize):
+        self.grid = cellcraft_grid(threshold,blocksize)
+        for protein in self.proteins:
+            self.grid.add_coordinates(protein.get_coord(),protein.pid)
+        self.grid.make_grid()
+        self.grid.def_blocks()
