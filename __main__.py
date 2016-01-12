@@ -49,15 +49,15 @@ if inpformat == "-pdbprot":
         myprot = protein(pdbin, i, GOs, EntrezIds, ENSEMBLids, ECs, KOpathIDs, KPathways, dbname)
 
         # obtain matrix of coordenates
-        myprot.get_coord()
-        mymatrix = myprot.coord
-        numatoms = myprot.num_lines
+#        myprot.get_coord()
+#        mymatrix = myprot.coord
+#        numatoms = myprot.num_lines
 
         # obtain grid
-        mygrid = item_cellcraft(mymatrix,1,1)
-        mygrid.vol_prot()
-        mygrid.def_blocks()
-        output = mygrid.H
+#        mygrid = item_cellcraft(mymatrix,1,1)
+#        mygrid.vol_prot()
+#        mygrid.def_blocks()
+#        output = mygrid.H
 
         # obtain IDs
         myprot.get_ids()
@@ -71,6 +71,8 @@ if inpformat == "-pdbprot":
         gEnsembl = myprot.EnsemblIds
         KOpaths = myprot.KOpathIDs
         KPaths = myprot.KPathways
+        print(uniprotid)
+        print("GOterms",GOterms)
         print("ECs",ECs)
         print("Organism",Org)
         print("KOpaths",KOpaths)
@@ -78,10 +80,13 @@ if inpformat == "-pdbprot":
 
         # get color and texture
         myprot.prot_color()
+        color = myprot.color
+        text = myprot.texture
+        print(pdbid,',',color,',',text,',',KPaths,',',ECs)
  
         # insert a json collection for each protein
-        myprot.genjson_tomongo()  
-        db = myprot.db 
+        #myprot.genjson_tomongo()  
+        #db = myprot.db 
         
         # clean if desired the not useful generated files
         #myprot.clean_dir()

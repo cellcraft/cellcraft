@@ -13,9 +13,14 @@ from xml.dom import minidom
 import numpy as np
 
 # colors EC id:color id
-col = {'1':'23', '2':'33', '3':'11', '4':'43', '5':'2', '6':'355', '0':'98'}
+col = {'1':'6', '2':'1', '3':'9', '4':'2', '5':'5', '6':'4', '0':'7'}
+
 # testure path name:texture id
-text = {'Metabolism':'76', 'Genetic Information Processing':'48', 'Environmental Information Processing':'7', 'Cellular Processes':'39', 'Organismal Systems':'67', 'Human Diseases':'3', 'Drug Development':'43'}
+text = defaultdict(list)
+names = ['Metabolism', 'Genetic Information Processing', 'Human Diseases', 'Drug Development', 'Environmental Information Processing', 'Cellular Processes', 'Organismal Systems']
+textures = ['159', '95', '95', '95', '35', '35', '35']
+for t,n in zip(textures,names):
+    text[t].append(n)
 
 # Define features for input object protein
 class protein():
@@ -104,55 +109,71 @@ class protein():
             elif m != None:
                 self.EnsemblIds.append(self.refid[0][b])
             b += 1       
+        # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
+        if len(self.ECs) == 0:
+            self.ECs.append('EC:0.0.0.0')
 
         # get Ids from KEGG 
-        tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/'+self.keggId) 
-        h = [line for line in tree3]
-        u = 0
-        KO = 0
-        BR = 0
-        pathprov = []
-        path1 = ''
-        while u < len(h):
-            line = str(h[u], "utf-8")
-            orgn = re.match("^ORGANISM.*", line)
-            pathId = re.match("^PATHWAY.*", line)
-            pathNa = re.match("^BRITE.*", line)
-            fin = re.match(r'.*\[(BR:'+self.keggId[:3]+'.*\])\n', line) 
-            # get the name of the organism
-            if orgn != None:
-                self.Org = re.findall(self.keggId[:3]+' +(.*)\n', line)
-            # get the KO pathway Identifiers 1
-            elif pathId != None:
-                self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d).*', line))
-                KO = 1
-            # get the KEGG pathway 1
-            elif pathNa != None:
+        while True:
+            try:
+                tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/'+self.keggId) 
+                h = [line for line in tree3]
+                u = 0
                 KO = 0
-                BR = 1
-            # fin of while
-            elif BR == 1 and fin != None:
-                BR = 0 
-                u = len(h)
-            # start repetition for KO pathway identifiers    
-            elif KO == 1:
-                self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d....).*', line))
-            # start repetition for KEGG pathway
-            elif BR == 1:
-                what = re.match("\S", line[14])
-                main = re.match("\w", line[13])
-                if main != None:
-                    path1 = re.findall('(\S.*)\n', line)[0]
-                elif main == None:
-                    if what != None:
-                        path2 = re.findall('(\S.*)\n', line)[0]
-                        if path2 != 'Overview':
-                            pathprov.append(path1+','+path2)
-            u += 1
-        # get the dictionary for KEGG Pathway out of pathprov
-        Kpathwaylist = [i.split(',') for i in pathprov]         
-        for patha, pathb in Kpathwaylist:
-            self.KPathways[patha].append(pathb) 
+                BR = 0
+                pathprov = []
+                path1 = ''
+                while u < len(h):
+                    line = str(h[u], "utf-8")
+                    orgn = re.match("^ORGANISM.*", line)
+                    pathId = re.match("^PATHWAY.*", line)
+                    pathNa = re.match("^BRITE.*", line)
+                    fin = re.match(r'.*Enzymes \[(BR:'+self.keggId[:3]+'.*\])\n', line)
+                    # get the name of the organism
+                    if orgn != None:
+                        self.Org = re.findall(self.keggId[:3]+' +(.*)\n', line)
+                    # get the KO pathway Identifiers 1
+                    elif pathId != None:
+                        self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d).*', line))
+                        KO = 1
+                    # fin of while
+                    elif fin != None:
+                        u = len(h)
+                    # get the KEGG pathway 1
+                    elif pathNa != None and fin != None:
+                        KO = 0
+                        BR = 1
+                    # start repetition for KO pathway identifiers    
+                    elif KO == 1:
+                        self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d....).*', line))
+                    # start repetition for KEGG pathway
+                    elif BR == 1:
+                        what = re.match("\S", line[14])
+                        main = re.match("\w", line[13])
+                        if main != None:
+                            path1 = re.findall('(\S.*)\n', line)[0]
+                        elif main == None:
+                            if what != None:
+                                path2 = re.findall('(\S.*)\n', line)[0]
+                                if path2 != 'Overview':
+                                    pathprov.append(path1+','+path2)
+                    u += 1
+
+                # get the dictionary for KEGG Pathway out of pathprov
+                if not pathprov:
+                    pathprov.append("Metabolism,Unknown")
+                Kpathwaylist = [i.split(',') for i in pathprov]         
+                for patha, pathb in Kpathwaylist:
+                    self.KPathways[patha].append(pathb)
+                break                
+            # if there is not KEGG Id available give alternative values
+            except (ValueError,RuntimeError, TypeError, NameError, AttributeError):
+                self.keggId = 'Unknown'
+                self.Org = 'Unknown'
+                self.KOpathIDs.append('Unknown')
+                self.KPathways['Metabolism'].append('Unknown')
+                break
+         
         # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
         if len(self.ECs) <= 1 and len(self.ECs[0]) == 0:
             self.ECs[0] = 'EC:0.0.0.0'
@@ -175,7 +196,9 @@ class protein():
                 l += 1
         else:
             mypath = list(self.KPathways.keys())[0]
-        self.texture = text[mypath]
+        rest = ([[texture for e in name if e == mypath] for texture, name in text.items()])
+        nrest = [x for x in rest if x]
+        self.texture = nrest[0][0]
 
     # generate and insert json for the protein collection
     def genjson_tomongo(self):
@@ -245,6 +268,7 @@ class protein_complex():
     def get_PDB(self):
         # Request pdb files from Protein Data bank
         PDB = 'http://www.rcsb.org/pdb/files/'+self.pdb_id+'.pdb'
+        print(PDB)
         h = wget.download(PDB, bar=None)
 
     # clean the PDB file from database
