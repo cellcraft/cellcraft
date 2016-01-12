@@ -10,29 +10,37 @@ from Bio.Seq import Seq
 from xml.dom import minidom
 import urllib
 import numpy as np
+import scipy
 
 
 # transform pdb into bocks cellcraft
-class item_cellcraft():
-    def __init__(self, coordinates, threshold, blocksize): # add weigth in future
-        self.item = coordinates
+class cellcraft_grid():
+    def __init__(self,threshold,blocksize): # add weigth in future
+        self.blocksize = blocksize
         self.threshold = threshold
-        self.size = blocksize # unit cell
-        self.x = self.item[0]
-        self.y = self.item[1]
-        self.z = self.item[2]
+        self.coordinates = []
+        self.pids = []
 
-    # define the volume that item will need -> get dimensions
-    def vol_prot(self):
-        self.lenx = int(cal_minmax(np.amax(self.x),np.amin(self.x)))
-        self.leny = int(cal_minmax(np.amax(self.y),np.amin(self.y)))
-        self.lenz = int(cal_minmax(np.amax(self.z),np.amin(self.z)))
+    def add_coordinates(self,coordinates,pid):
+        self.coordinates.append(coordinates)
+        self.pids.append(coordinates)
+
+    def make_grid():
+        amax = np.amax([coor.max(axis=0) for coor in self.coordinates],axis=0)
+        amin = np.amin([coor.min(axis=0) for coor in self.coordinates],axis=0)
+        self.x = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
+        self.y = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
+        self.z = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
+        self.values = np.zeros((self.x.shape[0],self.y.shape[0],self.z.shape[0]))
 
     # parse item throuh the grid -> give: grid cell unit (A), dimensions (A) X,Y,Z
     def def_blocks(self):
-        # generate a 3D histogram
-        self.H, self.edges = np.histogramdd(self.item, bins=(self.lenx/4, self.leny/4, self.lenz/4))
-        return self.H,self.edges
+        for coor,pid in zip(self.coordinates,self.pids):
+            # generate a 3D histogram
+            H, self.edges = np.histogramdd(self.item, bins=(grid.x, grid.y, grid.z))
+            H = H[H => self.threshold] = pid
+            H = H[H < self.threshold] = 0
+            self.values += H
 
     # rotate item if needed to center ->  new dimensions, needed????????
     def move_item(self, refrot, reftrans):
