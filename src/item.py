@@ -10,7 +10,6 @@ from Bio.Seq import Seq
 from xml.dom import minidom
 import urllib
 import numpy as np
-import scipy
 
 
 # transform pdb into bocks cellcraft
@@ -23,24 +22,22 @@ class cellcraft_grid():
 
     def add_coordinates(self,coordinates,pid):
         self.coordinates.append(coordinates)
-        self.pids.append(coordinates)
+        self.pids.append(pid)
 
-    def make_grid():
-        amax = np.amax([coor.max(axis=0) for coor in self.coordinates],axis=0)
-        amin = np.amin([coor.min(axis=0) for coor in self.coordinates],axis=0)
+    def make_grid(self):
+        amax = np.amax([np.amax(coor,axis=0) for coor in self.coordinates],axis=0)
+        amin = np.amin([np.amin(coor,axis=0) for coor in self.coordinates],axis=0)
         self.x = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
-        self.y = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
-        self.z = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
-        self.values = np.zeros((self.x.shape[0],self.y.shape[0],self.z.shape[0]))
+        self.y = np.arange(amin[1],amax[1]+self.blocksize,self.blocksize)
+        self.z = np.arange(amin[2],amax[2]+self.blocksize,self.blocksize)
+        self.values = np.zeros((self.x.shape[0]-1,self.y.shape[0]-1,self.z.shape[0]-1))
 
     # parse item throuh the grid -> give: grid cell unit (A), dimensions (A) X,Y,Z
     def def_blocks(self):
         for coor,pid in zip(self.coordinates,self.pids):
             # generate a 3D histogram
-            H, self.edges = np.histogramdd(self.item, bins=(grid.x, grid.y, grid.z))
-            H = H[H => self.threshold] = pid
-            H = H[H < self.threshold] = 0
-            self.values += H
+            H, self.edges = np.histogramdd(coor, bins=(self.x, self.y, self.z))
+            self.values[(H >= self.threshold)] = pid
 
     # rotate item if needed to center ->  new dimensions, needed????????
     def move_item(self, refrot, reftrans):

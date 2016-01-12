@@ -3,7 +3,6 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 from collections import *
-from grid import *
 from Bio.PDB import *
 from Bio.SeqUtils.CheckSum import seguid
 from Bio import SeqIO
@@ -113,10 +112,10 @@ class protein():
         if len(self.ECs) == 0:
             self.ECs.append('EC:0.0.0.0')
 
-        # get Ids from KEGG 
+        # get Ids from KEGG
         while True:
             try:
-                tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/'+self.keggId) 
+                tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/'+self.keggId)
                 h = [line for line in tree3]
                 u = 0
                 KO = 0
@@ -143,7 +142,7 @@ class protein():
                     elif pathNa != None and fin != None:
                         KO = 0
                         BR = 1
-                    # start repetition for KO pathway identifiers    
+                    # start repetition for KO pathway identifiers
                     elif KO == 1:
                         self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d....).*', line))
                     # start repetition for KEGG pathway
@@ -162,10 +161,10 @@ class protein():
                 # get the dictionary for KEGG Pathway out of pathprov
                 if not pathprov:
                     pathprov.append("Metabolism,Unknown")
-                Kpathwaylist = [i.split(',') for i in pathprov]         
+                Kpathwaylist = [i.split(',') for i in pathprov]
                 for patha, pathb in Kpathwaylist:
                     self.KPathways[patha].append(pathb)
-                break                
+                break
             # if there is not KEGG Id available give alternative values
             except (ValueError,RuntimeError, TypeError, NameError, AttributeError):
                 self.keggId = 'Unknown'
@@ -173,12 +172,12 @@ class protein():
                 self.KOpathIDs.append('Unknown')
                 self.KPathways['Metabolism'].append('Unknown')
                 break
-         
+
 
     # define color and texture for each prot
     def prot_color(self):
         # define color by function
-        myEC = self.ECs[0][3:4] 
+        myEC = self.ECs[0][3:4]
         self.color = col[myEC]
 
         # define texture by pathway
@@ -226,7 +225,7 @@ class protein():
 
     # Generate a modell of the protein '/home/celsa/Documents/Pompeu Fabra/SBI/steps.txt'
     def model_prot(self):
-        # development in further steps when aa_seq_pdb != aa_seq 
+        # development in further steps when aa_seq_pdb != aa_seq
         print("1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
 
     # clean the working directory of files generated that not more useful
