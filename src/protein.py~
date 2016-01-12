@@ -1,7 +1,6 @@
-import math, sys, gzip, os, os.path, glob, re, urllib, wget
+import math, sys, gzip, os, glob, re, urllib
+import wget
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
-from pymongo import MongoClient
 from collections import *
 from Bio.PDB import *
 from Bio.SeqUtils.CheckSum import seguid
@@ -10,26 +9,26 @@ from Bio import *
 from Bio.Alphabet import IUPAC
 from Bio.Seq import Seq
 from xml.dom import minidom
+import urllib
 import numpy as np
 
-# colors EC id:color id
-col = {'1':'23', '2':'33', '3':'11', '4':'43', '5':'2', '6':'355', '0':'98'}
-# testure path name:texture id
-text = {'Metabolism':'76', 'Genetic Information Processing':'48', 'Environmental Information Processing':'7', 'Cellular Processes':'39', 'Organismal Systems':'67', 'Human Diseases':'3', 'Drug Development':'43'}
 
 # Define features for input object protein
 class protein():
     # define protein info
-    def __init__(self, pdbin, chainId, GOs, EntrezIds, EnsemblIds, ECs, KOpathIDs, KPathways, dbname):
+    def __init__(self, pdbin, chainId, GOs, EntrezIds, EnsemblIds, KOpathIDs, KPathways):
         self.pdb_id = pdbin
         self.chainId = chainId
         self.GOs = GOs
         self.EntrezIds = EntrezIds
         self.EnsemblIds = EnsemblIds
-        self.ECs = ECs
         self.KOpathIDs = KOpathIDs
         self.KPathways = KPathways
-        self.dbname = dbname
+
+    # define color for each prot
+    def prot_color(self):
+        # get into data the codes
+        pass
 
     # get coordinates out of pdb
     def get_coord(self):
@@ -60,11 +59,6 @@ class protein():
                         self.coord[count][1] = cd[1]
                         self.coord[count][2] = cd[2]
                         count += 1
-
-    # define weigth array with specific weigths for atoms that need special importance (active site...) when parsed in the grid
-    def atom_weigth(self):
-        # for the moment lets keep it as all the same weigth
-        pass
 
     # get protein IDs
     def get_ids(self):
@@ -100,11 +94,12 @@ class protein():
             elif self.ref[0][b] == 'GeneID':
                 self.EntrezIds.append(self.refid[0][b])
             elif self.ref[0][b] == 'EC':
-                self.ECs.append('EC:'+self.refid[0][b])
+                self.ECs.append(self.refid[0][b])
             elif m != None:
                 self.EnsemblIds.append(self.refid[0][b])
-            b += 1       
+            b += 1        
 
+        print(root2,self.keggId)
         # get Ids from KEGG 
         tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/'+self.keggId) 
         h = [line for line in tree3]
@@ -115,16 +110,20 @@ class protein():
         path1 = ''
         while u < len(h):
             line = str(h[u], "utf-8")
+            orth = re.match("^ORTHOLOGY.*", line)
             orgn = re.match("^ORGANISM.*", line)
             pathId = re.match("^PATHWAY.*", line)
             pathNa = re.match("^BRITE.*", line)
             fin = re.match(r'.*\[(BR:'+self.keggId[:3]+'.*\])\n', line) 
+            # get EC IDs
+            if orth != None:  
+                self.ECs = line[line.rfind('EC'):line.rfind(']\n')]
             # get the name of the organism
-            if orgn != None:
+            elif orgn != None:
                 self.Org = re.findall(self.keggId[:3]+' +(.*)\n', line)
             # get the KO pathway Identifiers 1
             elif pathId != None:
-                self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d).*', line))
+                self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'.....).*', line))
                 KO = 1
             # get the KEGG pathway 1
             elif pathNa != None:
@@ -136,7 +135,7 @@ class protein():
                 u = len(h)
             # start repetition for KO pathway identifiers    
             elif KO == 1:
-                self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'\d....).*', line))
+                self.KOpathIDs.append(re.findall('.*('+self.keggId[:3]+'.....).*', line))
             # start repetition for KEGG pathway
             elif BR == 1:
                 what = re.match("\S", line[14])
@@ -145,59 +144,22 @@ class protein():
                     path1 = re.findall('(\S.*)\n', line)[0]
                 elif main == None:
                     if what != None:
-                        path2 = re.findall('(\S.*)\n', line)[0]
-                        if path2 != 'Overview':
-                            pathprov.append(path1+','+path2)
+                        pathprov.append(path1+','+re.findall('(\S.*)\n', line)[0])
             u += 1
         # get the dictionary for KEGG Pathway out of pathprov
-        Kpathwaylist = [i.split(',') for i in pathprov]         
-        for patha, pathb in Kpathwaylist:
-            self.KPathways[patha].append(pathb) 
-        # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
-        if len(self.ECs) <= 1 and len(self.ECs[0]) == 0:
-            self.ECs[0] = 'EC:0.0.0.0'
+        kpathways = [i.split(',') for i in pathprov]         
+        for patha, pathb in kpathways:
+            self.KPathways[patha].append(pathb)  
+        print("ECs",self.ECs)
+        print("Organism",self.Org)
+        print("KOpaths",self.KOpathIDs)
+        print("Keggpaths",self.KPathways)               
 
-    # define color and texture for each prot
-    def prot_color(self):
-        # define color by function
-        myEC = self.ECs[0][3:4] 
-        self.color = col[myEC]
-
-        # define texture by pathway
-        if len(self.KPathways) > 1:
-            c = 0
-            l = 0
-            while l < len(self.KPathways):
-                new = len(list(self.KPathways.values())[l]) 
-                if new > c:
-                    c = new
-                    mypath = list(self.KPathways.keys())[l]
-                l += 1
-        else:
-            mypath = list(self.KPathways.keys())[0]
-        self.texture = text[mypath]
-
-    # generate and insert json for the protein collection
-    def genjson_tomongo(self):
-        client = MongoClient()
-        self.db = client[self.dbname]
-        protein = self.db['protein']
-        self.db.protein.insert({
-            'pdbid':self.pdb_id,
-            'uniprotid':self.uniprotId,
-            'organism':self.Org,
-            'color':self.color,
-            'keggid':self.keggId,
-            'GOterms':self.GOs,
-            'ECs':self.ECs,
-            'gEntrez':self.EntrezIds,
-            'gEnsembl':self.EnsemblIds,
-            'KOPaths':self.KOpathIDs,
-            'KPathways':self.KPathways,
-            'texture':self.texture,
-            'date':datetime.utcnow() + timedelta(hours=1)})
-        #print(list(self.db.protein.find({'pdbid':self.pdb_id})))
-        client.close()
+ 
+    # define weigth array with specific weigths for atoms that need special importance (active site...) when parsed in the grid
+    def atom_weigth(self):
+        # for the moment lets keep it as all the same weigth
+        pass
 
     # define the ligands, inhibitors, effectors...
     def compounds_prot(self):
@@ -209,16 +171,11 @@ class protein():
         # development in further steps when aa_seq_pdb != aa_seq 
         print("1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
 
-    # clean the working directory of files generated that not more useful
-    #def clean_dir(self):
-    #    patterns = [self.pdb_id+'_'+self.chainId+'.pdb$', '.*'+self.pdb_id+'.pdb', self.pdb_id+'.fa']
-    #    mypath = "./"
-    #    for root, dirs, files in os.walk(mypath):
-    #        for i in patterns:
-    #            if re.findall(i,files) != None:
-    #                for file in filter(lambda x: re.findall(i, x), files):
-    #                    os.remove(os.path.join(root, file))
-        
+    # generate the dataframe for user and server (json format)
+    def gen_dataframe(self):
+        # ids for user
+        # all info in server
+        pass
 
 # protein pdb cleaner (BioPython)
 class NonHetSelect(Select):
@@ -252,6 +209,7 @@ class protein_complex():
         # get the polypeptide chains from pdb
         self.p = PDBParser()
         self.seq = self.p.get_structure(self.pdb_id, self.pdb_id+".pdb")
+
         # clean the heteroatoms from pdb and save pdb as "clean_pdbid.pdb"
         io = PDBIO()
         io.set_structure(self.seq)

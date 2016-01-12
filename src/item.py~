@@ -22,23 +22,32 @@ class item_cellcraft():
         self.y = self.item[1]
         self.z = self.item[2]
 
-    # define the volume that item will need -> get dimensions
+    # define the volume that item will need -> get dimensions 
     def vol_prot(self):
         self.lenx = int(cal_minmax(np.amax(self.x),np.amin(self.x)))
         self.leny = int(cal_minmax(np.amax(self.y),np.amin(self.y)))
-        self.lenz = int(cal_minmax(np.amax(self.z),np.amin(self.z)))
-
-    # parse item throuh the grid -> give: grid cell unit (A), dimensions (A) X,Y,Z
-    def def_blocks(self):
-        # generate a 3D histogram
-        self.H, self.edges = np.histogramdd(self.item, bins=(self.lenx/4, self.leny/4, self.lenz/4))
-        return self.H,self.edges
+        self.lenz = int(cal_minmax(np.amax(self.z),np.amin(self.z))) 
 
     # rotate item if needed to center ->  new dimensions, needed????????
     def move_item(self, refrot, reftrans):
         # transport item to ref position
         # get the rotated structures of item for given refs
         pass
+
+    # parse a vector with specific weigths in atoms that require special importance (active site....)
+    def weight_atoms(self): # add weigth in future
+        pass
+
+    # parse item throuh the grid -> give: grid cell unit (A), dimensions (A) X,Y,Z
+    def def_blocks(self):
+        # unit cell -> define number of unit cells (bin)
+        #self.ncellx = int(self.lenx/blocksize)
+        #self.ncelly = int(self.leny/blocksize)
+        #self.ncellz = int(self.lenz/blocksize)
+        #nbin = max(self.cellx,self.ncelly,self.ncellz)
+
+        # generate a 3D histogram
+        self.H, self.edges = np.histogramdd(self.item, bins=(self.lenx/10, self.leny/10, self.lenz/10))
 
     # translate grid into cellcraft format
     def def_cellcraftinput(self):
@@ -48,7 +57,7 @@ class item_cellcraft():
     def def_cellpackinput(self):
         pass
 
-    # define the moment the data is requested
+    # define the moment the data is requested    
     def date_time(self):
         # date and time of the data generation
         pass

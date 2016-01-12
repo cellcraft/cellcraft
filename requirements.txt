@@ -1,0 +1,15 @@
+wget
+urllib3
+pymongo
+numpy
+biopython
+bokeh
+ipykernel
+ipython
+ipython-genutils
+jupyter
+jupyter-client
+jupyter-console
+jupyter-core
+matplotlib
+pandas
