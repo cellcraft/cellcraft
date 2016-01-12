@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 from collections import *
-from grid import *
+#from .grid import *
 from Bio.PDB import *
 from Bio.SeqUtils.CheckSum import seguid
 from Bio import SeqIO
@@ -18,14 +18,14 @@ col = {'1':'6', '2':'1', '3':'9', '4':'2', '5':'5', '6':'4', '0':'7'}
 # testure path name:texture id
 text = defaultdict(list)
 names = ['Metabolism', 'Genetic Information Processing', 'Human Diseases', 'Drug Development', 'Environmental Information Processing', 'Cellular Processes', 'Organismal Systems']
-textures = ['159', '95', '95', '95', '35', '35', '35']
+textures = ['95', '159', '159', '159', '35', '35', '35']
 for t,n in zip(textures,names):
     text[t].append(n)
 
 # Define features for input object protein
 class protein():
     # define protein info
-    def __init__(self, pdbin, chainId, GOs, EntrezIds, EnsemblIds, ECs, KOpathIDs, KPathways, dbname):
+    def __init__(self, pdbin, chainId, GOs, EntrezIds, EnsemblIds, ECs, KOpathIDs, KPathways, dbname, GObioproc, GOmolefunt, GOcellcomp):
         self.pdb_id = pdbin
         self.chainId = chainId
         self.GOs = GOs
@@ -35,6 +35,9 @@ class protein():
         self.KOpathIDs = KOpathIDs
         self.KPathways = KPathways
         self.dbname = dbname
+        self.GObioproc = GObioproc
+        self.GOmolefunt = GOmolefunt
+        self.GOcellcomp = GOcellcomp
 
     # get coordinates out of pdb
     def get_coord(self):
@@ -91,6 +94,7 @@ class protein():
         namespace2 = re.match('\{.*\}', root2.tag).group()
         self.ref = [[ref.attrib['type'] for ref in info.findall(namespace2+'dbReference')] for info in root2.findall(namespace2+'entry')]
         self.refid = [[ref.attrib['id'] for ref in info.findall(namespace2+'dbReference')] for info in root2.findall(namespace2+'entry')]
+        self.goval = [[[goname.attrib['value'] for goname in ref.findall(namespace2+'property')] for ref in info.findall(namespace2+'dbReference')] for info in root2.findall(namespace2+'entry')]
         b = 0
         while b < len(self.ref[0][:]):
             m = re.match("Ensembl.*", self.ref[0][b])
@@ -99,7 +103,26 @@ class protein():
                 self.keggId = self.refid[0][b]
             # define GO terms
             elif self.ref[0][b] == 'GO':
+                allcodes = []
                 self.GOs.append(self.refid[0][b])
+                # get the GO property = term value (C: cellular component, F: molecular fubction, P: biological processes)
+                allcodes.append(self.goval[0][b])
+
+                # print all the values that start with "P:"
+                match1 = re.match('^P:.*', allcodes[0][0])
+                match2 = re.match('^F:.*', allcodes[0][0])
+                match3 = re.match('^C:.*', allcodes[0][0])
+                if match1 != None:
+                    self.GObioproc.append(allcodes[0][0][2:])
+                # print all the values that start with "F:"
+                elif match2 != None:
+                    self.GOmolefunt.append(allcodes[0][0][2:])
+                # print all the values that start with "C:"
+                elif match3 != None:
+                    self.GOcellcomp.append(allcodes[0][0][2:])    
+                
+                
+                
             # define gene Ids
             elif self.ref[0][b] == 'GeneID':
                 self.EntrezIds.append(self.refid[0][b])
@@ -108,6 +131,9 @@ class protein():
             elif m != None:
                 self.EnsemblIds.append(self.refid[0][b])
             b += 1
+        print(self.GObioproc)
+        print(self.GOmolefunt)
+        print(self.GOcellcomp)
 
         # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
         if len(self.ECs) == 0:

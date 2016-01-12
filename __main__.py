@@ -12,7 +12,7 @@ import numpy as np
 
 # import other methods of cellcraft
 from src.protein import *
-from src.item import *
+#from src.item import *
 from src.envelope import *
 from src.lipid import *
 from src.nucleotide import *
@@ -46,7 +46,10 @@ if inpformat == "-pdbprot":
         ECs = []
         KOpathIDs = []
         KPathways = defaultdict(list)
-        myprot = protein(pdbin, i, GOs, EntrezIds, ENSEMBLids, ECs, KOpathIDs, KPathways, dbname)
+        GObioproc = []
+        GOmolefunt = [] 
+        GOcellcomp = []
+        myprot = protein(pdbin, i, GOs, EntrezIds, ENSEMBLids, ECs, KOpathIDs, KPathways, dbname, GObioproc, GOmolefunt, GOcellcomp)
 
         # obtain matrix of coordenates
 #        myprot.get_coord()
