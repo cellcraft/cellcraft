@@ -40,12 +40,11 @@ class protein_complex_x3d():
             MetadataString  = transform.find('MetadataString')
             if not MetadataString == None:
                 MetadataString = MetadataString.attrib['value'].split('_')
-
-                df[df.pdbid==MetadataString[2]] = row
+                row = df.iloc[i]
 
                 self.pids.append(i)
-                self.colordict[i] = row.color.tolist()[0]
-                self.texture[i] = row.texture.tolist()[0]
+                self.colordict[i] = int(row.color)
+                self.texture[i] = int(row.texture)
 
                 name = MetadataString[1]
                 match = pdb_pat.match(MetadataString[2])
@@ -56,8 +55,18 @@ class protein_complex_x3d():
 
                 shapes = transform.findall('Shape')
                 all_points = []
-                for shape in shapes[::row.take_every.tolist()[0]]:
+                for shape in shapes[::int(row.take_every)]:
+#                for shape in shapes:
                     points = np.array(shape.find('IndexedTriangleSet').find('Coordinate').attrib['point'].split(),dtype=float)
                     all_points.append(points.reshape((-1,3)))
+                if i == 22:
+                    mean = all_points[0].mean(axis=0)
+                    radius = np.sqrt(((all_points[0] - mean)**2).mean())
+                    vecs = np.random.normal(size=(100000,3))
+                    mags = np.linalg.norm(vecs, axis=-1)
+
+                    more_points = (vecs / mags[..., np.newaxis] * radius)+mean
+                    all_points.append(more_points)
+
                 self.surfaces.append(np.concatenate(all_points))
                 i += 1

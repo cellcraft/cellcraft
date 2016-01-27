@@ -13,19 +13,24 @@ from Bio.Seq import Seq
 from xml.dom import minidom
 import numpy as np
 
+from cellcraft.src.item import *
+
+path = ''
+
 # colors EC id:color id
-col = {'1':'6', '2':'1', '3':'9', '4':'2', '5':'5', '6':'4', '0':'7'}
+col = {'1':6, '2':1, '3':9, '4':2, '5':5, '6':4, '0':7}
 # testure path name:texture id
 text = defaultdict(list)
 names = ['Metabolism', 'Genetic Information Processing', 'Human Diseases', 'Drug Development', 'Environmental Information Processing', 'Cellular Processes', 'Organismal Systems']
-textures = ['95', '159', '159', '159', '35', '35', '35']
+textures = [159, 35, 35, 35, 95, 95, 95]
 for t,n in zip(textures,names):
     text[t].append(n)
 
 # Define features for input object protein
 class protein():
     # define protein info
-    def __init__(self, pdbin, chainId, GOs, EntrezIds, EnsemblIds, ECs, KOpathIDs, KPathways, dbname, GObioproc, GOmolefunt, GOcellcomp):
+    def __init__(self, pid, pdbin, chainId, GOs, EntrezIds, EnsemblIds, ECs, KOpathIDs, KPathways, dbname, GObioproc, GOmolefunt, GOcellcomp):
+        self.pid = pid
         self.pdb_id = pdbin
         self.chainId = chainId
         self.GOs = GOs
@@ -87,6 +92,11 @@ class protein():
                 a = len(self.m)
             else:
                 a += 1
+        if not hasattr(self, 'uniprotId'):
+            if self.pdb_id == '4NCO':
+                self.uniprotId = 'Q2N0S6'
+            if self.pdb_id == '7HVP':
+                self.uniprotId = 'P03369'
 
         # get Ids from Uniprot
         tree2 = ET.ElementTree(file=urllib.request.urlopen('http://www.uniprot.org/uniprot/'+self.uniprotId+'.xml'))
@@ -131,9 +141,6 @@ class protein():
             elif m != None:
                 self.EnsemblIds.append(self.refid[0][b])
             b += 1
-        print(self.GObioproc)
-        print(self.GOmolefunt)
-        print(self.GOcellcomp)
 
         # if not EC Id, give default EC:0.0.0.0 for non enzymatic protein
         if len(self.ECs) == 0:
@@ -203,9 +210,21 @@ class protein():
 
     # define color and texture for each prot
     def prot_color(self):
-        # define color by function
-        myEC = self.ECs[0][3:4]
-        self.color = col[myEC]
+        # hack for 3J9U
+
+        if self.pdb_id == '3J9U':
+            cd = {'A':1,'B':5,'C':1,'D':5,'E':1,'F':5,'G':11,'H':11,'I':11,'J':11,'K':11,'L':11,'M':9,'N':9,
+                  'O':4,'P':9,'Q':14,'R':4,'S':2,'T':4,'U':2,'V':4,'W':2,'X':4,'Y':2,'Z':4,'a':2,'b':4}
+            print('_'+self.chainId+'_')
+            self.color = cd[self.chainId]
+        elif self.pdb_id == '2GLS':
+            cd = {'A':1,'B':5,'C':1,'D':5,'E':1,'F':5,'G':11,'H':9,'I':11,'J':9,'K':11,'L':9}
+            print('_'+self.chainId+'_')
+            self.color = cd[self.chainId]
+        else:
+            # define color by function
+            myEC = self.ECs[0][3:4]
+            self.color = col[myEC]
 
         # define texture by pathway
         if len(self.KPathways) > 1:
@@ -282,16 +301,23 @@ class ChainSelect(Select):
             return 0
 
 def add_pdb(pdbin,threshold,blocksize):
+    print('Get PDB.')
     Protcomplex = protein_complex(pdbin)
-    if os.path.isfile(path+pdbin+".pdb"):
+    if os.path.isfile(pdbin+".pdb"):
         pass
     else:
         Protcomplex.get_PDB()
+    print('Clean PDB.')
     Protcomplex.clean_pdb()
+    print('Split Complex.')
     Protcomplex.split_complex()
+    print('Load additional Info.')
     Protcomplex.load_chain_info()
-    Protcomplex.load_grid(threshold,blocksize)
-    return Protcomplex.grid.values,{p.pid:i for i,p in enumerate(Protcomplex.proteins)}
+    print('Make Grid.')
+    Protcomplex.load_grid(int(threshold),int(blocksize))
+    texture = {p.pid:p.texture for p in Protcomplex.proteins}
+    color = {p.pid:p.color for p in Protcomplex.proteins}
+    return Protcomplex.grid.values,color,texture
 
 
 class protein_complex():
@@ -332,23 +358,26 @@ class protein_complex():
 
     def load_chain_info(self):
         self.proteins = []
-        for i in self.chains:
+        for pid,chain in enumerate(self.chains):
             GOs = []
             EntrezIds = []
             ENSEMBLids = []
             ECs = []
             KOpathIDs = []
+            GObioproc = []
+            GOmolefunt = []
+            GOcellcomp = []
             KPathways = defaultdict(list)
-            myprot = protein(pdbin, chain, GOs, EntrezIds, ENSEMBLids, ECs, KOpathIDs, KPathways,'try')
+            myprot = protein(pid,self.pdb_id, chain, GOs, EntrezIds, ENSEMBLids, ECs, KOpathIDs, KPathways,'try',GObioproc, GOmolefunt,GOcellcomp)
             # obtain IDs
             myprot.get_ids()
             myprot.prot_color()
-            myprot.genjson_tomongo()
+            myprot.get_coord()
             self.proteins.append(myprot)
 
     def load_grid(self,threshold,blocksize):
         self.grid = cellcraft_grid(threshold,blocksize)
-        for protein in self.proteins:
-            self.grid.add_coordinates(protein.get_coord(),protein.pid)
+        for p in self.proteins:
+            self.grid.add_coordinates(p.coord,p.pid)
         self.grid.make_grid()
         self.grid.def_blocks()
