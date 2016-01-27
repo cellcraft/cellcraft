@@ -22,7 +22,8 @@ col = {'1':6, '2':1, '3':9, '4':2, '5':5, '6':4, '0':7}
 # testure path name:texture id
 text = defaultdict(list)
 names = ['Metabolism', 'Genetic Information Processing', 'Human Diseases', 'Drug Development', 'Environmental Information Processing', 'Cellular Processes', 'Organismal Systems']
-textures = [159, 35, 35, 35, 95, 95, 95]
+# texture 95 crystal, 159 full, 35 wool
+textures = ['159', '35', '35', '35', '95', '95', '95']
 for t,n in zip(textures,names):
     text[t].append(n)
 

@@ -3,9 +3,8 @@
 class lipid():
     def __init__(self, unitcell_struc):
         # list of lipids ids in /data
+        #self.lipid_type = liptype
         # list of structures in /data
-        # primary key integer
-        # lip_id 
         # give color (by type of lipid get from /data)
         pass
     
@@ -18,7 +17,7 @@ class lipid():
         pass
 
     # generate the dataframe for user and server (json format)        pass
-    def gen_dataframe(self):
+    def genjson_tomongo(self):
         pass
     
 
