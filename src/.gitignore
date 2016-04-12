@@ -5,3 +5,6 @@ errorcheck.py
 data/
 __init__
 plot.py
+protein_2.py
+item_2.py
+envelope_2.py

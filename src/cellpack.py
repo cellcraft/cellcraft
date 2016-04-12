@@ -1,3 +1,8 @@
+################
+################ define features of ProteinComplexX3d(), input from CellPack
+################
+
+
 import xml.etree.ElementTree as ET
 import re
 import numpy as np
@@ -7,12 +12,12 @@ from cellcraft.src.item import *
 default_dir = 'x3d/'
 
 def add_cellpack(x3d_file,threshold,blocksize):
-    Protcomplex = protein_complex_x3d(x3d_file)
+    Protcomplex = ProteinComplexX3d(x3d_file)
     Protcomplex.parse_file()
     Protcomplex.load_grid(int(threshold),int(blocksize))
     return Protcomplex.grid.values,Protcomplex.colordict,Protcomplex.texture
 
-class protein_complex_x3d():
+class ProteinComplexX3d():
     def __init__(self, x3d_file):
         self.x3d_file = x3d_file
         self.surfaces = []
@@ -27,6 +32,9 @@ class protein_complex_x3d():
             self.grid.add_coordinates(surface,pid)
         self.grid.make_grid()
         self.grid.def_blocks()
+
+    ################ TODO
+    ### generate a method to parse each element of the cellpack in the .csv through Protein/Lipid class in order to get biological info for the .json
 
     def parse_file(self):
         df = pd.read_csv(default_dir+self.x3d_file+'.csv')
@@ -56,7 +64,6 @@ class protein_complex_x3d():
                 shapes = transform.findall('Shape')
                 all_points = []
                 for shape in shapes[::int(row.take_every)]:
-#                for shape in shapes:
                     points = np.array(shape.find('IndexedTriangleSet').find('Coordinate').attrib['point'].split(),dtype=float)
                     all_points.append(points.reshape((-1,3)))
                 if i == 22:

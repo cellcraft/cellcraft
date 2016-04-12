@@ -1,3 +1,7 @@
+################
+################ define features of CellcraftGrid()
+################
+
 import math, sys, gzip, os, glob
 import wget
 from collections import *
@@ -13,8 +17,10 @@ import numpy as np
 
 
 # transform pdb into bocks cellcraft
-class cellcraft_grid():
-    def __init__(self,threshold,blocksize): # add weigth in future
+class CellcraftGrid():
+    ############## TODO
+    ### add weights in the future for each atom when defined the method in Protein() or Lipid()
+    def __init__(self,threshold,blocksize): 
         self.blocksize = blocksize
         self.threshold = threshold
         self.coordinates = []
@@ -32,31 +38,17 @@ class cellcraft_grid():
         self.z = np.arange(amin[2],amax[2]+self.blocksize,self.blocksize)
         self.values = np.zeros((self.x.shape[0]-1,self.y.shape[0]-1,self.z.shape[0]-1))
 
-    # parse item throuh the grid -> give: grid cell unit (A), dimensions (A) X,Y,Z
+    # generate a 3D histogram for the coordinates
     def def_blocks(self):
         for coor,pid in zip(self.coordinates,self.pids):
-            # generate a 3D histogram
             H, self.edges = np.histogramdd(coor, bins=(self.x, self.y, self.z))
             self.values[(H >= self.threshold)] = pid
 
-    # rotate item if needed to center ->  new dimensions, needed????????
+    ############### TODO
+    ### generate matrices with the different rotations in the feature (60 degrees each)
     def move_item(self, refrot, reftrans):
-        # transport item to ref position
-        # get the rotated structures of item for given refs
         pass
 
-    # translate grid into cellcraft format
-    def def_cellcraftinput(self):
-        pass
-
-    # define the item in cellpack format
-    def def_cellpackinput(self):
-        pass
-
-    # define the moment the data is requested
-    def date_time(self):
-        # date and time of the data generation
-        pass
 
 # calculate max-min
 def cal_minmax(maxi, mini):

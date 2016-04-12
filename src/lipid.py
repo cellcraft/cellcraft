@@ -1,27 +1,54 @@
+################
+################ define features of Lipid() and Membrane() using Protein() and ProteinComplex() methods as a reference
+################
 
 
-class lipid():
+import math, sys, gzip, os, os.path, glob, re, urllib, wget
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
+from pymongo import MongoClient
+from collections import *
+
+from Bio.PDB import *
+from Bio.SeqUtils.CheckSum import seguid
+from Bio import SeqIO
+from Bio import *
+from Bio.Alphabet import IUPAC
+from Bio.Seq import Seq
+from xml.dom import minidom
+import numpy as np
+
+from cellcraft.src.item import *
+
+path = ''
+
+############# TODO
+### add methods to define
+        ## features of different lipids for posterior color/texture in Membrane()
+        ## coordinates to send it to Membrane() and CellcraftGrid()
+        ## generate lipid properties list for the .json (evaluate if in this case its better to generate one json per membrane instead of per lipid)
+class Lipid():
     def __init__(self, unitcell_struc):
-        # list of lipids ids in /data
-        #self.lipid_type = liptype
-        # list of structures in /data
-        # give color (by type of lipid get from /data)
         pass
     
     # get coordinates
     def lip_coord(self):
-        #parse the pdb and get xyz coord
         pass
 
     def lip_color(self):
         pass
 
-    # generate the dataframe for user and server (json format)        pass
-    def genjson_tomongo(self):
+    def genjson_lipid(self): #???
         pass
     
 
-class membrane():
+############# TODO
+### add methods to define
+        ## clean and split the membrane into different lipids and send them to Lipids()
+        ## generate color/texture with the features of different lipids given in Lipids() based on the algorithm defined in ProteinComplex()
+        ## generate the common grid for all the membrane
+        ## generate lipid properties list for the .json (evaluate if in this case its better to generate one json per membrane instead of per lipid)
+class Membrane():
     def __init__(self, pdbid):
         pass
 
@@ -29,6 +56,11 @@ class membrane():
         pass
 
     def split_lipids(self):
-#        self.listlip = something
         pass
+
+    def colors_textures(self):
+        pass
+
+    def genjson_membrane(self): #???
+                pass
 
