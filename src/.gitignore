@@ -1,1 +1,7 @@
 __pycache__/
+*.pyc
+usage.py
+errorcheck.py
+data/
+__init__
+plot.py
