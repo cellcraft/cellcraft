@@ -1,2 +1,15 @@
 *.pdb
 *.fa
+*.csv
+*.pdf
+*.json
+chp/
+json/
+chp/
+shp/
+*.ipynb
+__init__.py
+__main__.py
+__pycache__/
+*.txt
+*.pyc
