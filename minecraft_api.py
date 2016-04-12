@@ -1,54 +1,42 @@
-import math, sys, gzip, os, os.path, glob, wget, urllib, sqlite3, datetime
-from collections import *
-from Bio.PDB import *
-from Bio.SeqUtils.CheckSum import seguid
-from Bio import SeqIO
-from Bio import *
-from Bio.Alphabet import IUPAC
-from Bio.Seq import Seq
-from xml.dom import minidom
+################
+################ defining interface with minecraft
+################
+
 import numpy as np
 import pickle
-
 
 from mc import *
 
 # import other methods of cellcraft
-from .src.cellpack import *
-from .src.protein import *
-from .src.item import *
-from .src.envelope import *
-from .src.lipid import *
-from .src.nucleotide import *
-from .src.compounds import *
-from .src.usage import *
-from .src.errorcheck import *
-import time
+from .src.cellpack import add_cellpack
+from .src.protein import add_pdb
 path = "./"
 
 
 def minecraft_api(args):
+    '''
+    Usage:
+        py cellcraft (pdb|cellpack) <PDBid> <threshold> <blocksize> (load|nolo)
+    '''
     mc,pos = connect_mc()
-#    p0 = (123,123,23)
-    if len(args)>7 or len(args)<7:
-        print('Wrong number of arguments.')
-    else:
-        p0 = (int(pos.x),int(pos.y + int(args[5])),int(pos.z))
-        if args[1] == 'pdb':
-            if args[6] == 'load':
-                array,colordict,texture = add_pdb(*args[2:5])
-                pickle.dump((array,colordict,texture), open('_'.join(args[1:5])+".pkl", "wb" ) )
-            else:
-                array,colordict,texture = pickle.load( open( '_'.join(args[1:5])+".pkl", "rb" ) )
-            swap = True
-        if args[1] == 'cellpack':
-            swap = False
-            if args[6] == 'load':
-                array,colordict,texture = add_cellpack(*args[2:5])
-                pickle.dump((array,colordict,texture), open('_'.join(args[1:5])+".pkl", "wb" ) )
-            else:
-                array,colordict,texture = pickle.load( open( '_'.join(args[1:5])+".pkl", "rb" ) )
-        add_numpy_array(mc,array,p0,colordict,texture,swap=swap)
+    if len(args) != 7:
+        ValueError('Wrong number of arguments.')
+    p0 = (int(pos.x),int(pos.y + int(args[5])),int(pos.z))
+    if args[1] == 'pdb':
+        if args[6] == 'load':
+            array,colordict,texture = add_pdb(*args[2:5])
+            pickle.dump((array,colordict,texture), open('_'.join(args[1:5])+".pkl", "wb" ) )
+        else:
+            array,colordict,texture = pickle.load( open( '_'.join(args[1:5])+".pkl", "rb" ) )
+        swap = True
+    if args[1] == 'cellpack':
+        swap = False
+        if args[6] == 'load':
+            array,colordict,texture = add_cellpack(*args[2:5])
+            pickle.dump((array,colordict,texture), open('_'.join(args[1:5])+".pkl", "wb" ) )
+        else:
+            array,colordict,texture = pickle.load( open( '_'.join(args[1:5])+".pkl", "rb" ) )
+    add_numpy_array(mc,array,p0,colordict,texture,swap=swap)
 
 def connect_mc():
     mc = Minecraft()
@@ -57,7 +45,6 @@ def connect_mc():
 
 def add_numpy_array(mc,array,p0,colordict,texture,swap):
     it = np.nditer(array, flags=['multi_index'],op_flags=['readonly'])
-
     while not it.finished:
         if it[0] > 0:
             x,y,z = it.multi_index
