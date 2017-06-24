@@ -3,7 +3,7 @@ import pickle
 import argparse
 import logging
 from mc import Block
-from connectors.database import connect_mc
+from connectors.connectors import minecraft_connector
 from builders.cellpack import add_cellpack
 from builders.protein import add_pdb
 
@@ -73,7 +73,7 @@ def main(args):
                 logging.exception("The required estructure is not pickeled yet. You may have to load it from source.")
 
     if array:
-        mc, pos = connect_mc()
+        mc, pos = minecraft_connector()
         p0 = (int(pos.x), int(pos.y + int(args.height)), int(pos.z))
         add_numpy_array(mc, array, p0, colordict, texture, swap=swap)
 
