@@ -57,3 +57,9 @@ def add_collection():
     db.protein.find_one({'pdbid':pdbin})
 
     client.close()
+
+
+def connect_mc():
+    mc = Minecraft()
+    pos = mc.player.getPos()
+    return mc, pos

@@ -2,9 +2,9 @@ import numpy as np
 import pickle
 import sys
 from mc import *
+from connectors.database import connect_mc
 from builders.cellpack import add_cellpack
 from builders.protein import add_pdb
-
 
 
 def main(args):
@@ -33,12 +33,6 @@ def main(args):
     add_numpy_array(mc, array, p0, colordict, texture, swap=swap)
 
 
-def connect_mc():
-    mc = Minecraft()
-    pos = mc.player.getPos()
-    return mc, pos
-
-
 def add_numpy_array(mc, array, p0, colordict, texture, swap):
     it = np.nditer(array, flags=['multi_index'], op_flags=['readonly'])
     while not it.finished:
@@ -51,6 +45,7 @@ def add_numpy_array(mc, array, p0, colordict, texture, swap):
             else:
                 mc.setBlock(p0[0] + x, p0[1] + y, p0[2] + z, Block(texture[int(it[0])], colordict[int(it[0])]))
         it.iternext()
+
 
 if __name__ == "__main__":
     main(sys.argv)
