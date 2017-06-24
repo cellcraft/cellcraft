@@ -11,18 +11,18 @@ import wget
 import xml.etree.ElementTree as ET
 from collections import *
 from datetime import datetime, timedelta
-
 import numpy as np
-from Bio import *
-from Bio.PDB import *
+from Bio import PPBuilder
+from Bio.PDB import PDBIO, PDBParser
 from pymongo import MongoClient
+from cellcraft.config import text, col
 
 
-
-# Define features of each item in ProteinComplex and  
+# Define features of each item in ProteinComplex and
 class Protein():
     # define potein biological info from scientific databases
-    def __init__(self, pid, pdbin, chain_id, gos, entrez_ids, ensembl_ids, ECs, kopath_ids, kpathways, dbname, gobioproc, gomolefunt, gocellcomp):
+    def __init__(self, pid, pdbin, chain_id, gos, entrez_ids, ensembl_ids, ECs, kopath_ids, kpathways, dbname,
+                 gobioproc, gomolefunt, gocellcomp):
         self.pid = pid
         self.pdbin = pdbin
         self.chain_id = chain_id
@@ -42,19 +42,19 @@ class Protein():
         io = PDBIO()
         self.p = PDBParser()
         # sequence of aa 
-        self.seq = self.p.get_structure(self.pdbin, 'clean_'+self.pdbin+'.pdb')
+        self.seq = self.p.get_structure(self.pdbin, 'clean_' + self.pdbin + '.pdb')
 
         # split pdb for different chains (items)
         io.set_structure(self.seq)
-        io.save(self.pdbin+'_'+self.chain_id+'.pdb', ChainSelect(self.chain_id))
-        self.chain = self.p.get_structure(self.pdbin+'_'+self.chain_id, self.pdbin+'_'+self.chain_id+'.pdb')
+        io.save(self.pdbin + '_' + self.chain_id + '.pdb', ChainSelect(self.chain_id))
+        self.chain = self.p.get_structure(self.pdbin + '_' + self.chain_id, self.pdbin + '_' + self.chain_id + '.pdb')
 
         # save coordinates in zeros.matrix of num_linesX3 dimension
-        self.num_lines = sum(1 for line in open(self.pdbin+'_'+self.chain_id+'.pdb'))
-        for line in open(self.pdbin+'_'+self.chain_id+'.pdb'):
+        self.num_lines = sum(1 for line in open(self.pdbin + '_' + self.chain_id + '.pdb'))
+        for line in open(self.pdbin + '_' + self.chain_id + '.pdb'):
             if line.find("ATOM") == -1:
-                self.num_lines -=1
-        self.coord = np.zeros((self.num_lines,3), dtype=np.float)
+                self.num_lines -= 1
+        self.coord = np.zeros((self.num_lines, 3), dtype=np.float)
         for model in self.chain:
             for chain in model:
                 count = 0
@@ -74,13 +74,15 @@ class Protein():
     # get protein biological IDs from databases
     def get_ids(self):
         # get uniprot Id from PDB
-        tree1 = ET.ElementTree(file=urllib.request.urlopen('http://www.rcsb.org/pdb/rest/das/pdb_uniprot_mapping/alignment?query='+self.pdbin))
+        tree1 = ET.ElementTree(file=urllib.request.urlopen(
+            'http://www.rcsb.org/pdb/rest/das/pdb_uniprot_mapping/alignment?query=' + self.pdbin))
         root = tree1.getroot()
         namespace = re.match('\{.*\}', root.tag).group()
-        self.m = [[i.attrib['intObjectId'] for i in align.find(namespace+'block').findall(namespace+'segment')] for align in root.findall(namespace+'alignment')]
+        self.m = [[i.attrib['intObjectId'] for i in align.find(namespace + 'block').findall(namespace + 'segment')] for
+                  align in root.findall(namespace + 'alignment')]
         a = 0
         while a < len(self.m):
-            if self.m[a][0] == self.pdbin+'.'+self.chain_id:
+            if self.m[a][0] == self.pdbin + '.' + self.chain_id:
                 self.uniprot_id = self.m[a][1]
                 a = len(self.m)
             else:
@@ -95,12 +97,16 @@ class Protein():
                 self.uniprot_id = 'P03369'
 
         # get IDs from Uniprot
-        tree2 = ET.ElementTree(file=urllib.request.urlopen('http://www.uniprot.org/uniprot/'+self.uniprot_id+'.xml'))
+        tree2 = ET.ElementTree(
+            file=urllib.request.urlopen('http://www.uniprot.org/uniprot/' + self.uniprot_id + '.xml'))
         root2 = tree2.getroot()
         namespace2 = re.match('\{.*\}', root2.tag).group()
-        self.ref = [[ref.attrib['type'] for ref in info.findall(namespace2+'dbReference')] for info in root2.findall(namespace2+'entry')]
-        self.refid = [[ref.attrib['id'] for ref in info.findall(namespace2+'dbReference')] for info in root2.findall(namespace2+'entry')]
-        self.goval = [[[goname.attrib['value'] for goname in ref.findall(namespace2+'property')] for ref in info.findall(namespace2+'dbReference')] for info in root2.findall(namespace2+'entry')]
+        self.ref = [[ref.attrib['type'] for ref in info.findall(namespace2 + 'dbReference')] for info in
+                    root2.findall(namespace2 + 'entry')]
+        self.refid = [[ref.attrib['id'] for ref in info.findall(namespace2 + 'dbReference')] for info in
+                      root2.findall(namespace2 + 'entry')]
+        self.goval = [[[goname.attrib['value'] for goname in ref.findall(namespace2 + 'property')] for ref in
+                       info.findall(namespace2 + 'dbReference')] for info in root2.findall(namespace2 + 'entry')]
         b = 0
         while b < len(self.ref[0][:]):
             m = re.match("Ensembl.*", self.ref[0][b])
@@ -127,7 +133,7 @@ class Protein():
             elif self.ref[0][b] == 'GeneID':
                 self.entrez_ids.append(self.refid[0][b])
             elif self.ref[0][b] == 'EC':
-                self.ecs.append('EC:'+self.refid[0][b])
+                self.ecs.append('EC:' + self.refid[0][b])
             elif m != None:
                 self.ensembl_ids.append(self.refid[0][b])
             b += 1
@@ -139,7 +145,7 @@ class Protein():
         # get IDs from KEGG
         while True:
             try:
-                tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/'+self.kegg_id)
+                tree3 = urllib.request.urlopen('http://rest.kegg.jp/get/' + self.kegg_id)
                 h = [line for line in tree3]
                 u = 0
                 KO = 0
@@ -151,13 +157,13 @@ class Protein():
                     orgn = re.match("^ORGANISM.*", line)
                     path_id = re.match("^PATHWAY.*", line)
                     path_na = re.match("^BRITE.*", line)
-                    fin = re.match(r'.*Enzymes \[(BR:'+self.keggId[:3]+'.*\])\n', line)
+                    fin = re.match(r'.*Enzymes \[(BR:' + self.keggId[:3] + '.*\])\n', line)
                     # get the name of the organism
                     if orgn != None:
-                        self.org = re.findall(self.kegg_id[:3]+' +(.*)\n', line)
+                        self.org = re.findall(self.kegg_id[:3] + ' +(.*)\n', line)
                     # get the KO pathway Identifiers 1
                     elif path_id != None:
-                        self.kopath_ids.append(re.findall('.*('+self.kegg_id[:3]+'\d).*', line))
+                        self.kopath_ids.append(re.findall('.*(' + self.kegg_id[:3] + '\d).*', line))
                         KO = 1
                     elif fin != None:
                         u = len(h)
@@ -166,7 +172,7 @@ class Protein():
                         KO = 0
                         BR = 1
                     elif KO == 1:
-                        self.kopath_ids.append(re.findall('.*('+self.kegg_id[:3]+'\d....).*', line))
+                        self.kopath_ids.append(re.findall('.*(' + self.kegg_id[:3] + '\d....).*', line))
                     elif BR == 1:
                         what = re.match("\S", line[14])
                         main = re.match("\w", line[13])
@@ -176,7 +182,7 @@ class Protein():
                             if what != None:
                                 path2 = re.findall('(\S.*)\n', line)[0]
                                 if path2 != 'Overview':
-                                    pathprov.append(path1+','+path2)
+                                    pathprov.append(path1 + ',' + path2)
                     u += 1
 
                 # get the dictionary for KEGG Pathway out of pathprov
@@ -188,13 +194,12 @@ class Protein():
                 break
 
             # if there is not KEGG Id available give alternative values
-            except (ValueError,RuntimeError, TypeError, NameError, AttributeError):
+            except (ValueError, RuntimeError, TypeError, NameError, AttributeError):
                 self.kegg_id = 'Unknown'
                 self.org = 'Unknown'
                 self.kopath_ids.append('Unknown')
                 self.kpathways['Metabolism'].append('Unknown')
                 break
-
 
     # define color and texture for each prot
     def prot_color(self):
@@ -202,13 +207,15 @@ class Protein():
         ############## TODO
         ### implement a method that gives features to the method for ProteinComplex() in order to find colors and textures for all chains in comples as explained at the beginning of the file
         if self.pdbin == '3J9U':
-            cd = {'A':1,'B':5,'C':1,'D':5,'E':1,'F':5,'G':11,'H':11,'I':11,'J':11,'K':11,'L':11,'M':9,'N':9,
-                  'O':4,'P':9,'Q':14,'R':4,'S':2,'T':4,'U':2,'V':4,'W':2,'X':4,'Y':2,'Z':4,'a':2,'b':4}
-            print('_'+self.chain_id+'_')
+            cd = {'A': 1, 'B': 5, 'C': 1, 'D': 5, 'E': 1, 'F': 5, 'G': 11, 'H': 11, 'I': 11, 'J': 11, 'K': 11, 'L': 11,
+                  'M': 9, 'N': 9,
+                  'O': 4, 'P': 9, 'Q': 14, 'R': 4, 'S': 2, 'T': 4, 'U': 2, 'V': 4, 'W': 2, 'X': 4, 'Y': 2, 'Z': 4,
+                  'a': 2, 'b': 4}
+            print('_' + self.chain_id + '_')
             self.color = cd[self.chain_id]
         elif self.pdbin == '2GLS':
-            cd = {'A':1,'B':5,'C':1,'D':5,'E':1,'F':5,'G':11,'H':9,'I':11,'J':9,'K':11,'L':9}
-            print('_'+self.chain_id+'_')
+            cd = {'A': 1, 'B': 5, 'C': 1, 'D': 5, 'E': 1, 'F': 5, 'G': 11, 'H': 9, 'I': 11, 'J': 9, 'K': 11, 'L': 9}
+            print('_' + self.chain_id + '_')
             self.color = cd[self.chain_id]
         else:
             # define color by function (this will give features but not color directly)
@@ -240,20 +247,20 @@ class Protein():
         self.db = client[self.dbname]
         protein = self.db['protein']
         self.pid = self.db.protein.insert({
-            'pdbid':self.pdbin,
-            'uniprotid':self.uniprot_id,
-            'organism':self.org,
-            'color':self.color,
-            'keggid':self.kegg_id,
-            'GOterms':self.gos,
-            'ECs':self.ecs,
-            'gEntrez':self.entrez_ids,
-            'gEnsembl':self.ensembl_ids,
-            'KOPaths':self.kopath_ids,
-            'KPathways':self.kpathways,
-            'texture':self.texture,
-            'date':datetime.utcnow() + timedelta(hours=1)})
-        #print(list(self.db.protein.find({'pdbid':self.pdb_id})))
+            'pdbid': self.pdbin,
+            'uniprotid': self.uniprot_id,
+            'organism': self.org,
+            'color': self.color,
+            'keggid': self.kegg_id,
+            'GOterms': self.gos,
+            'ECs': self.ecs,
+            'gEntrez': self.entrez_ids,
+            'gEnsembl': self.ensembl_ids,
+            'KOPaths': self.kopath_ids,
+            'KPathways': self.kpathways,
+            'texture': self.texture,
+            'date': datetime.utcnow() + timedelta(hours=1)})
+        # print(list(self.db.protein.find({'pdbid':self.pdb_id})))
         client.close()
 
     ################# TODO
@@ -268,7 +275,8 @@ class Protein():
     # Generate a modell of the protein '/home/celsa/Documents/Pompeu Fabra/SBI/steps.txt'
     def model_prot(self):
         # input aa_seq from uniprot and aa_seq from chain in pdb file 
-        print("1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
+        print(
+        "1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
 
 
 # protein pdb cleaner (BioPython)
@@ -276,22 +284,25 @@ class NonHetSelect(Select):
     def accept_residue(self, residue):
         return 1 if residue.id[0] == " " else 0
 
+
 # select chain from pdb (BioPython)
 class ChainSelect(Select):
     # create the chain name variable for Select class
     def __init__(self, chname):
         self.chname = chname
+
     def accept_chain(self, chain):
         if chain.get_id() == self.chname:
             return 1
         else:
             return 0
 
-# call from minecraft_api.py  
-def add_pdb(pdbin,threshold,blocksize):
+
+# call from minecraft_api.py
+def add_pdb(pdbin, threshold, blocksize):
     print('Get PDB.')
     Protcomplex = ProteinComplex(pdbin)
-    if os.path.isfile(pdbin+".pdb"):
+    if os.path.isfile(pdbin + ".pdb"):
         pass
     else:
         Protcomplex.get_PDB()
@@ -302,10 +313,11 @@ def add_pdb(pdbin,threshold,blocksize):
     print('Load additional Info.')
     Protcomplex.load_chain_info()
     print('Make Grid.')
-    Protcomplex.load_grid(int(threshold),int(blocksize))
-    texture = {p.pid:p.texture for p in Protcomplex.proteins}
-    color = {p.pid:p.color for p in Protcomplex.proteins}
-    return Protcomplex.grid.values,color,texture
+    Protcomplex.load_grid(int(threshold), int(blocksize))
+    texture = {p.pid: p.texture for p in Protcomplex.proteins}
+    color = {p.pid: p.color for p in Protcomplex.proteins}
+    return Protcomplex.grid.values, color, texture
+
 
 # split the protein complex and define features
 class ProteinComplex():
@@ -315,7 +327,7 @@ class ProteinComplex():
     # get pdb file from PDB database when not available in working directory
     def get_pdb(self):
         self.pdbin = self.pdbin.lower()
-        pdb = 'http://www.rcsb.org/pdb/files/'+self.pdbin+'.pdb'
+        pdb = 'http://www.rcsb.org/pdb/files/' + self.pdbin + '.pdb'
         print(pdb)
         h = wget.download(pdb, bar=None)
 
@@ -323,18 +335,18 @@ class ProteinComplex():
     def clean_pdb(self):
         # get only the chains from pdb
         self.p = PDBParser()
-        self.seq = self.p.get_structure(self.pdbin, self.pdbin+".pdb")
+        self.seq = self.p.get_structure(self.pdbin, self.pdbin + ".pdb")
         # clean the heteroatoms from pdb and save pdb as "clean_pdbid.pdb"
         io = PDBIO()
         io.set_structure(self.seq)
-        io.save('clean_'+self.pdbin+'.pdb', NonHetSelect())
+        io.save('clean_' + self.pdbin + '.pdb', NonHetSelect())
 
     # if several chains in the pdb file, split them
     def split_complex(self):
         # get list of chains in pdb
         ppd = PPBuilder()
         chs = defaultdict(list)
-        fil = open(self.pdbin+'.fa', 'w')
+        fil = open(self.pdbin + '.fa', 'w')
         for pp in ppd.build_peptides(self.seq):
             for model in pp:
                 for chain in model:
@@ -347,7 +359,7 @@ class ProteinComplex():
     # load data for each chain going through Protein()
     def load_chain_info(self):
         self.proteins = []
-        for pid,chain in enumerate(self.chains):
+        for pid, chain in enumerate(self.chains):
             gos = []
             entrez_ids = []
             ensembl_ids = []
@@ -357,16 +369,17 @@ class ProteinComplex():
             gomolefunt = []
             gocellcomp = []
             kpathways = defaultdict(list)
-            myprot = Protein(pid,self.pdbin, chain, gos, entrez_ids, ensembl_ids, ecs, kopath_ids, kpathways,'try',gobioproc, gomolefunt,gocellcomp)
+            myprot = Protein(pid, self.pdbin, chain, gos, entrez_ids, ensembl_ids, ecs, kopath_ids, kpathways, 'try',
+                             gobioproc, gomolefunt, gocellcomp)
             myprot.get_ids()
             myprot.prot_color()
             myprot.get_coord()
             self.proteins.append(myprot)
 
     # generate the common grid for the whole complex through CellcraftGrid() in item.py
-    def load_grid(self,threshold,blocksize):
-        self.grid = CellcraftGrid(threshold,blocksize)
+    def load_grid(self, threshold, blocksize):
+        self.grid = CellcraftGrid(threshold, blocksize)
         for p in self.proteins:
-            self.grid.add_coordinates(p.coord,p.pid)
+            self.grid.add_coordinates(p.coord, p.pid)
         self.grid.make_grid()
         self.grid.def_blocks()

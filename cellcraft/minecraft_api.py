@@ -1,17 +1,21 @@
 import numpy as np
 import pickle
-import sys
-from mc import *
+import argparse
+from mc import Block
 from connectors.database import connect_mc
 from builders.cellpack import add_cellpack
 from builders.protein import add_pdb
 
 
 def main(args):
-    '''
-    Usage:
-        py cellcraft (pdb|cellpack) <PDBid> <threshold> <blocksize> (load|nolo)
-    '''
+    """
+    Request from Minecraft to get the desired structure.
+    Usage: python minecraft_api.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)
+    :param args:
+    :return:
+    """
+
+    # TODO: Give arguments names to each of the methods correctly. Make the code easier to understand in each step
     mc, pos = connect_mc()
     if len(args) != 7:
         ValueError('Wrong number of arguments.')
@@ -48,4 +52,18 @@ def add_numpy_array(mc, array, p0, colordict, texture, swap):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    parser = argparse.ArgumentParser(
+        description='python minecraft_api.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)')
+
+    parser.add_argument('-m', '--mode', type=str, default='pdb',
+                        help='Mode of source data, pdb for single structures of cellpack for complete environment.')
+    parser.add_argument('-i', '--input', type=str, default=None,
+                        help='If mode "pdb" then specify the Protein Data Bank id to use')
+    parser.add_argument('-t', '--threshold', type=int, default=5,
+                        help='Threshold of amount of atoms to consider a cell in the grid.')
+    parser.add_argument('-s', '--size', type=float, default=5.5, help='Size of each block in the grid.')
+    parser.add_argument('-l', '--loadmode', type=str, default='load',
+                        help='Load mode for structures. Default load from source but if used before could be loaded from pickle structure.')
+
+    args = parser.parse_args()
+    main(args)
