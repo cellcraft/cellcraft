@@ -5,9 +5,47 @@
 
 #### Setup your python environment
 
-##### Install manually:
-* mc
-* Biopython
+** Linux Setup
+```
+curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+pyenv update
+echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+source ~/.bashrc
+pyenv install 3.6.0
+
+pyenv global 3.6.0
+source ~/.bashrc
+```
+
+** Mac OX Setup
+```
+brew update
+brew install pyenv
+brew install pyenv-virtualenv
+echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+source ~/.bash_profile
+pyenv install 3.6.0
+
+pyenv global 3.6.0
+source ~/.bash_profile
+```
+
+* To create and activate the python environment
+```
+pyenv virtualenv cellcraft
+pyenv activate cellcraft
+```
+
+* For desactivaton of the python environment run:
+```
+pyenv deactivate
+```
+
+##### Packages to install manually:
+* mc ()
+* Biopython (http://biopython.org/wiki/Download)
 
 ##### Install rest of packages from requirements
 ```
