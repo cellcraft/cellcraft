@@ -1,6 +1,7 @@
 import numpy as np
 import pickle
 import argparse
+import logging
 from mc import Block
 from connectors.database import connect_mc
 from builders.cellpack import add_cellpack
@@ -15,28 +16,69 @@ def main(args):
     :return:
     """
 
-    # TODO: Give arguments names to each of the methods correctly. Make the code easier to understand in each step
-    mc, pos = connect_mc()
-    if len(args) != 7:
-        ValueError('Wrong number of arguments.')
-    p0 = (int(pos.x), int(pos.y + int(args[5])), int(pos.z))
-    if args[1] == 'pdb':
-        if args[6] == 'load':
-            array, colordict, texture = add_pdb(*args[2:5])
-            pickle.dump((array, colordict, texture), open('_'.join(args[1:5]) + ".pkl", "wb"))
+    # if mode pdb get single biomolecule structure
+    if args.mode == 'pdb':
+
+        # if loading mode "load", require call from sources
+        if args.loadmode == 'load':
+            try:
+                # call the source
+                array, colordict, texture = add_pdb(*[args.input, args.threshold, args.size])
+                pickle.dump((array, colordict, texture), open(
+                    '_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "wb"))
+                logging.info("The structure {} was correctly loaded from source and pickled.".format(args.input))
+
+            except Exception as exp:
+                logging.exception(
+                    "It was not possible to connect to the structure source API. Try later or load pickle structures.")
+
+        elif args.loadmode == 'nolo':
+            try:
+                # try to load structure from local pickel
+                array, colordict, texture = pickle.load(
+                    open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "rb"))
+                logging.info("The structure {} was correctly loaded from pickle.".format(args.input))
+
+            except Exception as exp:
+                swap = True
+                logging.exception("The required estructure is not pickeled yet. You may have to load it from source.")
+
         else:
-            array, colordict, texture = pickle.load(open('_'.join(args[1:5]) + ".pkl", "rb"))
-        swap = True
-    if args[1] == 'cellpack':
+            raise ValueError(
+                "Unknown loading mode: {}. The possible options are 'load' or 'nolo'.".format(args.loadmode))
+
+    # if mode pdb get complete system structure
+    elif args.mode == 'cellpack':
         swap = False
-        if args[6] == 'load':
-            array, colordict, texture = add_cellpack(*args[2:5])
-            pickle.dump((array, colordict, texture), open('_'.join(args[1:5]) + ".pkl", "wb"))
-        else:
-            array, colordict, texture = pickle.load(open('_'.join(args[1:5]) + ".pkl", "rb"))
-    add_numpy_array(mc, array, p0, colordict, texture, swap=swap)
+
+        # if loading mode require call from sources
+        if args.loadmode == 'load':
+            try:
+                array, colordict, texture = add_cellpack(*args[args.input, args.threshold, args.size])
+                pickle.dump((array, colordict, texture),
+                            open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl",
+                                 "wb"))
+                logging.info("The structure {} was correctly loaded from source and pickled.".format(args.input))
+
+            except Exception as exp:
+                logging.exception(
+                    "It was not possible to connect to the structure source API. Try later or load pickle structures.")
+        elif args.loadmode == 'nolo':
+            try:
+                array, colordict, texture = pickle.load(
+                    open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "rb"))
+                logging.info("The structure {} was correctly loaded from pickle.".format(args.input))
+
+            except Exception as exp:
+                logging.exception("The required estructure is not pickeled yet. You may have to load it from source.")
+
+    if array:
+        mc, pos = connect_mc()
+        p0 = (int(pos.x), int(pos.y + int(args.height)), int(pos.z))
+        add_numpy_array(mc, array, p0, colordict, texture, swap=swap)
 
 
+# TODO: define this method more clearly and maybe move it to helpers
 def add_numpy_array(mc, array, p0, colordict, texture, swap):
     it = np.nditer(array, flags=['multi_index'], op_flags=['readonly'])
     while not it.finished:
@@ -62,6 +104,8 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--threshold', type=int, default=5,
                         help='Threshold of amount of atoms to consider a cell in the grid.')
     parser.add_argument('-s', '--size', type=float, default=5.5, help='Size of each block in the grid.')
+    parser.add_argument('-h', '--height', type=float, default=15,
+                        help='Height of the starting position to build structure.')
     parser.add_argument('-l', '--loadmode', type=str, default='load',
                         help='Load mode for structures. Default load from source but if used before could be loaded from pickle structure.')
 
