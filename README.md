@@ -1,8 +1,18 @@
        ######## The Cellcraft Project ########
 
-## Needed packages
 
-- check requirements.txt
+### Setup your computer for using Cellcraft
+
+## Setup your python environment
+
+# Install manually:
+* mc
+* Biopython
+
+# Install rest of packages from requirements
+```
+pip install -r requirements.txt
+```
 
 ## Installation
 - install forge minecraft server (version 1.8, may not work otherwise)

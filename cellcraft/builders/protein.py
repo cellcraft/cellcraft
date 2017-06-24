@@ -3,22 +3,19 @@
 ################
 
 
-import math, sys, gzip, os, os.path, glob, re, urllib, wget
+import os
+import os.path
+import re
+import urllib
+import wget
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
-from pymongo import MongoClient
 from collections import *
+from datetime import datetime, timedelta
 
-from Bio.PDB import *
-from Bio.SeqUtils.CheckSum import seguid
-from Bio import SeqIO
-from Bio import *
-from Bio.Alphabet import IUPAC
-from Bio.Seq import Seq
-from xml.dom import minidom
 import numpy as np
-
-from cellcraft.src.item import *
+from Bio import *
+from Bio.PDB import *
+from pymongo import MongoClient
 
 path = ''
 

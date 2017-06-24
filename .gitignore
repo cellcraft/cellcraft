@@ -15,3 +15,14 @@ __main__.py
 __pycache__/
 *.txt
 *.pyc
+
+cellcraft/__pycache__/
+cellcraft/*.pyc
+cellcraft/usage.py
+cellcraft/errorcheck.py
+cellcraft/data/
+__init__
+cellcraft/plot.py
+cellcraft/protein_2.py
+cellcraft/item_2.py
+cellcraft/envelope_2.py

@@ -2,21 +2,9 @@
 ################ define features of Compounds()
 ################
 
-import math, sys, gzip, os, glob
-import wget
-from collections import *
-from Bio.PDB import *
-from Bio.SeqUtils.CheckSum import seguid
-from Bio import SeqIO
 from Bio import *
-from Bio.Alphabet import IUPAC
-from Bio.Seq import Seq
-from xml.dom import minidom
-import urllib
-import numpy as np
+from Bio.PDB import *
 
-from cellcraft.src.item import *
-from cellcraft.src.protein import *
 
 ############## TODO
 ### get KEGG ids, function, relate with the protein if needed, generate grid independent or wihin complex and generate color/texture
