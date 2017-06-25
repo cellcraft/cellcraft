@@ -2,21 +2,21 @@
 
 ### Before cloning the repo follow the instructions
 #### Installation of Minecraft Client
-- download client
-- run client once with correct version (1.12)
-- download forge installer (version 1.12) from http://files.minecraftforge.net/
-- run forge installer and install client into minecraft folder (no change needed)
+- Download Minecraft server
+- Run client once with correct version (1.12)
+- Download forge installer (version 1.12) from http://files.minecraftforge.net/ (Notice that you need to have the Java Developer Kit installed)
+- Run forge installer and install client into minecraft folder (no change needed)
 
 #### Installation of Minecraft Server with RaspberryJamMod
-- download forge installer (version 1.12) from http://files.minecraftforge.net/ (same then above)
-- create a minecraft_server folder
-- run forge installer and install server into the minecraft_server folder
-- download from https://github.com/arpruss/raspberryjammod/releases the mods.zip
-- unzip the mods.zip and copy the mods folder into the minecraft_server folder
-- create a "mcpipy" in the minecraft_server folder
-- run the forge-1.12-14.21.0.2359-universal.jar once
-- edit the eula.txt and change false to true
-- start the server running forge-1.12-14.21.0.2359-universal.jar again
+- Download forge installer (version 1.12) from http://files.minecraftforge.net/ (same then above)
+- Create a minecraft_server folder
+- Run forge installer and install server into the minecraft_server folder
+- Download from https://github.com/arpruss/raspberryjammod/releases the mods.zip
+- Unzip the mods.zip and copy the mods folder into the minecraft_server folder
+- Create a "mcpipy" in the minecraft_server folder
+- Run the forge-1.12-14.21.0.2359-universal.jar once
+- Edit the eula.txt and change false to true
+- Start the server running forge-1.12-14.21.0.2359-universal.jar again
 
 #### Testing of RaspberryJamMod
 - download from https://github.com/arpruss/raspberryjammod/releases the python-scripts.zip
