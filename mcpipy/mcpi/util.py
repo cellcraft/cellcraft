@@ -1,6 +1,5 @@
 import collections
 import math
-from sys import version_info
 
 try:
     basestring

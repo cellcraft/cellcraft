@@ -6,7 +6,7 @@ from cellcraft.connectors.connectors import minecraft_connector
 from cellcraft.builders.items import get_complex
 
 
-def main(mode, name, threshold, size, height, usecache, **kwargs):
+def main(args):
     """
     Request from Minecraft to get the desired structure.
     Usage: python cellcraft.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)

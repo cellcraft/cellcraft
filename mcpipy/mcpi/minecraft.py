@@ -1,13 +1,13 @@
 from __future__ import absolute_import
-from .connection import Connection,RequestError
-from .vec3 import Vec3
-from .event import BlockEvent,ChatEvent
-from .block import Block
+from mcpipy.mcpi.connection import Connection,RequestError
+from mcpipy.mcpi.vec3 import Vec3
+from mcpipy.mcpi.event import BlockEvent,ChatEvent
+from mcpipy.mcpi.block import Block
 import math
 from os import environ
-from .util import flatten,floorFlatten
+from mcpipy.mcpi.util import flatten,floorFlatten
 try:
-    from .security import AUTHENTICATION_PASSWORD,AUTHENTICATION_USERNAME
+    from mcpipy.mcpi.security import AUTHENTICATION_PASSWORD,AUTHENTICATION_USERNAME
 except ImportError:
     AUTHENTICATION_USERNAME=None
     AUTHENTICATION_PASSWORD=None
