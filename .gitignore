@@ -7,6 +7,16 @@
 *.bson
 *.ipynb_checkpoints
 *.ipynb
+*.jar
 __main__.py
 __pycache__/
 *.pyc
+/*.json
+config/
+crash-reports/
+eula.txt
+libraries/
+logs/
+try1/
+/.*
+server.properties
