@@ -17,3 +17,12 @@ __pycache__/
 *.pkl
 .venv/
 .*
+mod/1.*
+server.properties
+libraries/
+logs/
+*.jar
+config/
+crash-reports/
+try1/
+eula.txt
