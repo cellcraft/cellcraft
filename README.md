@@ -48,20 +48,19 @@ docker pull mongo:latest
 
 * For accessing the mongo shell
 ```
-docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/cellcraft"'
-```
-
-* Create a user as database admin
-```
+docker run --name mongo -d mongo
 docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/admin"'
-db.createUser({ user: 'cellcraft', pwd: 'cellcraft', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+db.createUser({ user: 'admin', pwd: 'admin', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/cellcraft"'
+db.createUser({ user: "cellcraft", pwd: "cellcraft", roles: [{role: "readWrite", db: "cellcraft"}]});
 ```
 
-* Create other users for the cellcraft database
+* Check if user and was correctly created
 ```
-mongo another -u cellcraft -p cellcraft
-db.addUser({ user: "cellcraft", pwd: "cellcraft", roles: [{role: "readWrite", db: "cellcraft"}]})
+docker exec -it mongo bash
+mongo cellcraft -u cellcraft -p cellcraft
 ```
+
 
 * To backup the database into "cellcraft-backup" folder (backup the database regularly)
 ```
