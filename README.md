@@ -1,14 +1,41 @@
 # The Cellcraft Project
 
-## Complete the repo content
+### Before cloning the repo follow the instructions
+#### Installation of Minecraft Client
+- download client
+- run client once with correct version (1.12)
+- download forge installer (version 1.12) from http://files.minecraftforge.net/
+- run forge installer and install client into minecraft folder (no change needed)
 
-* Download the Minecraft server and move it into the CELLCRAFT_HOME directory
-* Download the mods you would like to use and move it into the CELLCRAFT_HOME directory
-* Download the slfsdfkjslf server, move it into the CELLCRAFT_HOME directory and install it there
-* If you want to use your own Minecraft world, you should add the folder in the CELLCRAFT_HOME directory and refer to it in the "server.properties"
+#### Installation of Minecraft Server with RaspberryJamMod
+- download forge installer (version 1.12) from http://files.minecraftforge.net/ (same then above)
+- create a minecraft_server folder
+- run forge installer and install server into the minecraft_server folder
+- download from https://github.com/arpruss/raspberryjammod/releases the mods.zip
+- unzip the mods.zip and copy the mods folder into the minecraft_server folder
+- create a "mcpipy" in the minecraft_server folder
+- run the forge-1.12-14.21.0.2359-universal.jar once
+- edit the eula.txt and change false to true
+- start the server running forge-1.12-14.21.0.2359-universal.jar again
+
+#### Testing of RaspberryJamMod
+- download from https://github.com/arpruss/raspberryjammod/releases the python-scripts.zip
+- unpack and copy the content of mcpipy into the mcpipy in the minecraft_server
+- run forge-1.12-14.21.0.2359-universal.jar
+- start the client
+- choose Multiplayer
+- choose Direct Connect
+- add 0.0.0.0 as server adress and join server
+- type: /py donut
+
+#### Starting the server with cellcraft
+- start the server with cellcraft java -jar forge-1.12-14.21.0.2359-universal.jar
+- Clone cellcraft into a different folder
+- Copy all the repo content into the folder where you started the server
+- Setup the virtual environment of your machine
+
 
 ### Setup your computer for using Cellcraft
-
 #### Start a Docker Image and create a MongoDB where to store the biological information of your minecraft world (Run only once!!)
 
 * Install Docker in your computer: https://docs.docker.com/docker-for-mac/install/
@@ -89,22 +116,14 @@ pip install -r requirements.txt
 * Create your database (run it only once)
 
 
+### Now you are ready to start! Join the server
+- start the client
+- choose Multiplayer
+- choose Direct Connect
+- add 0.0.0.0 as server adress and join server
+- type: /py cellcraft pdb 3J9U 2 4 -15 load
 
-
-#### Installation
-- install forge minecraft server (version 1.8, may not work otherwise)
-- install the RaspberryJamMod.jar (https://github.com/arpruss/raspberryjammod)
-- Identify a folder called “mcpipy”, within the installation dictionary
-- clone our repository “cellcraft” as a subfolder in mcpipy
-- copy the cellcraft.py from the subfolder into the mcpipy folder (move cellcraft.py one level up)
-
-#### Getting started
-- start the server
-- connect with client
-- open the minecraft console
-- try: py cellcraft pdb 3J9U 2 4 -15 load
-
-#### Usage
+### Usage
   py cellcraft [pdb/cellpack] [PDBcode] <threshold> <blocksize> <horizontal_shift> [load/nolo]
 - `py cellcraft` : mandatory
 - `[pdb/cellpack]` : load pdb or cellpack structure (the later is not covered here)
