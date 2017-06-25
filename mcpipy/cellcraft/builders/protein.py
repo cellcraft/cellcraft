@@ -7,15 +7,17 @@ import os
 import os.path
 import re
 import urllib
-import wget
 import xml.etree.ElementTree as ET
 from collections import *
 from datetime import datetime, timedelta
+
 import numpy as np
+import wget
 from Bio import PPBuilder
 from Bio.PDB import PDBIO, PDBParser
 from pymongo import MongoClient
-from cellcraft.config import text, col
+
+from mcpipy.cellcraft.config import text, col
 
 
 # Define features of each item in ProteinComplex and

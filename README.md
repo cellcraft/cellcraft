@@ -1,5 +1,11 @@
 # The Cellcraft Project
 
+## Complete the repo content
+
+* Download the Minecraft server and move it into the CELLCRAFT_HOME directory
+* Download the mods you would like to use and move it into the CELLCRAFT_HOME directory
+* Download the slfsdfkjslf server, move it into the CELLCRAFT_HOME directory and install it there
+* If you want to use your own Minecraft world, you should add the folder in the CELLCRAFT_HOME directory and refer to it in the "server.properties"
 
 ### Setup your computer for using Cellcraft
 
