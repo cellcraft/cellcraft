@@ -2,16 +2,16 @@ import numpy as np
 import pickle
 import argparse
 import logging
-from mc import Block
-from connectors.connectors import minecraft_connector
-from builders.cellpack import add_cellpack
-from builders.protein import add_pdb
+from mcipy.block import Block
+from cellcraft.connectors.connectors import minecraft_connector
+from cellcraft.builders.cellpack import add_cellpack
+from cellcraft.builders.protein import add_pdb
 
 
 def main(args):
     """
     Request from Minecraft to get the desired structure.
-    Usage: python minecraft_api.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)
+    Usage: python cellcraft.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)
     :param args:
     :return:
     """
@@ -95,7 +95,7 @@ def add_numpy_array(mc, array, p0, colordict, texture, swap):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='python minecraft_api.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)')
+        description='python cellcraft.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)')
 
     parser.add_argument('-m', '--mode', type=str, default='pdb',
                         help='Mode of source data, pdb for single structures of cellpack for complete environment.')

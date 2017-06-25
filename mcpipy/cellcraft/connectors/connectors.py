@@ -1,4 +1,4 @@
-from mc import Minecraft
+from mcipy import Minecraft
 from pymongo import MongoClient
 
 

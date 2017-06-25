@@ -10,7 +10,6 @@ import urllib
 import xml.etree.ElementTree as ET
 from collections import *
 from datetime import datetime, timedelta
-
 import numpy as np
 import wget
 from Bio import PPBuilder
@@ -300,7 +299,7 @@ class ChainSelect(Select):
             return 0
 
 
-# call from minecraft_api.py
+# call from cellcraft.py
 def add_pdb(pdbin, threshold, blocksize):
     print('Get PDB.')
     Protcomplex = ProteinComplex(pdbin)
