@@ -1,8 +1,3 @@
-################
-################ define features of Protein() and ProteinComplex()
-################
-
-
 import os
 import os.path
 import re
@@ -15,7 +10,6 @@ import wget
 from Bio import PPBuilder
 from Bio.PDB import PDBIO, PDBParser
 from pymongo import MongoClient
-
 from mcpipy.cellcraft.config import text, col
 from cellcraft.builders.item import Complex
 
@@ -76,6 +70,7 @@ class Protein():
 
     # get protein biological IDs from databases
     def get_ids(self):
+
         # get uniprot Id from PDB
         tree1 = ET.ElementTree(file=urllib.request.urlopen(
             'http://www.rcsb.org/pdb/rest/das/pdb_uniprot_mapping/alignment?query=' + self.pdbin))
