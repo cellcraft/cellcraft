@@ -26,7 +26,7 @@ def main(args):
                 array, colordict, texture = add_pdb(*[args.input, args.threshold, args.size])
                 pickle.dump((array, colordict, texture), open(
                     '_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "wb"))
-                logging.info(f"The structure {args.input} was correctly loaded from source and pickled.")
+                logging.info("The structure {} was correctly loaded from source and pickled.".format(args.input))
 
             except Exception as exp:
                 logging.exception(
@@ -37,7 +37,7 @@ def main(args):
                 # try to load structure from local pickel
                 array, colordict, texture = pickle.load(
                     open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "rb"))
-                logging.info(f"The structure {args.input} was correctly loaded from pickle.")
+                logging.info("The structure {} was correctly loaded from pickle.".format(args.input))
 
             except Exception as exp:
                 swap = True
@@ -45,7 +45,7 @@ def main(args):
 
         else:
             raise ValueError(
-                f"Unknown loading mode: {args.loadmode}. The possible options are 'load' or 'nolo'.")
+                "Unknown loading mode: {}. The possible options are 'load' or 'nolo'.".format(args.loadmode))
 
     # if mode pdb get complete system structure
     elif args.mode == 'cellpack':
@@ -58,7 +58,7 @@ def main(args):
                 pickle.dump((array, colordict, texture),
                             open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl",
                                  "wb"))
-                logging.info(f"The structure {args.input} was correctly loaded from source and pickled.")
+                logging.info("The structure {} was correctly loaded from source and pickled.".format(args.input))
 
             except Exception as exp:
                 logging.exception(
@@ -67,7 +67,7 @@ def main(args):
             try:
                 array, colordict, texture = pickle.load(
                     open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "rb"))
-                logging.info(f"The structure {args.input} was correctly loaded from pickle.")
+                logging.info("The structure {} was correctly loaded from pickle.".format(args.input))
 
             except Exception as exp:
                 logging.exception("The required estructure is not pickeled yet. You may have to load it from source.")

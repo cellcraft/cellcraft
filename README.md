@@ -1,11 +1,45 @@
-       ######## The Cellcraft Project ########
+# The Cellcraft Project
 
 
 ### Setup your computer for using Cellcraft
 
+#### Start a Docker Image and create a MongoDB where to store the biological information of your minecraft world (Run only once!!)
+
+* Install Docker in your computer: https://docs.docker.com/docker-for-mac/install/
+* You can also install Kinematic as an interface for the docker image
+
+* Create an instance Mongo database
+```
+docker pull mongo:latest
+```
+
+* For accessing the mongo shell
+```
+docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/cellcraft"'
+```
+
+* Create a user as database admin
+```
+docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/admin"'
+db.createUser({ user: 'cellcraft', pwd: 'cellcraft', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+```
+
+* Create other users for the cellcraft database
+```
+mongo another -u cellcraft -p cellcraft
+db.addUser({ user: "cellcraft", pwd: "cellcraft", roles: [{role: "readWrite", db: "cellcraft"}]})
+```
+
+* To backup the database into "cellcraft-backup" folder (backup the database regularly)
+```
+docker exec -it mongo bash
+mongodump --db cellcraft --out cellcraft/mongo_storage/data/cellcraft-backup
+```
+
+
 #### Setup your python environment
 
-** Linux Setup
+* Linux Setup
 ```
 curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
 pyenv update
@@ -13,22 +47,22 @@ echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 source ~/.bashrc
-pyenv install 3.6.0
+pyenv install 3.5.2
 
-pyenv global 3.6.0
+pyenv global 3.5.2
 source ~/.bashrc
 ```
 
-** Mac OX Setup
+* Mac OX Setup
 ```
 brew update
 brew install pyenv
 brew install pyenv-virtualenv
 echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
 source ~/.bash_profile
-pyenv install 3.6.0
+pyenv install 3.5.2
 
-pyenv global 3.6.0
+pyenv global 3.5.2
 source ~/.bash_profile
 ```
 
@@ -38,19 +72,18 @@ pyenv virtualenv cellcraft
 pyenv activate cellcraft
 ```
 
-* For desactivaton of the python environment run:
-```
-pyenv deactivate
-```
 
-##### Packages to install manually:
-* mc ()
-* Biopython (http://biopython.org/wiki/Download)
-
-##### Install rest of packages from requirements
+##### Install python packages from requirements
 ```
 pip install -r requirements.txt
 ```
+
+
+#### Setup your local MongoDB to store biological information about your world
+* Create your database (run it only once)
+
+
+
 
 #### Installation
 - install forge minecraft server (version 1.8, may not work otherwise)

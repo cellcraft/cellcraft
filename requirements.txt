@@ -10,7 +10,7 @@ seaborn==0.7.1
 jupyter==1.0.0
 statsmodels==0.6.1
 pickleshare==0.7.4
-xml
 pymongo==3.4.0
+biopython==1.69
 urllib
 wget

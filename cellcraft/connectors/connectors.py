@@ -2,7 +2,7 @@ from mc import Minecraft
 from pymongo import MongoClient
 
 
-# connect to minecraft
+# connect to minecraft server
 def minecraft_connector():
     mc = Minecraft()
     pos = mc.player.getPos()
@@ -14,6 +14,18 @@ def mongodb_connector():
     client = MongoClient()
     db = client['try']
     return db
+
+
+def protein_data_bank_connector():
+    pass
+
+
+def uniprot_connector():
+    pass
+
+
+def kegg_connector():
+    pass
 
 
 
