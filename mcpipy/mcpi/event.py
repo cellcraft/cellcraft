@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from mcpipy.mcpi.vec3 import Vec3
 
+
 class BlockEvent:
     """An Event related to blocks (e.g. placed, removed, hit)"""
     HIT = 0
@@ -16,12 +17,13 @@ class BlockEvent:
             BlockEvent.HIT: "BlockEvent.HIT"
         }.get(self.type, "???")
 
-        return "BlockEvent(%s, %d, %d, %d, %d, %d)"%(
-            sType,self.pos.x,self.pos.y,self.pos.z,self.face,self.entityId);
+        return "BlockEvent(%s, %d, %d, %d, %d, %d)" % (
+            sType, self.pos.x, self.pos.y, self.pos.z, self.face, self.entityId);
 
     @staticmethod
     def Hit(x, y, z, face, entityId):
         return BlockEvent(BlockEvent.HIT, x, y, z, face, entityId)
+
 
 class ChatEvent:
     """An Event related to chat (e.g. posts)"""
@@ -37,10 +39,9 @@ class ChatEvent:
             ChatEvent.POST: "ChatEvent.POST"
         }.get(self.type, "???")
 
-        return "ChatEvent(%s, %d, %s)"%(
-            sType,self.entityId,self.message);
+        return "ChatEvent(%s, %d, %s)" % (
+            sType, self.entityId, self.message);
 
     @staticmethod
     def Post(entityId, message):
         return ChatEvent(ChatEvent.POST, entityId, message)
-

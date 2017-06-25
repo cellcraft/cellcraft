@@ -11,8 +11,10 @@ from mcpipy.mcpi.util import flatten_parameters_to_string
 
 """ @author: Aron Nieminen, Mojang AB"""
 
+
 class RequestError(Exception):
     pass
+
 
 class Connection:
     """Connection to a Minecraft Pi game"""
@@ -20,16 +22,16 @@ class Connection:
 
     def __init__(self, address=None, port=None):
         self.windows = (platform.system() == "Windows" or platform.system().startswith("CYGWIN_NT"))
-        if address==None:
+        if address == None:
             try:
-                 address = os.environ['MINECRAFT_API_HOST']
+                address = os.environ['MINECRAFT_API_HOST']
             except KeyError:
-                 address = "localhost"
-        if port==None:
+                address = "localhost"
+        if port == None:
             try:
-                 port = int(os.environ['MINECRAFT_API_PORT'])
+                port = int(os.environ['MINECRAFT_API_PORT'])
             except KeyError:
-                 port = 4711
+                port = 4711
         if sys.version_info[0] >= 3:
             self.send = self.send_python3
             self.send_flat = self.send_flat_python3
@@ -46,32 +48,32 @@ class Connection:
             try:
                 atexit.unregister(self.close)
             except:
-                pass   
+                pass
 
     def close(self):
         try:
             if self.windows:
                 # ugly hack to block until all sending is completed
-                self.sendReceive("world.getBlock",0,0,0)
+                self.sendReceive("world.getBlock", 0, 0, 0)
         except:
             pass
         try:
             self.socket.close()
         except:
             pass
-            
+
     @staticmethod
     def tohex(data):
         return "".join((hex(b) for b in data))
-            
+
     def authenticate(self, username, password):
-        challenge = self.sendReceive("world.getBlock",0,0,0)
+        challenge = self.sendReceive("world.getBlock", 0, 0, 0)
         if challenge.startswith("security.challenge "):
             salt = challenge[19:].rstrip()
             if sys.version_info[0] >= 3:
-                auth = md5((salt+":"+username+":"+password).encode("utf-8")).hexdigest()
+                auth = md5((salt + ":" + username + ":" + password).encode("utf-8")).hexdigest()
             else:
-                auth = md5(salt+":"+username+":"+password).hexdigest()
+                auth = md5(salt + ":" + username + ":" + password).hexdigest()
             self.send("security.authenticate", auth)
 
     def drain(self):
@@ -84,38 +86,38 @@ class Connection:
             if not data:
                 self.socket.close()
                 raise ValueError('Socket got closed')
-            e =  "Drained Data: <%s>\n"%data.strip()
-            e += "Last Message: <%s>\n"%self.lastSent.strip()
+            e = "Drained Data: <%s>\n" % data.strip()
+            e += "Last Message: <%s>\n" % self.lastSent.strip()
             sys.stderr.write(e)
-                                             
+
     def send(self, f, *data):
         """Sends data. Note that a trailing newline '\n' is added here"""
-        s = "%s(%s)\n"%(f, flatten_parameters_to_string(data))
-        #print "s:"+s+":"
+        s = "%s(%s)\n" % (f, flatten_parameters_to_string(data))
+        # print "s:"+s+":"
         self.drain()
         self.lastSent = s
         self.socket.sendall(s)
 
     def send_python3(self, f, *data):
         """Sends data. Note that a trailing newline '\n' is added here"""
-        s = "%s(%s)\n"%(f, flatten_parameters_to_string(data))
-        #print "f,data:",f,data
+        s = "%s(%s)\n" % (f, flatten_parameters_to_string(data))
+        # print "f,data:",f,data
         self.drain()
         self.lastSent = s
         self.socket.sendall(s.encode("utf-8"))
 
     def send_flat(self, f, data):
         """Sends data. Note that a trailing newline '\n' is added here"""
-#        print "f,data:",f,list(data)
-        s = "%s(%s)\n"%(f, ",".join(data))
+        #        print "f,data:",f,list(data)
+        s = "%s(%s)\n" % (f, ",".join(data))
         self.drain()
         self.lastSent = s
         self.socket.sendall(s)
 
     def send_flat_python3(self, f, data):
         """Sends data. Note that a trailing newline '\n' is added here"""
-#        print "f,data:",f,list(data)
-        s = "%s(%s)\n"%(f, ",".join(data))
+        #        print "f,data:",f,list(data)
+        s = "%s(%s)\n" % (f, ",".join(data))
         self.drain()
         self.lastSent = s
         self.socket.sendall(s.encode("utf-8"))
@@ -124,7 +126,7 @@ class Connection:
         """Receives data. Note that the trailing newline '\n' is trimmed"""
         s = self.readFile.readline().rstrip("\n")
         if s == Connection.RequestFailed:
-            raise RequestError("%s failed"%self.lastSent.strip())
+            raise RequestError("%s failed" % self.lastSent.strip())
         return s
 
     def sendReceive(self, *data):

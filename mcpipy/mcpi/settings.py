@@ -7,9 +7,8 @@ MINECRAFT_DESKTOP = 2
 minecraftType = MINECRAFT_DESKTOP
 
 try:
-     minecraftType = int(environ['MINECRAFT_TYPE'])
+    minecraftType = int(environ['MINECRAFT_TYPE'])
 except:
-     pass
+    pass
 
-isPE = ( minecraftType != MINECRAFT_DESKTOP )
-
+isPE = (minecraftType != MINECRAFT_DESKTOP)

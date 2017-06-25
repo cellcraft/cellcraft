@@ -1,5 +1,6 @@
 import collections
 
+
 class Vec3:
     def __init__(self, x=0, y=0, z=0):
         if isinstance(x, collections.Iterable):
@@ -24,7 +25,7 @@ class Vec3:
         return self.lengthSqr ** .5
 
     def lengthSqr(self):
-        return self.x * self.x + self.y * self.y  + self.z * self.z
+        return self.x * self.x + self.y * self.y + self.z * self.z
 
     def __mul__(self, k):
         c = self.clone()
@@ -50,7 +51,7 @@ class Vec3:
         return self.__iadd__(-rhs)
 
     def __repr__(self):
-        return "Vec3(%s,%s,%s)"%(self.x,self.y,self.z)
+        return "Vec3(%s,%s,%s)" % (self.x, self.y, self.z)
 
     def __iter__(self):
         return iter((self.x, self.y, self.z))
@@ -69,11 +70,18 @@ class Vec3:
         if dz != 0: return dz
         return 0
 
-    def iround(self): self._map(lambda v:int(v+0.5))
-    def ifloor(self): self._map(int)
+    def iround(self):
+        self._map(lambda v: int(v + 0.5))
 
-    def rotateLeft(self):  self.x, self.z = self.z, -self.x
-    def rotateRight(self): self.x, self.z = -self.z, self.x
+    def ifloor(self):
+        self._map(int)
+
+    def rotateLeft(self):
+        self.x, self.z = self.z, -self.x
+
+    def rotateRight(self):
+        self.x, self.z = -self.z, self.x
+
 
 def testVec3():
     # Note: It's not testing everything
@@ -102,12 +110,13 @@ def testVec3():
     assert c - b == a
     assert a + a == a * 2
 
-    assert a - a == Vec3(0,0,0)
-    assert a + (-a) == Vec3(0,0,0)
+    assert a - a == Vec3(0, 0, 0)
+    assert a + (-a) == Vec3(0, 0, 0)
 
     # Test repr
     e = eval(repr(it))
     assert e == it
+
 
 if __name__ == "__main__":
     testVec3()

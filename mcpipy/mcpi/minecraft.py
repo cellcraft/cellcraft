@@ -1,20 +1,21 @@
 from __future__ import absolute_import
-from mcpipy.mcpi.connection import Connection,RequestError
+from mcpipy.mcpi.connection import Connection, RequestError
 from mcpipy.mcpi.vec3 import Vec3
-from mcpipy.mcpi.event import BlockEvent,ChatEvent
+from mcpipy.mcpi.event import BlockEvent, ChatEvent
 from mcpipy.mcpi.block import Block
 import math
 from os import environ
-from mcpipy.mcpi.util import flatten,floorFlatten
+from mcpipy.mcpi.util import flatten, floorFlatten
+
 try:
-    from mcpipy.mcpi.security import AUTHENTICATION_PASSWORD,AUTHENTICATION_USERNAME
+    from mcpipy.mcpi.security import AUTHENTICATION_PASSWORD, AUTHENTICATION_USERNAME
 except ImportError:
-    AUTHENTICATION_USERNAME=None
-    AUTHENTICATION_PASSWORD=None
+    AUTHENTICATION_USERNAME = None
+    AUTHENTICATION_PASSWORD = None
 except Exception as e:
     # Do NOT re-raise e as that could print secrets from security.py.
     # instead, just print the name of the error.
-    raise Exception("Error importing security.py: "+type(e).__name__)
+    raise Exception("Error importing security.py: " + type(e).__name__)
 
 """ Minecraft PI low level api v0.1_1
 
@@ -29,27 +30,30 @@ except Exception as e:
     @author: Aron Nieminen, Mojang AB"""
 
 
-#def strFloor(*args):
+# def strFloor(*args):
 #    return [str(int(math.floor(x))) for x in flatten(args)]
 
 def fixPipe(s):
-    return s.replace('&#124;', '|').replace('&amp;','&')
+    return s.replace('&#124;', '|').replace('&amp;', '&')
 
-def stringToBlockWithNBT(s, pipeFix = False):
+
+def stringToBlockWithNBT(s, pipeFix=False):
     data = s.split(",")
     id = int(data[0])
     if len(data) <= 1:
         return Block(id)
     elif len(data) <= 2:
-        return Block(id,int(data[1]))
+        return Block(id, int(data[1]))
     else:
         nbt = ','.join(data[2:])
         if pipeFix:
             nbt = fixPipe(nbt)
-        return Block(id,int(data[1]),nbt)
+        return Block(id, int(data[1]), nbt)
+
 
 class CmdPositioner:
     """Methods for setting and getting positions"""
+
     def __init__(self, connection, packagePrefix):
         self.conn = connection
         self.pkg = packagePrefix
@@ -73,8 +77,8 @@ class CmdPositioner:
         s = self.conn.sendReceive(self.pkg + ".getNameAndUUID", id)
         # just in case, allow name to have a comma; uuid can't
         comma = s.rindex(",")
-        return s[:comma],s[comma+1:]
-        
+        return s[:comma], s[comma + 1:]
+
     def getName(self, id):
         """Get entity name (entityId:int) => string"""
         s = self.conn.sendReceive(self.pkg + ".getNameAndUUID", id)
@@ -116,26 +120,30 @@ class CmdPositioner:
         """Set entity tile position (entityId:int) => Vec3"""
         self.conn.send(self.pkg + ".setTile", id, floorFlatten(args))
 
-    def setting(self, setting, status): 
+    def setting(self, setting, status):
         """Set a player setting (setting, status). keys: autojump"""
         self.conn.send(self.pkg + ".setting", setting, 1 if bool(status) else 0)
 
+
 class CmdEntity(CmdPositioner):
     """Methods for entities"""
+
     def __init__(self, connection):
         CmdPositioner.__init__(self, connection, "entity")
 
     def postToChat(self, id, msg):
         """Post a message to a particular player in game chat"""
         self.conn.send(self.pkg + ".chat.post", id,
-            str(msg).replace("\r"," ").replace("\n"," "))
+                       str(msg).replace("\r", " ").replace("\n", " "))
+
 
 class CmdPlayer(CmdPositioner):
     """Methods for the host (Raspberry Pi) player"""
+
     def __init__(self, connection, playerId=(), name=None):
         if name is not None:
             playerId = ()
-        CmdPositioner.__init__(self, connection, "player" if playerId==() else "entity")
+        CmdPositioner.__init__(self, connection, "player" if playerId == () else "entity")
         if name is not None:
             self.id = name
         else:
@@ -144,34 +152,48 @@ class CmdPlayer(CmdPositioner):
 
     def postToChat(self, msg):
         """Post a message to a particular player in game chat"""
-        self.conn.send(self.pkg + ".chat.post", "" if self.id==() else self.id,
-            str(msg).replace("\r"," ").replace("\n"," "))
+        self.conn.send(self.pkg + ".chat.post", "" if self.id == () else self.id,
+                       str(msg).replace("\r", " ").replace("\n", " "))
+
     def getDirection(self):
         return CmdPositioner.getDirection(self, self.id)
+
     def getPitch(self):
         return CmdPositioner.getPitch(self, self.id)
+
     def getRotation(self):
         return CmdPositioner.getRotation(self, self.id)
-    def setPitch(self, *args): 
+
+    def setPitch(self, *args):
         return CmdPositioner.setPitch(self, self.id, args)
+
     def setRotation(self, *args):
         return CmdPositioner.setRotation(self, self.id, args)
+
     def setDirection(self, *args):
         return CmdPositioner.setDirection(self, self.id, args)
+
     def getRotation(self):
         return CmdPositioner.getRotation(self, self.id)
+
     def getPos(self):
         return CmdPositioner.getPos(self, self.id)
+
     def setPos(self, *args):
         return CmdPositioner.setPos(self, self.id, args)
+
     def getTilePos(self):
         return CmdPositioner.getTilePos(self, self.id)
+
     def setTilePos(self, *args):
         return CmdPositioner.setTilePos(self, self.id, args)
+
     def getName(self):
         return CmdPositioner.getName(self, self.id)
+
     def getNameAndUUID(self):
         return CmdPositioner.getNameAndUUID(self, self.id)
+
 
 class CmdCamera:
     def __init__(self, connection):
@@ -196,6 +218,7 @@ class CmdCamera:
 
 class CmdEvents:
     """Events"""
+
     def __init__(self, connection):
         self.conn = connection
 
@@ -215,13 +238,14 @@ class CmdEvents:
         events = [fixPipe(e) for e in s.split("|") if e]
         return [ChatEvent.Post(int(e[:e.find(",")]), e[e.find(",") + 1:]) for e in events]
 
+
 class Minecraft:
     """The main class to interact with a running instance of Minecraft Pi."""
 
     def __init__(self, connection=None, autoId=True, name=None):
         if name is not None:
             autoId = False
-    
+
         if connection:
             self.conn = connection
         else:
@@ -232,32 +256,31 @@ class Minecraft:
 
         self.camera = CmdCamera(self.conn)
         self.entity = CmdEntity(self.conn)
-        
+
         self.playerId = None
-        
+
         if autoId:
             try:
-                 self.playerId = int(environ['MINECRAFT_PLAYER_ID'])
-                 self.player = CmdPlayer(self.conn,playerId=self.playerId)
+                self.playerId = int(environ['MINECRAFT_PLAYER_ID'])
+                self.player = CmdPlayer(self.conn, playerId=self.playerId)
             except:
                 try:
                     self.playerId = self.getPlayerId(environ['MINECRAFT_PLAYER_NAME'])
-                    self.player = CmdPlayer(self.conn,playerId=self.playerId)
+                    self.player = CmdPlayer(self.conn, playerId=self.playerId)
                 except:
                     if AUTHENTICATION_USERNAME:
                         try:
                             self.playerId = self.getPlayerId(AUTHENTICATION_USERNAME)
-                            self.player = CmdPlayer(self.conn,playerId=self.playerId)
+                            self.player = CmdPlayer(self.conn, playerId=self.playerId)
                         except:
                             self.player = CmdPlayer(self.conn)
                     else:
                         self.player = CmdPlayer(self.conn)
         else:
             self.player = CmdPlayer(self.conn, name=name)
-        
+
         self.events = CmdEvents(self.conn)
         self.enabledNBT = False
-
 
     def spawnEntity(self, *args):
         """Spawn entity (type,x,y,z,tags) and get its id => id:int"""
@@ -274,7 +297,7 @@ class Minecraft:
     def getBlockWithData(self, *args):
         """Get block with data (x,y,z) => Block"""
         ans = self.conn.sendReceive_flat("world.getBlockWithData", floorFlatten(args))
-        return Block( *[int(x) for x in ans.split(",")[:2]] )
+        return Block(*[int(x) for x in ans.split(",")[:2]])
 
     def getBlockWithNBT(self, *args):
         """
@@ -282,7 +305,7 @@ class Minecraft:
         For this to work, you first need to do setting("include_nbt_with_data",1)
         """
         if not self.enabledNBT:
-            self.setting("include_nbt_with_data",1)
+            self.setting("include_nbt_with_data", 1)
             self.enabledNBT = True
             try:
                 ans = self.conn.sendReceive_flat("world.getBlockWithData", floorFlatten(args))
@@ -292,19 +315,20 @@ class Minecraft:
         else:
             ans = self.conn.sendReceive_flat("world.getBlockWithData", floorFlatten(args))
         return stringToBlockWithNBT(ans)
+
     """
         @TODO
     """
 
     def fallbackGetCuboid(self, getBlock, *args):
-        (x0,y0,z0,x1,y1,z1) = (int(math.floor(float(x))) for x in flatten(args))
+        (x0, y0, z0, x1, y1, z1) = (int(math.floor(float(x))) for x in flatten(args))
         out = []
-        for y in range(min(y0,y1),max(y0,y1)+1):
-            for x in range(min(x0,x1),max(x0,x1)+1):
-                for z in range(min(z0,z1),max(z0,z1)+1):
-                    out.append(getBlock(x,y,z))                    
+        for y in range(min(y0, y1), max(y0, y1) + 1):
+            for x in range(min(x0, x1), max(x0, x1) + 1):
+                for z in range(min(z0, z1), max(z0, z1) + 1):
+                    out.append(getBlock(x, y, z))
         return out
-        
+
     def fallbackGetBlocksWithData(self, *args):
         return self.fallbackGetCuboid(self.getBlockWithData, args)
 
@@ -325,7 +349,7 @@ class Minecraft:
         except:
             self.getBlocks = self.fallbackGetBlocks
             return self.fallbackGetBlocks(*args)
-        
+
     def getBlocksWithData(self, *args):
         """Get a cuboid of blocks (x0,y0,z0,x1,y1,z1) => [Block(id:int, meta:int)]"""
         try:
@@ -339,7 +363,7 @@ class Minecraft:
         """Get a cuboid of blocks (x0,y0,z0,x1,y1,z1) => [Block(id, meta, nbt)]"""
         try:
             if not self.enabledNBT:
-                self.setting("include_nbt_with_data",1)
+                self.setting("include_nbt_with_data", 1)
                 self.enabledNBT = True
                 try:
                     ans = self.conn.sendReceive_flat("world.getBlocksWithData", floorFlatten(args))
@@ -349,7 +373,7 @@ class Minecraft:
             else:
                 ans = self.conn.sendReceive_flat("world.getBlocksWithData", floorFlatten(args))
             ans = self.conn.sendReceive_flat("world.getBlocksWithData", floorFlatten(args))
-            return [stringToBlockWithNBT(x, pipeFix = True) for x in ans.split("|")]
+            return [stringToBlockWithNBT(x, pipeFix=True) for x in ans.split("|")]
         except:
             self.getBlocksWithNBT = self.fallbackGetBlocksWithNBT
             return self.fallbackGetBlocksWithNBT(*args)
@@ -362,7 +386,7 @@ class Minecraft:
     def setBlockWithNBT(self, *args):
         """Set block (x,y,z,id,data,nbt)"""
         data = list(flatten(args))
-        self.conn.send_flat("world.setBlock", list(floorFlatten(data[:5]))+data[5:])
+        self.conn.send_flat("world.setBlock", list(floorFlatten(data[:5])) + data[5:])
 
     # must have no NBT tags in Block instance
     def setBlocks(self, *args):
@@ -372,7 +396,7 @@ class Minecraft:
     def setBlocksWithNBT(self, *args):
         """Set a cuboid of blocks (x0,y0,z0,x1,y1,z1,id,data,nbt)"""
         data = list(flatten(args))
-        self.conn.send_flat("world.setBlocks", list(floorFlatten(data[:8]))+data[8:])
+        self.conn.send_flat("world.setBlocks", list(floorFlatten(data[:8])) + data[8:])
 
     def getHeight(self, *args):
         """Get the height of the world (x,z) => int"""
@@ -385,7 +409,7 @@ class Minecraft:
             return self.playerId
         else:
             return int(self.conn.sendReceive_flat("world.getPlayerId", flatten(args)))
-            
+
     def getPlayerEntityIds(self):
         """Get the entity ids of the connected players => [id:int]"""
         ids = self.conn.sendReceive("world.getPlayerIds")
@@ -401,16 +425,17 @@ class Minecraft:
 
     def postToChat(self, msg):
         """Post a message to the game chat"""
-        self.conn.send("chat.post", str(msg).replace("\r"," ").replace("\n"," "))
+        self.conn.send("chat.post", str(msg).replace("\r", " ").replace("\n", " "))
 
     def setting(self, setting, status):
         """Set a world setting (setting, status). keys: world_immutable, nametags_visible"""
         self.conn.send("world.setting", setting, 1 if bool(status) else 0)
 
     @staticmethod
-    def create(address = None, port = None, name = None):
-        return Minecraft(Connection(address, port), name = name)
-        
+    def create(address=None, port=None, name=None):
+        return Minecraft(Connection(address, port), name=name)
+
+
 if 'VPYTHON_MCPI' in environ:
     from .vpython_minecraft import Minecraft
 
