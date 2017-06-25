@@ -15,3 +15,6 @@ __main__.py
 __pycache__/
 *.txt
 *.pyc
+*.pkl
+.venv/
+.*

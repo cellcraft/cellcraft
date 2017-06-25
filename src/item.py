@@ -2,17 +2,6 @@
 ################ define features of CellcraftGrid()
 ################
 
-import math, sys, gzip, os, glob
-import wget
-from collections import *
-from Bio.PDB import *
-from Bio.SeqUtils.CheckSum import seguid
-from Bio import SeqIO
-from Bio import *
-from Bio.Alphabet import IUPAC
-from Bio.Seq import Seq
-from xml.dom import minidom
-import urllib
 import numpy as np
 
 
@@ -20,27 +9,27 @@ import numpy as np
 class CellcraftGrid():
     ############## TODO
     ### add weights in the future for each atom when defined the method in Protein() or Lipid()
-    def __init__(self,threshold,blocksize): 
+    def __init__(self, threshold, blocksize): 
         self.blocksize = blocksize
         self.threshold = threshold
         self.coordinates = []
         self.pids = []
 
-    def add_coordinates(self,coordinates,pid):
+    def add_coordinates(self, coordinates, pid):
         self.coordinates.append(coordinates)
         self.pids.append(pid)
 
     def make_grid(self):
-        amax = np.amax([np.amax(coor,axis=0) for coor in self.coordinates],axis=0)
-        amin = np.amin([np.amin(coor,axis=0) for coor in self.coordinates],axis=0)
-        self.x = np.arange(amin[0],amax[0]+self.blocksize,self.blocksize)
-        self.y = np.arange(amin[1],amax[1]+self.blocksize,self.blocksize)
-        self.z = np.arange(amin[2],amax[2]+self.blocksize,self.blocksize)
-        self.values = np.zeros((self.x.shape[0]-1,self.y.shape[0]-1,self.z.shape[0]-1))
+        amax = np.amax([np.amax(coor, axis=0) for coor in self.coordinates], axis=0)
+        amin = np.amin([np.amin(coor, axis=0) for coor in self.coordinates], axis=0)
+        self.x = np.arange(amin[0], amax[0]+self.blocksize, self.blocksize)
+        self.y = np.arange(amin[1], amax[1]+self.blocksize, self.blocksize)
+        self.z = np.arange(amin[2], amax[2]+self.blocksize, self.blocksize)
+        self.values = np.zeros((self.x.shape[0]-1, self.y.shape[0]-1, self.z.shape[0]-1))
 
     # generate a 3D histogram for the coordinates
     def def_blocks(self):
-        for coor,pid in zip(self.coordinates,self.pids):
+        for coor, pid in zip(self.coordinates, self.pids):
             H, self.edges = np.histogramdd(coor, bins=(self.x, self.y, self.z))
             self.values[(H >= self.threshold)] = pid
 

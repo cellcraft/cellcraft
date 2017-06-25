@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import re
 import numpy as np
 import pandas as pd
-from cellcraft.src.item import *
+from cellcraft.src.item import CellcraftGrid
 
 default_dir = 'x3d/'
 
@@ -27,7 +27,7 @@ class ProteinComplexX3d():
         self.texture = {}
 
     def load_grid(self,threshold,blocksize):
-        self.grid = cellcraft_grid(threshold,blocksize)
+        self.grid = CellcraftGrid(threshold,blocksize)
         for pid,surface in zip(self.pids,self.surfaces):
             self.grid.add_coordinates(surface,pid)
         self.grid.make_grid()

@@ -32,13 +32,19 @@
 - add 0.0.0.0 as server adress and join server
 - type: /py donut
 
+### Starting the server with cellcraft
+- copy the mcpi folder from the python-scripts.zip to the mcpipy folder
+- clone cellcraft into the mcpi folder
+- copy the cellpack.py from the cellcraft folder to the mcpipy folder
+- enter the virtual enviroment
+- start the server with cellcraft java -jar forge-1.12-14.21.0.2359-universal.jar
 
-
-## Getting started
-- start the server
-- connect with client
-- open the minecraft console
-- try: py cellcraft pdb 3J9U 2 4 -15 load
+### Join the server
+- start the client
+- choose Multiplayer
+- choose Direct Connect
+- add 0.0.0.0 as server adress and join server
+- type: /py cellcraft pdb 3J9U 2 4 -15 load
 
 ## Usage
   py cellcraft [pdb/cellpack] [PDBcode] <threshold> <blocksize> <horizontal_shift> [load/nolo]

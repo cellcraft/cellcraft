@@ -35,7 +35,7 @@ text = defaultdict(list)
 names = ['Metabolism', 'Genetic Information Processing', 'Human Diseases', 'Drug Development', 'Environmental Information Processing', 'Cellular Processes', 'Organismal Systems']
 
 # texture 95 crystal, 159 full, 35 wool
-textures = ['159', '35', '35', '35', '95', '95', '95']
+textures = [159, 35, 35, 35, 95, 95, 95]
 for t,n in zip(textures,names):
     text[t].append(n)
 
@@ -52,7 +52,7 @@ class Protein():
         self.gos = gos
         self.entrez_ids = entrez_ids
         self.ensembl_ids = ensembl_ids
-        self.ecs = ecs
+        self.ecs = ECs
         self.kopath_ids = kopath_ids
         self.kpathways = kpathways
         self.dbname = dbname
@@ -317,7 +317,7 @@ def add_pdb(pdbin,threshold,blocksize):
     if os.path.isfile(pdbin+".pdb"):
         pass
     else:
-        Protcomplex.get_PDB()
+        Protcomplex.get_pdb()
     print('Clean PDB.')
     Protcomplex.clean_pdb()
     print('Split Complex.')
