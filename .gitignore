@@ -19,4 +19,5 @@ libraries/
 logs/
 try1/
 /.*
+.DS_Store
 server.properties

@@ -15,11 +15,11 @@
 #   F2: first person view toggle (buggy)
 
 from __future__ import absolute_import
-from mcpipy.mcpi.visual import *
 from mcpipy.mcpi.util import flatten, floorFlatten
 from mcpipy.mcpi.block import Block
 from mcpipy.mcpi.event import BlockEvent
 from mcpipy.mcpi.vec3 import Vec3
+from vpython.vpython import *
 import time
 from time import sleep
 from math import *
@@ -118,7 +118,7 @@ class EntityCommand:
         getattr(self.playerCommand, function)(args[1:])
 
     def __getattr__(self, name):
-        return lambda (args): self.passToPlayer(self, name, args)
+        return lambda args: self.passToPlayer(self, name, args)
 
 
 class Minecraft:
@@ -203,7 +203,7 @@ class Minecraft:
             self.updatePosition()
         elif evt.key == 'f2':
             self.follow = not self.follow
-            print (self.follow)
+            print(self.follow)
             self.updatePosition()
         elif evt.key == '\r' or evt.key == '\n':
             coords = self.findBlock()
