@@ -17,6 +17,8 @@ from Bio.PDB import PDBIO, PDBParser
 from pymongo import MongoClient
 
 from mcpipy.cellcraft.config import text, col
+from cellcraft.builders.item import Complex
+
 
 
 # Define features of each item in ProteinComplex and
@@ -299,31 +301,25 @@ class ChainSelect(Select):
             return 0
 
 
-# call from cellcraft.py
-def add_pdb(pdbin, threshold, blocksize):
-    print('Get PDB.')
-    Protcomplex = ProteinComplex(pdbin)
-    if os.path.isfile(pdbin + ".pdb"):
-        pass
-    else:
-        Protcomplex.get_PDB()
-    print('Clean PDB.')
-    Protcomplex.clean_pdb()
-    print('Split Complex.')
-    Protcomplex.split_complex()
-    print('Load additional Info.')
-    Protcomplex.load_chain_info()
-    print('Make Grid.')
-    Protcomplex.load_grid(int(threshold), int(blocksize))
-    texture = {p.pid: p.texture for p in Protcomplex.proteins}
-    color = {p.pid: p.color for p in Protcomplex.proteins}
-    return Protcomplex.grid.values, color, texture
-
-
 # split the protein complex and define features
-class ProteinComplex():
-    def __init__(self, pdbin):
+class ProteinComplex(Complex):
+    def __init__(self, pdbin, threshold, blocksize):
         self.pdbin = pdbin
+        print('Get PDB.')
+        if os.path.isfile(pdbin + ".pdb"):
+            pass
+        else:
+            Protcomplex.get_PDB()
+        print('Clean PDB.')
+        self.clean_pdb()
+        print('Split Complex.')
+        self.split_complex()
+        print('Load additional Info.')
+        self.load_chain_info()
+        print('Make Grid.')
+        self.textures = {p.pid: p.texture for p in self.items}
+        self.colors = {p.pid: p.color for p in self.items}
+        self.grids = self.create_grid_from_items(blocksize, threshold)
 
     # get pdb file from PDB database when not available in working directory
     def get_pdb(self):
@@ -359,7 +355,7 @@ class ProteinComplex():
 
     # load data for each chain going through Protein()
     def load_chain_info(self):
-        self.proteins = []
+        self.items = []
         for pid, chain in enumerate(self.chains):
             gos = []
             entrez_ids = []
@@ -370,17 +366,10 @@ class ProteinComplex():
             gomolefunt = []
             gocellcomp = []
             kpathways = defaultdict(list)
-            myprot = Protein(pid, self.pdbin, chain, gos, entrez_ids, ensembl_ids, ecs, kopath_ids, kpathways, 'try',
-                             gobioproc, gomolefunt, gocellcomp)
+            myprot = Protein(pid, self.pdbin, chain, gos, entrez_ids, ensembl_ids, ecs, kopath_ids, 
+                             kpathways, 'try', gobioproc, gomolefunt, gocellcomp)
             myprot.get_ids()
             myprot.prot_color()
             myprot.get_coord()
-            self.proteins.append(myprot)
+            self.items.append(myprot)
 
-    # generate the common grid for the whole complex through CellcraftGrid() in item.py
-    def load_grid(self, threshold, blocksize):
-        self.grid = CellcraftGrid(threshold, blocksize)
-        for p in self.proteins:
-            self.grid.add_coordinates(p.coord, p.pid)
-        self.grid.make_grid()
-        self.grid.def_blocks()
