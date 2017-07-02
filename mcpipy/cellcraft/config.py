@@ -23,6 +23,9 @@ textures = ['159', '35', '35', '35', '95', '95', '95']
 for t, n in zip(textures, names):
     text[t].append(n)
 
+# path to cache where pickle files will be stored
+PATH_CACHE = 'cellcraft/cache/'
+
 current_env = os.environ.get('app_env')
 root_logger = logging.getLogger()
 

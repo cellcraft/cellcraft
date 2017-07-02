@@ -14,17 +14,18 @@ def main(args):
     :return:
     """
 
-    # if mode pdb get single biomolecule structure
-
     try:
-        cmpx = get_complex(args.mode, args.name, args.size, args.threshold, args.usecache)
+        # Extract the grid, colors and biological information from given structure
+        complex = get_complex(args.mode, args.name, args.size, args.threshold, args.usecache)
     except:
         logging.exception("Error loading structure.")
         raise
 
     try:
-        mc, pos = minecraft_connector()
-        p0 = (int(pos.x), int(pos.y + int(args.height)), int(pos.z))
+        minecraft_conn, minecraft_player_coordinates = minecraft_connector()
+        complex_coordinates = (
+            int(minecraft_player_coordinates.x), int(minecraft_player_coordinates.y + int(args.height)),
+            int(minecraft_player_coordinates.z))
     except:
         logging.exception("Error getting player position.")
         raise
@@ -34,25 +35,39 @@ def main(args):
             swap = False
         elif args.mode == 'pdb':
             swap = True
-        add_numpy_array(mc, cmpx.grid, p0, cmpx.color, cmpx.texture, swap=swap)
+        add_numpy_array(minecraft_conn, complex.grid, complex_coordinates, complex.color, complex.texture,
+                        swap=swap)
     except:
         logging.exception("Error putting structures.")
         raise
 
 
 # TODO: define this method more clearly and maybe move it to builders
-def add_numpy_array(mc, array, p0, colordict, texture, swap):
-    it = np.nditer(array, flags=['multi_index'], op_flags=['readonly'])
-    while not it.finished:
-        if it[0] > 0:
-            x, y, z = it.multi_index
+def add_numpy_array(minecraft_conn, complex_grid, complex_coordinates, colors, texture, swap):
+    """
+
+    :param minecraft_conn:
+    :param complex_grid:
+    :param complex_coordinates:
+    :param colors: dict with colors ids
+    :param texture:
+    :param swap:
+    :return:
+    """
+    iterator = np.nditer(complex_grid, flags=['multi_index'], op_flags=['readonly'])
+    while not iterator.finished:
+        if iterator[0] > 0:
+            x, y, z = iterator.multi_index
             if swap:
-                height = array.shape[2]
-                mc.setBlock(p0[0] + x, p0[1] + (height - z), p0[2] + y,
-                            Block(texture[int(it[0])], colordict[int(it[0])]))
+                height = complex_grid.shape[2]
+                minecraft_conn.setBlock(complex_coordinates[0] + x, complex_coordinates[1] + (height - z),
+                                        complex_coordinates[2] + y,
+                                        Block(texture[int(iterator[0])], colors[int(iterator[0])]))
             else:
-                mc.setBlock(p0[0] + x, p0[1] + y, p0[2] + z, Block(texture[int(it[0])], colordict[int(it[0])]))
-        it.iternext()
+                minecraft_conn.setBlock(complex_coordinates[0] + x, complex_coordinates[1] + y,
+                                        complex_coordinates[2] + z,
+                                        Block(texture[int(iterator[0])], colors[int(iterator[0])]))
+        iterator.iternext()
 
 
 if __name__ == "__main__":

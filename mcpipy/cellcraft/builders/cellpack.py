@@ -38,13 +38,13 @@ class ProteinComplexX3d(ComplexStructure):
         tree = ET.parse(default_dir + self.x3d_file + '.x3d')
         root = tree.getroot()
         transforms = root.find('Scene').find('Group').getchildren()
-        pdb_pat = re.compile('\d...')
+        # pdb_pat = re.compile('\d...')
         i = 0
         self.items = []
         for transform in transforms:
             MetadataString = transform.find('MetadataString')
             if MetadataString:
-                MetadataString = MetadataString.attrib['value'].split('_')
+                # MetadataString = MetadataString.attrib['value'].split('_')
                 row = df.iloc[i]
 
                 # name = MetadataString[1]
