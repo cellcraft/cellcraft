@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 import pandas as pd
-from cellcraft.builders.item import Complex
+from cellcraft.builders.complex_structure import ComplexStructure
 
 default_dir = 'x3d/'
 
@@ -21,7 +21,7 @@ class SimpleProtein():
         self.id = id
 
 
-class ProteinComplexX3d(Complex):
+class ProteinComplexX3d(ComplexStructure):
     def __init__(self, name, threshold, blocksize):
         self.x3d_file = name
         self.parse_file()

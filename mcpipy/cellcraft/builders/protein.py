@@ -11,7 +11,7 @@ from Bio.PDB.Polypeptide import PPBuilder
 from Bio.PDB import PDBIO, PDBParser, Select
 from pymongo import MongoClient
 from cellcraft.config import text, col
-from cellcraft.builders.item import Complex
+from cellcraft.builders.complex_structure import ComplexStructure
 
 
 
@@ -297,14 +297,14 @@ class ChainSelect(Select):
 
 
 # split the protein complex and define features
-class ProteinComplex(Complex):
+class ProteinComplex(ComplexStructure):
     def __init__(self, pdbin, threshold, blocksize):
         self.pdbin = pdbin
         print('Get PDB.')
         if os.path.isfile(pdbin + ".pdb"):
             pass
         else:
-            Protcomplex.get_PDB()
+            self.get_PDB()
         print('Clean PDB.')
         self.clean_pdb()
         print('Split Complex.')

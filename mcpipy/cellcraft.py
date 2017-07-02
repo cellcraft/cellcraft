@@ -6,7 +6,7 @@ from cellcraft.connectors.minecraft_server import minecraft_connector
 from cellcraft.builders.item import get_complex
 
 
-def main(mode, name, threshold, size, height, usecache, **kwargs):
+def main(args):
     """
     Request from Minecraft to get the desired structure.
     Usage: python cellcraft.py -m (pdb|cellpack) -i <PDBid> -t <threshold> -s <blocksize> -l (load|nolo)
@@ -17,7 +17,7 @@ def main(mode, name, threshold, size, height, usecache, **kwargs):
     # if mode pdb get single biomolecule structure
 
     try:
-        cmpx = get_complex(mode, name, size, threshold, usecache)
+        cmpx = get_complex(args.mode, args.name, args.size, args.threshold, args.usecache)
     except:
         logging.exception("Error loading structure.")
         raise
@@ -30,9 +30,9 @@ def main(mode, name, threshold, size, height, usecache, **kwargs):
         raise
 
     try:
-        if mode == 'cellpack':
+        if args.mode == 'cellpack':
             swap = False
-        elif mode == 'pdb':
+        elif args.mode == 'pdb':
             swap = True
         add_numpy_array(mc, cmpx.grid, p0, cmpx.color, cmpx.texture, swap=swap)
     except:
@@ -72,4 +72,4 @@ if __name__ == "__main__":
                         help='Do not load structure from local cache.')
 
     args = parser.parse_args()
-    main(**args)
+    main(args)
