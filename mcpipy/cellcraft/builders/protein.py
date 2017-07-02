@@ -7,9 +7,10 @@ from collections import *
 from datetime import datetime, timedelta
 import numpy as np
 import wget
-from Bio import PPBuilder
-from Bio.PDB import PDBIO, PDBParser
+from Bio.PDB.Polypeptide import PPBuilder
+from Bio.PDB import PDBIO, PDBParser, Select
 from pymongo import MongoClient
+from cellcraft.config import text, col
 from mcpipy.cellcraft.config import text, col
 from cellcraft.builders.item import Complex
 
@@ -26,7 +27,7 @@ class Protein():
         self.gos = gos
         self.entrez_ids = entrez_ids
         self.ensembl_ids = ensembl_ids
-        self.ecs = ecs
+        self.ecs = ECs
         self.kopath_ids = kopath_ids
         self.kpathways = kpathways
         self.dbname = dbname
@@ -361,7 +362,7 @@ class ProteinComplex(Complex):
             gomolefunt = []
             gocellcomp = []
             kpathways = defaultdict(list)
-            myprot = Protein(pid, self.pdbin, chain, gos, entrez_ids, ensembl_ids, ecs, kopath_ids, 
+            myprot = Protein(pid, self.pdbin, chain, gos, entrez_ids, ensembl_ids, ecs, kopath_ids,
                              kpathways, 'try', gobioproc, gomolefunt, gocellcomp)
             myprot.get_ids()
             myprot.prot_color()

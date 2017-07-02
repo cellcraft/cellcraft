@@ -26,6 +26,8 @@ for t, n in zip(textures, names):
 current_env = os.environ.get('app_env')
 root_logger = logging.getLogger()
 
+current_env = 'dev'
+
 if current_env == 'live':
     APP_HOST = '127.0.0.1'
     APP_PORT = 5000  # TODO

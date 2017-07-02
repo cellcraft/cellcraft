@@ -7,7 +7,7 @@ import atexit
 import os
 import platform
 from hashlib import md5
-from mcpipy.mcpi.util import flatten_parameters_to_string
+from mcpi.util import flatten_parameters_to_string
 
 """ @author: Aron Nieminen, Mojang AB"""
 

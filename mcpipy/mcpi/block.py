@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from mcpipy.mcpi import settings
+from mcpi import settings
 import re
 
 
