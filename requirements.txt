@@ -14,6 +14,6 @@ pymongo==3.4.0
 biopython==1.69
 pytest
 pep8==1.7.0
-vpython
+vpython==2.0.8
 urllib
 wget

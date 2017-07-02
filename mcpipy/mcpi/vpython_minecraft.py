@@ -19,7 +19,7 @@ from mcpipy.mcpi.util import flatten, floorFlatten
 from mcpipy.mcpi.block import Block
 from mcpipy.mcpi.event import BlockEvent
 from mcpipy.mcpi.vec3 import Vec3
-from vpython.vpython import *
+from vpython import materials, vector, scene, cone
 import time
 from time import sleep
 from math import *

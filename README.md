@@ -80,18 +80,8 @@ java -jar forge-1.12-14.21.0.2359-universal.jar
 - choose Multiplayer
 - choose Direct Connect
 - add 0.0.0.0 as server adress and join server
-- type: /py cellcraft pdb 3J9U 2 4 -15 load
+- type: /py cellcraft -m pdb -i 3J9U -t 2 -s 4 -he -15 -l load
 
-### Usage
-  py cellcraft [pdb/cellpack] [PDBcode] <threshold> <blocksize> <horizontal_shift> [load/nolo]
-- `py cellcraft` : mandatory
-- `[pdb/cellpack]` : load pdb or cellpack structure (the later is not covered here)
-- `[PDBcode]` : specify the PDB code (for pdb)
-- `<threshold>` : minimum number of atoms found in grid cube to be filled
-- `<blocksize>` : spacing of the grid in Angstroem
-- `<horizontal_shift>` : horizontal shift of the structure in respect of the player position
-- `[load/nolo]` :  load structure from database / take local copy
-  (the latter is only possible if the same PDBid was processed before with the same threshold and blocksize)
 
 
 #### Contact

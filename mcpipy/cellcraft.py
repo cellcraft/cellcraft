@@ -3,6 +3,7 @@ import pickle
 import argparse
 import logging
 from mcpi.block import Block
+from cellcraft.connectors.db_connectors import
 from cellcraft.connectors.minecraft_server import minecraft_connector
 from cellcraft.builders.cellpack import add_cellpack
 from cellcraft.builders.protein import add_pdb
@@ -25,8 +26,8 @@ def main(args):
             try:
                 # call the source
                 array, colordict, texture = add_pdb(*[args.input, args.threshold, args.size])
-                pickle.dump((array, colordict, texture), open(
-                    '_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "wb"))
+                pickle.dump((array, colordict, texture), open("cellcraft/cache/" + '_'.join(
+                    [args.mode, args.input, str(args.threshold), str(args.size)]) + ".pkl", "wb"))
                 logging.info("The structure {} was correctly loaded from source and pickled.".format(args.input))
 
             except Exception as exp:
@@ -36,8 +37,10 @@ def main(args):
         elif args.loadmode == 'nolo':
             try:
                 # try to load structure from local pickel
+                print('_'.join([args.mode, args.input, str(args.threshold), str(args.size)]) + ".pkl")
                 array, colordict, texture = pickle.load(
-                    open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "rb"))
+                    open("cellcraft/cache/" + '_'.join(
+                        [args.mode, args.input, str(args.threshold), str(args.size)]) + ".pkl", "rb"))
                 logging.info("The structure {} was correctly loaded from pickle.".format(args.input))
 
             except Exception as exp:
@@ -57,7 +60,8 @@ def main(args):
             try:
                 array, colordict, texture = add_cellpack(*args[args.input, args.threshold, args.size])
                 pickle.dump((array, colordict, texture),
-                            open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl",
+                            open("cellcraft/cache/" + '_'.join(
+                                [args.mode, args.input, str(args.threshold), str(args.size)]) + ".pkl",
                                  "wb"))
                 logging.info("The structure {} was correctly loaded from source and pickled.".format(args.input))
 
@@ -67,7 +71,8 @@ def main(args):
         elif args.loadmode == 'nolo':
             try:
                 array, colordict, texture = pickle.load(
-                    open('_'.join([args.mode, args.input, args.threshold, args.size, args.loadmode]) + ".pkl", "rb"))
+                    open("cellcraft/cache/" + '_'.join([args.mode, args.input, args.threshold, args.size]) + ".pkl",
+                         "rb"))
                 logging.info("The structure {} was correctly loaded from pickle.".format(args.input))
 
             except Exception as exp:
@@ -79,6 +84,9 @@ def main(args):
         mc, pos = minecraft_connector()
         p0 = (int(pos.x), int(pos.y + int(args.height)), int(pos.z))
         add_numpy_array(mc, array, p0, colordict, texture, swap=swap)
+
+        # save structure in mongo database
+
 
 
 # TODO: define this method more clearly and maybe move it to helpers

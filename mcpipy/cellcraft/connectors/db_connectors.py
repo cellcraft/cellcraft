@@ -1,4 +1,3 @@
-
 from pymongo import MongoClient
 import os
 import urllib
@@ -6,7 +5,7 @@ import urllib
 
 # create a DB/collection
 class MongoDB():
-    def __init__(host=['localhost:27017']):
+    def __init__(self, host=['localhost:27017']):
         self.host = host
 
     def add_item(self, data):
@@ -22,6 +21,11 @@ class MongoDB():
         item = db.protein.find_one({'item_id': item_id})
         client.close()
         return item
+
+
+def insert_structure_into_mongodb():
+    mdb = MongoDB()
+
 
 
 def open_filestream(filename):

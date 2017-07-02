@@ -7,6 +7,7 @@ from collections import *
 from datetime import datetime, timedelta
 import numpy as np
 import wget
+from cellcraft.builders.item import CellcraftGrid
 from Bio.PDB.Polypeptide import PPBuilder
 from Bio.PDB import PDBIO, PDBParser, Select
 from pymongo import MongoClient
