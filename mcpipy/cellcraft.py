@@ -1,9 +1,9 @@
 import numpy as np
 import argparse
 import logging
-from mcipy.block import Block
-from cellcraft.connectors.connectors import minecraft_connector
-from cellcraft.builders.items import get_complex
+from mcpi.block import Block
+from cellcraft.connectors.minecraft_server import minecraft_connector
+from cellcraft.builders.item import get_complex
 
 
 def main(mode, name, threshold, size, height, usecache, **kwargs):

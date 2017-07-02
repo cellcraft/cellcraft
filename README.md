@@ -80,7 +80,7 @@ java -jar forge-1.12-14.21.0.2359-universal.jar
 - choose Multiplayer
 - choose Direct Connect
 - add 0.0.0.0 as server adress and join server
-- type: /py cellcraft -m pdb -i 3J9U -t 2 -s 4 -he -15 -l load
+- type: /py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15 -C
 
 
 
