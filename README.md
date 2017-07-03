@@ -14,12 +14,14 @@ docker pull mongo:latest
 
 * For accessing the mongo shell
 ```
-docker run --name mongo -d mongo
-docker run -it sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/admin"'
+docker run --name mongo -d mongo --net=host # run -p 27017:27017 --name mongo -d mongo
+
+docker exec -it mongo /bin/bash
+db = db.getSiblingDB('admin');
 db.createUser({ user: 'admin', pwd: 'admin', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
-docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/cellcraft"'
+db = db.getSiblingDB('cellcraft');
 db.createUser({ user: "cellcraft", pwd: "cellcraft", roles: [{role: "readWrite", db: "cellcraft"}]});
-docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/test"'
+db = db.getSiblingDB('test');
 db.createUser({ user: "test", pwd: "test", roles: [{role: "readWrite", db: "test"}]});
 ```
 

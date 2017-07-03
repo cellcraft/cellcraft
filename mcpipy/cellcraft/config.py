@@ -32,6 +32,9 @@ DB='cellcraft'
 TEST_DB='test'
 
 
+# path to fixtures
+PATH_TO_FIXTURES="test/fixtures"
+
 current_env = os.environ.get('app_env')
 root_logger = logging.getLogger()
 

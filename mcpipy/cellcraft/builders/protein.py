@@ -6,15 +6,11 @@ import xml.etree.ElementTree as ET
 from collections import *
 from datetime import datetime, timedelta
 import numpy as np
-import wget
-from Bio.PDB.Polypeptide import PPBuilder
-from Bio.PDB import PDBIO, PDBParser, Select, MMCIFParser
+from biopandas.pdb import PandasPdb
+from cellcraft.connectors.db_connectors import uniprot_id_call, uniprot_connector, kegg_connector
 from pymongo import MongoClient
 from cellcraft.config import text, col
 from cellcraft.builders.complex_structure import ComplexStructure
-from cellcraft.connectors.db_connectors import PDBStore
-
-pdbs = PDBStore()
 
 
 def get_pdb_complex(name, theta, blocksize, threshold):
@@ -48,46 +44,20 @@ class Protein():
         self.gocellcomp = gocellcomp
 
     # get coordinates out of pdb
-    def get_coord(self, clean_pdb_file):
-        io = PDBIO()
-        self.p = PDBParser()
-        # sequence of aa 
-        self.seq = self.p.get_structure(self.pdbin, clean_pdb_file)
+    def get_coord(self):
+        protein_pdb = PandasPdb().fetch_pdb('3eiy')
+        protein_pdb = protein_pdb.df['ATOM']
 
-        pdb_chain_file = pdbs.get_path(self.pdbin, self.chain_id)
-
-        # split pdb for different chains (items)
-        io.set_structure(self.seq)
-
-        io.save(pdb_chain_file, ChainSelect(self.chain_id))
-        self.chain = self.p.get_structure(self.pdbin + '_' + self.chain_id, pdb_chain_file)
-
-        # save coordinates in zeros.matrix of num_linesX3 dimension
-        self.num_lines = sum(1 for line in open(pdb_chain_file))
-        for line in open(pdb_chain_file):
-            if line.find("ATOM") == -1:
-                self.num_lines -= 1
-        self.coordinates = np.zeros((self.num_lines, 3), dtype=np.float)
-        for model in self.chain:
-            for chain in model:
-                count = 0
-                for residue in chain:
-                    for atom in residue:
-                        cd = atom.get_coord()
-                        self.coordinates[count][0] = cd[0]
-                        self.coordinates[count][1] = cd[1]
-                        self.coordinates[count][2] = cd[2]
-                        count += 1
-
-    ############ TODO 
-    ### define weigth array with specific weigths for atoms that need special importance (active site...) when parsed in the grid
-    def atom_weigth(self):
-        pass
+        self.chain = protein_pdb.chain_id.tolist()
+        self.coordinates = protein_pdb.ix[:, ['chain_id', 'x_coord', 'y_coord', 'z_Coord']]
 
     # get protein biological IDs from databases
     def get_ids(self):
 
         # get uniprot Id from PDB
+        result = uniprot_id_call(self.pdbin)
+        uniprot_id = result['dasalignment']['alignment'][1]['alignObject'][1]['@dbAccessionId']
+
         tree1 = ET.ElementTree(file=urllib.request.urlopen(
             'http://www.rcsb.org/pdb/rest/das/pdb_uniprot_mapping/alignment?query=' + self.pdbin))
         root = tree1.getroot()
@@ -290,7 +260,7 @@ class Protein():
     def model_prot(self):
         # input aa_seq from uniprot and aa_seq from chain in pdb file 
         print(
-        "1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
+            "1. Get seq of the protein \n2. Find other seqs similar \n3. Find structures \n3.a. Build modell \n3.b.1. Predict secondary structure in gap \n3.b.2. Build modell by secondary structure prediction")
 
 
 # protein pdb cleaner (BioPython)
@@ -381,4 +351,3 @@ class ProteinComplex(ComplexStructure):
             myprot.prot_color()
             myprot.get_coord(self.clean_pdb_file)
             self.items.append(myprot)
-
