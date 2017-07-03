@@ -1,14 +1,12 @@
-################
-################ define features of CellcraftGrid()
-################
-
-import numpy as np
+"""
+define features of CellcraftGrid()
+"""
 import os
 from collections import OrderedDict
 import pickle
 from cellcraft.config import PATH_CACHE
-from cellcraft.builders.protein import ProteinComplex
-from cellcraft.builders.cellpack import ProteinComplexX3d
+# from cellcraft.builders.protein import get_cellpack_complex
+from cellcraft.builders.complex import get_complex_from_source
 import logging
 
 
@@ -48,24 +46,22 @@ class CellcraftGridStore():
         return self.cache_dir + file_name + '.pkl'
 
 
-cgs = CellcraftGridStore()
-
-
-def get_complex(mode, name, blocksize, threshold, usecache):
+def get_complex(mode, name, theta, blocksize, threshold, usecache, path=PATH_CACHE):
     # check for complex in cache
-    cached = cgs.check_if_in_cache(mode=mode, name=name, blocksize=blocksize, threshold=threshold)
+    cgs = CellcraftGridStore(path)
+    cached = cgs.check_if_in_cache(
+        mode=mode, name=name, theta=theta, blocksize=blocksize, threshold=threshold)
     if cached and usecache:
-        bio_complex = cgs.get_from_cache(mode=mode, name=name, blocksize=blocksize, threshold=threshold)
+        bio_complex = cgs.get_from_cache(
+            mode=mode, name=name, theta=theta, blocksize=blocksize, threshold=threshold)
         logging.info("The structure {} was correctly loaded from store.".format(name))
     else:
-        if mode == 'cellpack':
-            bio_complex = ProteinComplexX3d(name, blocksize, threshold)
-            logging.info("The cellpack {} was correctly loaded from source.".format(name))
-        elif mode == 'pdb':
-            bio_complex = ProteinComplex(name, blocksize, threshold)
-            logging.info("The pdb {} was correctly loaded from source.".format(name))
-        else:
-            raise ValueError('Unknown mode: {}'.format(mode))
-        cgs.put_on_cache(bio_complex, mode=mode, name=name, blocksize=blocksize, threshold=threshold)
+        bio_complex = get_complex_from_source(mode, name, theta, blocksize, threshold, usecache)
+        cgs.put_on_cache(
+            bio_complex, mode=mode, name=name, theta=theta, blocksize=blocksize, 
+            threshold=threshold)
         logging.info("The structure {} was correctly stored.".format(name))
     return bio_complex
+
+
+

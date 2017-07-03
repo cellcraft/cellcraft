@@ -25,9 +25,12 @@ for t, n in zip(textures, names):
 
 # path to cache where pickle files will be stored
 PATH_CACHE='cellcraft/cache/'
+PATH_TEST_CACHE='test/fixtures/cache/'
 
 # database name to store biological information and coordinates of structures
 DB='cellcraft'
+TEST_DB='test'
+
 
 current_env = os.environ.get('app_env')
 root_logger = logging.getLogger()
