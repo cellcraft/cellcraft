@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import numpy as np
 import wget
 from Bio.PDB.Polypeptide import PPBuilder
-from Bio.PDB import PDBIO, PDBParser, Select
+from Bio.PDB import PDBIO, PDBParser, Select, MMCIFParser
 from pymongo import MongoClient
 from cellcraft.config import text, col
 from cellcraft.builders.complex_structure import ComplexStructure

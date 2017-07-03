@@ -24,22 +24,25 @@ for t, n in zip(textures, names):
     text[t].append(n)
 
 # path to cache where pickle files will be stored
-PATH_CACHE = 'cellcraft/cache/'
+PATH_CACHE='cellcraft/cache/'
+
+# database name to store biological information and coordinates of structures
+DB='cellcraft'
 
 current_env = os.environ.get('app_env')
 root_logger = logging.getLogger()
 
-current_env = 'dev'
+current_env = 'test'
 
-if current_env == 'live':
-    APP_HOST = '127.0.0.1'
-    APP_PORT = 5000  # TODO
+if current_env == 'cellcraft':
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 27017
     root_logger.setLevel(logging.INFO)
 
 
-elif current_env == 'dev':
-    APP_HOST = '127.0.0.1'
-    APP_PORT = 5000
+elif current_env == 'test':
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 27017
     root_logger.setLevel(logging.DEBUG)
 
 else:

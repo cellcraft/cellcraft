@@ -19,6 +19,8 @@ docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_2701
 db.createUser({ user: 'admin', pwd: 'admin', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
 docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/cellcraft"'
 db.createUser({ user: "cellcraft", pwd: "cellcraft", roles: [{role: "readWrite", db: "cellcraft"}]});
+docker run -it --link mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/test"'
+db.createUser({ user: "test", pwd: "test", roles: [{role: "readWrite", db: "test"}]});
 ```
 
 * Check if user and was correctly created

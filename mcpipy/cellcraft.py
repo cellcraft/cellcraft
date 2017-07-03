@@ -2,7 +2,7 @@ import numpy as np
 import argparse
 import logging
 from mcpi.block import Block
-#from cellcraft.connectors.minecraft_server import minecraft_connector
+from cellcraft.connectors.minecraft_server import minecraft_connector
 from cellcraft.builders.item import get_complex
 
 
@@ -20,7 +20,6 @@ def main(args):
     except:
         logging.exception("Error loading structure.")
         raise
-    import ipdb; ipdb.set_trace()
 
     try:
         minecraft_conn, minecraft_player_coordinates = minecraft_connector()
