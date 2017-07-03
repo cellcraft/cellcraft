@@ -2,7 +2,7 @@ import numpy as np
 import argparse
 import logging
 from mcpi.block import Block
-from cellcraft.connectors.minecraft_server import minecraft_connector
+#from cellcraft.connectors.minecraft_server import minecraft_connector
 from cellcraft.builders.item import get_complex
 
 
@@ -16,10 +16,11 @@ def main(args):
 
     try:
         # Extract the grid, colors and biological information from given structure
-        complex = get_complex(args.mode, args.name, args.size, args.threshold, args.usecache)
+        bio_complex = get_complex(args.mode, args.name, args.size, args.threshold, args.usecache)
     except:
         logging.exception("Error loading structure.")
         raise
+    import ipdb; ipdb.set_trace()
 
     try:
         minecraft_conn, minecraft_player_coordinates = minecraft_connector()
@@ -35,7 +36,7 @@ def main(args):
             swap = False
         elif args.mode == 'pdb':
             swap = True
-        add_numpy_array(minecraft_conn, complex.grid, complex_coordinates, complex.color, complex.texture,
+        add_numpy_array(minecraft_conn, bio_complex.grid, complex_coordinates, bio_complex.color, bio_complex.texture,
                         swap=swap)
     except:
         logging.exception("Error putting structures.")

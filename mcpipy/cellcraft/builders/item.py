@@ -19,7 +19,7 @@ class CellcraftGridStore():
     def check_if_in_cache(self, **keys):
         file_name = self.create_file_name(**keys)
         path = self.get_path_to_cache(file_name)
-        os.path.isfile(path)
+        return os.path.isfile(path)
 
     def get_from_cache(self, **keys):
         file_name = self.create_file_name(**keys)
@@ -27,8 +27,8 @@ class CellcraftGridStore():
 
     def _get_from_cache(self, file_name):
         path = self.get_path_to_cache(file_name)
-        with open(path, 'r') as f:
-            pickle.load(f)
+        with open(path, 'rb') as f:
+            return pickle.load(f)
 
     def put_on_cache(self, obj, **keys):
         file_name = self.create_file_name(**keys)
@@ -36,8 +36,8 @@ class CellcraftGridStore():
 
     def _put_on_cache(self, obj, file_name):
         path = self.get_path_to_cache(file_name)
-        with open(path, 'w') as f:
-            pickle.dumbs(obj, f)
+        with open(path, 'wb') as f:
+            pickle.dump(obj, f)
 
     def create_file_name(self, **keys):
         keys = OrderedDict(sorted(keys.items(), key=lambda t: t[0]))
@@ -55,17 +55,17 @@ def get_complex(mode, name, blocksize, threshold, usecache):
     # check for complex in cache
     cached = cgs.check_if_in_cache(mode=mode, name=name, blocksize=blocksize, threshold=threshold)
     if cached and usecache:
-        complex = cgs.get_from_cache(mode=mode, name=name, blocksize=blocksize, threshold=threshold)
+        bio_complex = cgs.get_from_cache(mode=mode, name=name, blocksize=blocksize, threshold=threshold)
         logging.info("The structure {} was correctly loaded from store.".format(name))
     else:
         if mode == 'cellpack':
-            complex = ProteinComplexX3d(name, blocksize, threshold)
+            bio_complex = ProteinComplexX3d(name, blocksize, threshold)
             logging.info("The cellpack {} was correctly loaded from source.".format(name))
         elif mode == 'pdb':
-            complex = ProteinComplex(name, blocksize, threshold)
+            bio_complex = ProteinComplex(name, blocksize, threshold)
             logging.info("The pdb {} was correctly loaded from source.".format(name))
         else:
             raise ValueError('Unknown mode: {}'.format(mode))
-        cgs.put_on_cache(complex, mode=mode, name=name, blocksize=blocksize, threshold=threshold)
+        cgs.put_on_cache(bio_complex, mode=mode, name=name, blocksize=blocksize, threshold=threshold)
         logging.info("The structure {} was correctly stored.".format(name))
-    return complex
+    return bio_complex

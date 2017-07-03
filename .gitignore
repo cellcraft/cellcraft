@@ -5,6 +5,7 @@
 *.pdf
 *.pkl
 *.bson
+*.x3d
 *.ipynb_checkpoints
 *.ipynb
 *.jar

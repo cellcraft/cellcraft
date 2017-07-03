@@ -12,7 +12,9 @@ from Bio.PDB import PDBIO, PDBParser, Select
 from pymongo import MongoClient
 from cellcraft.config import text, col
 from cellcraft.builders.complex_structure import ComplexStructure
+from cellcraft.connectors.db_connectors import PDBStore
 
+pdbs = PDBStore()
 
 
 # Define features of each item in ProteinComplex and
@@ -20,7 +22,7 @@ class Protein():
     # define potein biological info from scientific databases
     def __init__(self, pid, pdbin, chain_id, gos, entrez_ids, ensembl_ids, ECs, kopath_ids, kpathways, dbname,
                  gobioproc, gomolefunt, gocellcomp):
-        self.pid = pid
+        self.id = pid
         self.pdbin = pdbin
         self.chain_id = chain_id
         self.gos = gos
@@ -35,32 +37,35 @@ class Protein():
         self.gocellcomp = gocellcomp
 
     # get coordinates out of pdb
-    def get_coord(self):
+    def get_coord(self, clean_pdb_file):
         io = PDBIO()
         self.p = PDBParser()
         # sequence of aa 
-        self.seq = self.p.get_structure(self.pdbin, 'clean_' + self.pdbin + '.pdb')
+        self.seq = self.p.get_structure(self.pdbin, clean_pdb_file)
+
+        pdb_chain_file = pdbs.get_path(self.pdbin, self.chain_id)
 
         # split pdb for different chains (items)
         io.set_structure(self.seq)
-        io.save(self.pdbin + '_' + self.chain_id + '.pdb', ChainSelect(self.chain_id))
-        self.chain = self.p.get_structure(self.pdbin + '_' + self.chain_id, self.pdbin + '_' + self.chain_id + '.pdb')
+
+        io.save(pdb_chain_file, ChainSelect(self.chain_id))
+        self.chain = self.p.get_structure(self.pdbin + '_' + self.chain_id, pdb_chain_file)
 
         # save coordinates in zeros.matrix of num_linesX3 dimension
-        self.num_lines = sum(1 for line in open(self.pdbin + '_' + self.chain_id + '.pdb'))
-        for line in open(self.pdbin + '_' + self.chain_id + '.pdb'):
+        self.num_lines = sum(1 for line in open(pdb_chain_file))
+        for line in open(pdb_chain_file):
             if line.find("ATOM") == -1:
                 self.num_lines -= 1
-        self.coord = np.zeros((self.num_lines, 3), dtype=np.float)
+        self.coordinates = np.zeros((self.num_lines, 3), dtype=np.float)
         for model in self.chain:
             for chain in model:
                 count = 0
                 for residue in chain:
                     for atom in residue:
                         cd = atom.get_coord()
-                        self.coord[count][0] = cd[0]
-                        self.coord[count][1] = cd[1]
-                        self.coord[count][2] = cd[2]
+                        self.coordinates[count][0] = cd[0]
+                        self.coordinates[count][1] = cd[1]
+                        self.coordinates[count][2] = cd[2]
                         count += 1
 
     ############ TODO 
@@ -244,7 +249,7 @@ class Protein():
         client = MongoClient()
         self.db = client[self.dbname]
         protein = self.db['protein']
-        self.pid = self.db.protein.insert({
+        self.id = self.db.protein.insert({
             'pdbid': self.pdbin,
             'uniprotid': self.uniprot_id,
             'organism': self.org,
@@ -304,7 +309,7 @@ class ProteinComplex(ComplexStructure):
         if os.path.isfile(pdbin + ".pdb"):
             pass
         else:
-            self.get_PDB()
+            self.get_pdb()
         print('Clean PDB.')
         self.clean_pdb()
         print('Split Complex.')
@@ -312,33 +317,30 @@ class ProteinComplex(ComplexStructure):
         print('Load additional Info.')
         self.load_chain_info()
         print('Make Grid.')
-        self.textures = {p.pid: p.texture for p in self.items}
-        self.colors = {p.pid: p.color for p in self.items}
-        self.grids = self.create_grid_from_items(blocksize, threshold)
+        self.textures = {p.id: p.texture for p in self.items}
+        self.colors = {p.id: p.color for p in self.items}
+        self.grid = self.create_grid_from_items(blocksize, threshold)
 
     # get pdb file from PDB database when not available in working directory
     def get_pdb(self):
-        self.pdbin = self.pdbin.lower()
-        pdb = 'http://www.rcsb.org/pdb/files/' + self.pdbin + '.pdb'
-        print(pdb)
-        h = wget.download(pdb, bar=None)
+        self.pdb_file = pdbs.get_pdb(self.pdbin)
 
     # clean the pdb file from database
     def clean_pdb(self):
         # get only the chains from pdb
         self.p = PDBParser()
-        self.seq = self.p.get_structure(self.pdbin, self.pdbin + ".pdb")
+        self.seq = self.p.get_structure(self.pdbin, self.pdb_file)
         # clean the heteroatoms from pdb and save pdb as "clean_pdbid.pdb"
         io = PDBIO()
         io.set_structure(self.seq)
-        io.save('clean_' + self.pdbin + '.pdb', NonHetSelect())
+        self.clean_pdb_file = pdbs.get_path(self.pdbin, 'clean')
+        io.save(self.clean_pdb_file, NonHetSelect())
 
     # if several chains in the pdb file, split them
     def split_complex(self):
         # get list of chains in pdb
         ppd = PPBuilder()
         chs = defaultdict(list)
-        fil = open(self.pdbin + '.fa', 'w')
         for pp in ppd.build_peptides(self.seq):
             for model in pp:
                 for chain in model:
@@ -346,12 +348,13 @@ class ProteinComplex(ComplexStructure):
                     ch = c[2]
             a = pp.get_sequence()
             chs[ch].append(a)
-        self.chains = chs.keys()
+        self.chains = list(chs.keys())
 
     # load data for each chain going through Protein()
     def load_chain_info(self):
         self.items = []
-        for pid, chain in enumerate(self.chains):
+        for i, chain in enumerate(self.chains):
+            pid = i + 1
             gos = []
             entrez_ids = []
             ensembl_ids = []
@@ -365,6 +368,6 @@ class ProteinComplex(ComplexStructure):
                              kpathways, 'try', gobioproc, gomolefunt, gocellcomp)
             myprot.get_ids()
             myprot.prot_color()
-            myprot.get_coord()
+            myprot.get_coord(self.clean_pdb_file)
             self.items.append(myprot)
 

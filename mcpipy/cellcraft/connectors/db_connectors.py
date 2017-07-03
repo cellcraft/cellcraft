@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import os
 import urllib
+import ssl
 
 
 # create a DB/collection
@@ -27,10 +28,9 @@ def insert_structure_into_mongodb():
     mdb = MongoDB()
 
 
-
-def open_filestream(filename):
-    with open(filename, 'r') as fn:
-        return fn
+# def open_filestream(filename):
+#     with open(filename, 'r') as fn:
+#         return fn
 
 
 def save_file(obj, filename):
@@ -39,23 +39,25 @@ def save_file(obj, filename):
 
 
 class PDBStore():
-    def __init__():
-        self.pdb_store = 'cellcraft/pdb/'
+    def __init__(self, pdb_store='cellcraft/pdb/'):
+        self.pdb_store = pdb_store
 
     def get_pdb(self, pdb_id):
         pdb_id = pdb_id.lower()
-        local_pdb = self.pdb_store + pdb_id + '.pdb'
-        if os.path.isfile(local_pdb):
-            pdb_s = open_filestream(local_pdb)
-        else:
-            pdb_s = protein_data_bank_connector(pdb_id)
+        local_pdb = os.path.join(self.pdb_store, pdb_id + '.pdb')
+        if not os.path.isfile(local_pdb):
+            pdb_s = protein_data_bank_connector(pdb_id, local_pdb)
             save_file(pdb_s, local_pdb)
-        return pdb_s
+        return local_pdb
+
+    def get_path(self, pdb_id, version):
+        return os.path.join(self.pdb_store, '{}_{}.pdb'.format(pdb_id, version))
 
 
-def protein_data_bank_connector(pdb_id):
-    link = 'http://www.rcsb.org/pdb/files/' + pdb_id + '.pdb'
-    return urllib.request.urlopen(link)
+def protein_data_bank_connector(pdb_id, path):
+    context = ssl._create_unverified_context()
+    link = 'https://www.rcsb.org/pdb/files/' + pdb_id + '.pdb'
+    return urllib.request.urlopen(link, context=context).read().decode('utf-8')
 
 
 def kegg_connector(kegg_id):

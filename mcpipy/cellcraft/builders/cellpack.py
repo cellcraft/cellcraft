@@ -10,11 +10,11 @@ import numpy as np
 import pandas as pd
 from cellcraft.builders.complex_structure import ComplexStructure
 
-default_dir = 'x3d/'
+default_dir = 'cellcraft/cellpack/'
 
 
 class SimpleProtein():
-    def __init__(coordinates, color, texture, id):
+    def __init__(self, coordinates, color, texture, id):
         self.coordinates = coordinates
         self.color = color
         self.texture = texture
@@ -25,8 +25,8 @@ class ProteinComplexX3d(ComplexStructure):
     def __init__(self, name, threshold, blocksize):
         self.x3d_file = name
         self.parse_file()
-        self.textures = {p.pid: p.texture for p in self.items}
-        self.colors = {p.pid: p.color for p in self.items}
+        self.textures = {p.id: p.texture for p in self.items}
+        self.colors = {p.id: p.color for p in self.items}
         self.grid = self.create_grid_from_items(blocksize, threshold)
 
     ################ TODO
@@ -43,7 +43,7 @@ class ProteinComplexX3d(ComplexStructure):
         self.items = []
         for transform in transforms:
             MetadataString = transform.find('MetadataString')
-            if MetadataString:
+            if not MetadataString == None:
                 # MetadataString = MetadataString.attrib['value'].split('_')
                 row = df.iloc[i]
 
@@ -69,7 +69,7 @@ class ProteinComplexX3d(ComplexStructure):
 
                     more_points = (vecs / mags[..., np.newaxis] * radius) + mean
                     all_points.append(more_points)
-                self.items.apend(SimpleProtein(
+                self.items.append(SimpleProtein(
                     coordinates=np.concatenate(all_points),
                     color=int(row.color),
                     texture=int(row.texture),
