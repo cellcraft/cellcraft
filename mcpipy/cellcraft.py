@@ -35,7 +35,7 @@ def main(args):
             swap = False
         elif args.mode == 'pdb':
             swap = True
-        add_numpy_array(minecraft_conn, bio_complex.grid, complex_coordinates, bio_complex.color, bio_complex.texture,
+        add_numpy_array(minecraft_conn, bio_complex.grid, complex_coordinates, bio_complex.colors, bio_complex.textures,
                         swap=swap)
     except:
         logging.exception("Error putting structures.")
@@ -43,7 +43,7 @@ def main(args):
 
 
 # TODO: define this method more clearly and maybe move it to builders
-def add_numpy_array(minecraft_conn, complex_grid, complex_coordinates, colors, texture, swap):
+def add_numpy_array(minecraft_conn, complex_grid, complex_coordinates, colors, textures, swap):
     """
 
     :param minecraft_conn:
@@ -62,11 +62,11 @@ def add_numpy_array(minecraft_conn, complex_grid, complex_coordinates, colors, t
                 height = complex_grid.shape[2]
                 minecraft_conn.setBlock(complex_coordinates[0] + x, complex_coordinates[1] + (height - z),
                                         complex_coordinates[2] + y,
-                                        Block(texture[int(iterator[0])], colors[int(iterator[0])]))
+                                        Block(int(textures[int(iterator[0])]), colors[int(iterator[0])]))
             else:
                 minecraft_conn.setBlock(complex_coordinates[0] + x, complex_coordinates[1] + y,
                                         complex_coordinates[2] + z,
-                                        Block(texture[int(iterator[0])], colors[int(iterator[0])]))
+                                        Block(int(textures[int(iterator[0])]), colors[int(iterator[0])]))
         iterator.iternext()
 
 
