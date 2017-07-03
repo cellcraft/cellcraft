@@ -42,7 +42,7 @@ def uniprot_id_call(pdb_id):
     result = urllib.request.urlopen(url)
 
     if result.getcode() != 200:
-        raise ValueError("Can not connect with the Protein Data Bank")
+        raise ValueError("Can not connect to the Protein Data Bank")
 
     str_result = result.read().decode('utf8').replace("'", '"')
     dict_result = xmltodict.parse(str_result)
@@ -58,7 +58,7 @@ def uniprot_connector(uniprot_id):
     result = urllib.request.urlopen(url)
 
     if result.getcode() != 200:
-        raise ValueError("Can not connect with the Protein Data Bank")
+        raise ValueError("Can not connect to UniProt")
 
     str_result = result.read().decode('utf8').replace("'", '"')
     uniprot_rows = [x.split(";") for x in str_result.split("\n") if len(re.findall("^DR", x)) > 0]
@@ -73,6 +73,6 @@ def kegg_connector(kegg_id):
     result = urllib.request.urlopen(url)
 
     if result.getcode() != 200:
-        raise ValueError("Can not connect with the Protein Data Bank")
+        raise ValueError("Can not connect to KEGG database")
 
     return result
