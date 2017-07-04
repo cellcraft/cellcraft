@@ -17,6 +17,17 @@ from cellcraft.connectors.db_connectors import PDBStore
 pdbs = PDBStore()
 
 
+def get_pdb_complex(name, theta, blocksize, threshold):
+    coor_df, item_info = get_pdb_items(name)
+
+    # coor_df dataframe with 'x_coord', 'y_coord', 'z_coord' and integer id column
+    # dict {chain id int: {'texture': int, 'color': int}}
+
+    bin_count_df = create_bins_from_coordinates(
+        coor_df, theta, blocksize, threshold, id_column='integer id column')
+    return bin_count_df, item_info
+
+
 # Define features of each item in ProteinComplex and
 class Protein():
     # define potein biological info from scientific databases
