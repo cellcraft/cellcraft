@@ -1,0 +1,717 @@
+ID   KAPCA_MOUSE             Reviewed;         351 AA.
+AC   P05132; Q9JID0;
+DT   13-AUG-1987, integrated into UniProtKB/Swiss-Prot.
+DT   23-JAN-2007, sequence version 3.
+DT   07-JUN-2017, entry version 211.
+DE   RecName: Full=cAMP-dependent protein kinase catalytic subunit alpha;
+DE            Short=PKA C-alpha;
+DE            EC=2.7.11.11;
+GN   Name=Prkaca; Synonyms=Pkaca;
+OS   Mus musculus (Mouse).
+OC   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+OC   Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha;
+OC   Muroidea; Muridae; Murinae; Mus; Mus.
+OX   NCBI_TaxID=10090;
+RN   [1]
+RP   NUCLEOTIDE SEQUENCE [GENOMIC DNA] (ISOFORM 1).
+RX   PubMed=2833513;
+RA   Chrivia J.C., Uhler M.D., McKnight G.S.;
+RT   "Characterization of genomic clones coding for the C alpha and C beta
+RT   subunits of mouse cAMP-dependent protein kinase.";
+RL   J. Biol. Chem. 263:5739-5744(1988).
+RN   [2]
+RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORM 1).
+RX   PubMed=3456589; DOI=10.1073/pnas.83.5.1300;
+RA   Uhler M.D., Carmichael D.F., Lee D.C., Chrivia J.C., Krebs E.G.,
+RA   McKnight G.S.;
+RT   "Isolation of cDNA clones coding for the catalytic subunit of mouse
+RT   cAMP-dependent protein kinase.";
+RL   Proc. Natl. Acad. Sci. U.S.A. 83:1300-1304(1986).
+RN   [3]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORM 1).
+RC   STRAIN=FVB/N-3; TISSUE=Mammary tumor;
+RX   PubMed=15489334; DOI=10.1101/gr.2596504;
+RG   The MGC Project Team;
+RT   "The status, quality, and expansion of the NIH full-length cDNA
+RT   project: the Mammalian Gene Collection (MGC).";
+RL   Genome Res. 14:2121-2127(2004).
+RN   [4]
+RP   NUCLEOTIDE SEQUENCE [MRNA] OF 1-153 (ISOFORM 2).
+RC   TISSUE=Testis;
+RX   PubMed=10982398; DOI=10.1091/mbc.11.9.3031;
+RA   San Agustin J.T., Wilkerson C.G., Witman G.B.;
+RT   "The unique catalytic subunit of sperm cAMP-dependent protein kinase
+RT   is the product of an alternative C-alpha mRNA expressed specifically
+RT   in spermatogenic cells.";
+RL   Mol. Biol. Cell 11:3031-3044(2000).
+RN   [5]
+RP   PHOSPHORYLATION AT SER-11; SER-140; THR-198 AND SER-339.
+RX   PubMed=8395513;
+RA   Yonemoto W., Garrod S.M., Bell S.M., Taylor S.S.;
+RT   "Identification of phosphorylation sites in the recombinant catalytic
+RT   subunit of cAMP-dependent protein kinase.";
+RL   J. Biol. Chem. 268:18626-18632(1993).
+RN   [6]
+RP   PHOSPHORYLATION AT THR-198 BY PDPK1.
+RX   PubMed=9707564; DOI=10.1073/pnas.95.17.9849;
+RA   Cheng X., Ma Y., Moore M., Hemmings B.A., Taylor S.S.;
+RT   "Phosphorylation and activation of cAMP-dependent protein kinase by
+RT   phosphoinositide-dependent protein kinase.";
+RL   Proc. Natl. Acad. Sci. U.S.A. 95:9849-9854(1998).
+RN   [7]
+RP   MYRISTOYLATION AT GLY-2, PHOSPHORYLATION AT SER-11, AND DEAMIDATION AT
+RP   ASN-3.
+RX   PubMed=11141074; DOI=10.1021/bi0021277;
+RA   Tholey A., Pipkorn R., Bossemeyer D., Kinzel V., Reed J.;
+RT   "Influence of myristoylation, phosphorylation, and deamidation on the
+RT   structural behavior of the N-terminus of the catalytic subunit of
+RT   cAMP-dependent protein kinase.";
+RL   Biochemistry 40:225-231(2001).
+RN   [8]
+RP   DISRUPTION PHENOTYPE.
+RX   PubMed=11875122; DOI=10.1210/mend.16.3.0793;
+RA   Skaalhegg B.S., Huang Y., Su T., Idzerda R.L., McKnight G.S.,
+RA   Burton K.A.;
+RT   "Mutation of the Calpha subunit of PKA leads to growth retardation and
+RT   sperm dysfunction.";
+RL   Mol. Endocrinol. 16:630-639(2002).
+RN   [9]
+RP   FUNCTION IN SPERMATOZOA CAPACITATION (ISOFORM 2), AND TISSUE
+RP   SPECIFICITY (ISOFORM 2).
+RX   PubMed=15340140; DOI=10.1073/pnas.0405580101;
+RA   Nolan M.A., Babcock D.F., Wennemuth G., Brown W., Burton K.A.,
+RA   McKnight G.S.;
+RT   "Sperm-specific protein kinase A catalytic subunit Calpha2
+RT   orchestrates cAMP signaling for male fertility.";
+RL   Proc. Natl. Acad. Sci. U.S.A. 101:13483-13488(2004).
+RN   [10]
+RP   SUBCELLULAR LOCATION, AND DEVELOPMENTAL STAGE.
+RX   PubMed=18367160; DOI=10.1016/j.ydbio.2008.01.045;
+RA   Webb R.J., Tinworth L., Thomas G.M., Zaccolo M., Carroll J.;
+RT   "Developmentally acquired PKA localisation in mouse oocytes and
+RT   embryos.";
+RL   Dev. Biol. 317:36-45(2008).
+RN   [11]
+RP   FUNCTION IN MEIOSIS RESUMPTION, FUNCTION AS CDC25B KINASE, AND
+RP   INTERACTION WITH CDC25B.
+RX   PubMed=19223768; DOI=10.4161/cc.8.4.7846;
+RA   Pirino G., Wescott M.P., Donovan P.J.;
+RT   "Protein kinase A regulates resumption of meiosis by phosphorylation
+RT   of Cdc25B in mammalian oocytes.";
+RL   Cell Cycle 8:665-670(2009).
+RN   [12]
+RP   FUNCTION IN SPERMATOZOA CAPACITATION, FUNCTION AS ABL1 KINASE, AND
+RP   INTERACTION WITH ABL1.
+RX   PubMed=19560455; DOI=10.1016/j.ydbio.2009.06.022;
+RA   Baker M.A., Hetherington L., Curry B., Aitken R.J.;
+RT   "Phosphorylation and consequent stimulation of the tyrosine kinase c-
+RT   Abl by PKA in mouse spermatozoa; its implications during
+RT   capacitation.";
+RL   Dev. Biol. 333:57-66(2009).
+RN   [13]
+RP   IDENTIFICATION BY MASS SPECTROMETRY [LARGE SCALE ANALYSIS].
+RC   TISSUE=Brain, Brown adipose tissue, Heart, Kidney, Liver, Lung,
+RC   Pancreas, Spleen, and Testis;
+RX   PubMed=21183079; DOI=10.1016/j.cell.2010.12.001;
+RA   Huttlin E.L., Jedrychowski M.P., Elias J.E., Goswami T., Rad R.,
+RA   Beausoleil S.A., Villen J., Haas W., Sowa M.E., Gygi S.P.;
+RT   "A tissue-specific atlas of mouse protein phosphorylation and
+RT   expression.";
+RL   Cell 143:1174-1189(2010).
+RN   [14]
+RP   PHOSPHORYLATION AT TYR-331.
+RX   PubMed=21866565; DOI=10.1002/jcb.23325;
+RA   Caldwell G.B., Howe A.K., Nickl C.K., Dostmann W.R., Ballif B.A.,
+RA   Deming P.B.;
+RT   "Direct modulation of the protein kinase A catalytic subunit alpha by
+RT   growth factor receptor tyrosine kinases.";
+RL   J. Cell. Biochem. 113:39-48(2012).
+RN   [15]
+RP   IDENTIFICATION IN A COMPLEX WITH MROH2B AND TCP11, INTERACTION WITH
+RP   MROH2B AND TCP11, AND SUBCELLULAR LOCATION.
+RX   PubMed=27105888; DOI=10.1096/fj.201500136R;
+RA   Stanger S.J., Law E.A., Jamsai D., O"Bryan M.K., Nixon B.,
+RA   McLaughlin E.A., Aitken R.J., Roman S.D.;
+RT   "A novel germ cell protein, SPIF (sperm PKA interacting factor), is
+RT   essential for the formation of a PKA/TCP11 complex that undergoes
+RT   conformational and phosphorylation changes upon capacitation.";
+RL   FASEB J. 30:2777-2791(2016).
+RN   [16]
+RP   X-RAY CRYSTALLOGRAPHY (2.7 ANGSTROMS).
+RX   PubMed=1862342; DOI=10.1126/science.1862342;
+RA   Knighton D.R., Zheng J., ten Eyck L.F., Ashford V.A., Xuong N.-H.,
+RA   Taylor S.S., Sowadski J.M.;
+RT   "Crystal structure of the catalytic subunit of cyclic adenosine
+RT   monophosphate-dependent protein kinase.";
+RL   Science 253:407-414(1991).
+RN   [17]
+RP   X-RAY CRYSTALLOGRAPHY (2.7 ANGSTROMS) OF COMPLEX WITH INHIBITOR.
+RX   PubMed=8443157; DOI=10.1021/bi00060a005;
+RA   Zheng J., Knighton D.R., ten Eyck L.F., Karlsson R., Xuong N.-H.,
+RA   Taylor S.S., Sowadski J.M.;
+RT   "Crystal structure of the catalytic subunit of cAMP-dependent protein
+RT   kinase complexed with MgATP and peptide inhibitor.";
+RL   Biochemistry 32:2154-2161(1993).
+RN   [18]
+RP   X-RAY CRYSTALLOGRAPHY (2.2 ANGSTROMS) OF COMPLEX WITH INHIBITOR.
+RX   PubMed=9109651; DOI=10.1021/bi961947+;
+RA   Narayana N., Cox S., Shaltiel S., Taylor S.S., Xuong N.;
+RT   "Crystal structure of a polyhistidine-tagged recombinant catalytic
+RT   subunit of cAMP-dependent protein kinase complexed with the peptide
+RT   inhibitor PKI(5-24) and adenosine.";
+RL   Biochemistry 36:4438-4448(1997).
+RN   [19]
+RP   X-RAY CRYSTALLOGRAPHY (2.6 ANGSTROMS).
+RX   PubMed=9261084; DOI=10.1016/S0969-2126(97)00246-3;
+RA   Narayana N., Cox S., Nguyen-Huu X., ten Eyck L.F., Taylor S.S.;
+RT   "A binary complex of the catalytic subunit of cAMP-dependent protein
+RT   kinase and adenosine further defines conformational flexibility.";
+RL   Structure 5:921-935(1997).
+RN   [20]
+RP   X-RAY CRYSTALLOGRAPHY (2.20 ANGSTROMS) IN COMPLEX WITH ATP ANALOG.
+RX   PubMed=17889648; DOI=10.1016/j.cell.2007.07.018;
+RA   Kim C., Cheng C.Y., Saldanha S.A., Taylor S.S.;
+RT   "PKA-I holoenzyme structure reveals a mechanism for cAMP-dependent
+RT   activation.";
+RL   Cell 130:1032-1043(2007).
+RN   [21]
+RP   X-RAY CRYSTALLOGRAPHY (2.50 ANGSTROMS).
+RX   PubMed=17932298; DOI=10.1126/science.1146447;
+RA   Wu J., Brown S.H., von Daake S., Taylor S.S.;
+RT   "PKA type IIalpha holoenzyme reveals a combinatorial strategy for
+RT   isoform diversity.";
+RL   Science 318:274-279(2007).
+RN   [22]
+RP   X-RAY CRYSTALLOGRAPHY (2.50 ANGSTROMS) IN COMPLEX WITH ADP, SUBUNIT,
+RP   AND MUTAGENESIS OF LYS-286 AND PHE-328.
+RX   PubMed=19122195; DOI=10.1074/jbc.M805862200;
+RA   Yang J., Kennedy E.J., Wu J., Deal M.S., Pennypacker J., Ghosh G.,
+RA   Taylor S.S.;
+RT   "Contribution of non-catalytic core residues to activity and
+RT   regulation in protein kinase A.";
+RL   J. Biol. Chem. 284:6241-6248(2009).
+RN   [23]
+RP   X-RAY CRYSTALLOGRAPHY (1.62 ANGSTROMS) IN COMPLEX WITH ATP ANALOGS.
+RX   PubMed=19748511; DOI=10.1016/j.jmb.2009.09.014;
+RA   Brown S.H.J., Wu J., Kim C., Alberto K., Taylor S.S.;
+RT   "Novel isoform-specific interfaces revealed by PKA RIIbeta holoenzyme
+RT   structures.";
+RL   J. Mol. Biol. 393:1070-1082(2009).
+RN   [24]
+RP   X-RAY CRYSTALLOGRAPHY (2.80 ANGSTROMS) IN COMPLEX WITH ATP ANALOG AND
+RP   SUBSTRATE PEPTIDE, AND ENZYME REGULATION.
+RX   PubMed=20890288; DOI=10.1038/nchembio.452;
+RA   Masterson L.R., Cheng C., Yu T., Tonelli M., Kornev A., Taylor S.S.,
+RA   Veglia G.;
+RT   "Dynamics connect substrate recognition to catalysis in protein kinase
+RT   A.";
+RL   Nat. Chem. Biol. 6:821-828(2010).
+RN   [25]
+RP   X-RAY CRYSTALLOGRAPHY (2.3 ANGSTROMS) OF 2-351 IN COMPLEX WITH
+RP   PRKAR2B, SUBUNIT, AND PHOSPHORYLATION AT SER-140 AND THR-198.
+RX   PubMed=22323819; DOI=10.1126/science.1213979;
+RA   Zhang P., Smith-Nguyen E.V., Keshwani M.M., Deal M.S., Kornev A.P.,
+RA   Taylor S.S.;
+RT   "Structure and allostery of the PKA RIIbeta tetrameric holoenzyme.";
+RL   Science 335:712-716(2012).
+CC   -!- FUNCTION: Phosphorylates a large number of substrates in the
+CC       cytoplasm and the nucleus. Regulates the abundance of
+CC       compartmentalized pools of its regulatory subunits through
+CC       phosphorylation of PJA2 which binds and ubiquitinates these
+CC       subunits, leading to their subsequent proteolysis. Phosphorylates
+CC       CDC25B, ABL1, NFKB1, CLDN3, PSMC5/RPT6, PJA2, RYR2, RORA and VASP.
+CC       RORA is activated by phosphorylation. Required for glucose-
+CC       mediated adipogenic differentiation increase and osteogenic
+CC       differentiation inhibition from osteoblasts. Involved in the
+CC       regulation of platelets in response to thrombin and collagen;
+CC       maintains circulating platelets in a resting state by
+CC       phosphorylating proteins in numerous platelet inhibitory pathways
+CC       when in complex with NF-kappa-B (NFKB1 and NFKB2) and I-kappa-B-
+CC       alpha (NFKBIA), but thrombin and collagen disrupt these complexes
+CC       and free active PRKACA stimulates platelets and leads to platelet
+CC       aggregation by phosphorylating VASP. Prevents the
+CC       antiproliferative and anti-invasive effects of alpha-
+CC       difluoromethylornithine in breast cancer cells when activated.
+CC       RYR2 channel activity is potentiated by phosphorylation in
+CC       presence of luminal Ca(2+), leading to reduced amplitude and
+CC       increased frequency of store overload-induced Ca(2+) release
+CC       (SOICR) characterized by an increased rate of Ca(2+) release and
+CC       propagation velocity of spontaneous Ca(2+) waves, despite reduced
+CC       wave amplitude and resting cytosolic Ca(2+). PSMC5/RPT6 activation
+CC       by phosphorylation stimulates proteasome. Negatively regulates
+CC       tight junctions (TJs) in ovarian cancer cells via CLDN3
+CC       phosphorylation. NFKB1 phosphorylation promotes NF-kappa-B p50-p50
+CC       DNA binding. Involved in embryonic development by down-regulating
+CC       the Hedgehog (Hh) signaling pathway that determines embryo pattern
+CC       formation and morphogenesis. Prevents meiosis resumption in
+CC       prophase-arrested oocytes via CDC25B inactivation by
+CC       phosphorylation. May also regulate rapid eye movement (REM) sleep
+CC       in the pedunculopontine tegmental (PPT). Phosphorylates APOBEC3G
+CC       and AICDA. Phosphorylates HSF1; this phosphorylation promotes HSF1
+CC       nuclear localization and transcriptional activity upon heat shock
+CC       (By similarity). Isoform 2 phosphorylates and activates ABL1 in
+CC       sperm flagellum to promote spermatozoa capacitation (By
+CC       similarity). {ECO:0000250, ECO:0000250|UniProtKB:P17612,
+CC       ECO:0000269|PubMed:19223768, ECO:0000269|PubMed:19560455}.
+CC   -!- CATALYTIC ACTIVITY: ATP + a protein = ADP + a phosphoprotein.
+CC   -!- ENZYME REGULATION: Allosterically activated by various compounds,
+CC       including ATP. Activated by cAMP; the nucleotide acts as a dynamic
+CC       and allosteric activator by coupling the two lobes of apo PKA,
+CC       enhancing the enzyme dynamics synchronously and priming it for
+CC       catalysis. {ECO:0000269|PubMed:20890288}.
+CC   -!- SUBUNIT: A number of inactive tetrameric holoenzymes are produced
+CC       by the combination of homo- or heterodimers of the different
+CC       regulatory subunits associated with two catalytic subunits.
+CC       Protein kinase A holoenzyme is comprised of two catalytic (C) and
+CC       two regulatory (R) subunits which keep the enzyme in an inhibited
+CC       state before activation by cyclic-AMP. cAMP causes the
+CC       dissociation of the inactive holoenzyme into a dimer of regulatory
+CC       subunits bound to four cAMP and two free monomeric catalytic
+CC       subunits. The cAMP-dependent protein kinase catalytic subunit
+CC       binds PJA2. Both isoforms 1 and 2 forms activate cAMP-sensitive
+CC       PKAI and PKAII holoenzymes by interacting with regulatory subunit
+CC       (R) of PKA, PRKAR1A/PKR1 and PRKAR2A/PKR2, respectively. Interacts
+CC       with NFKB1, NFKB2 and NFKBIA in platelets; these interactions are
+CC       disrupted by thrombin and collagen. Binds to ABL1 in spermatozoa
+CC       and with CDC25B in oocytes. Interacts with APOBEC3G and AICDA (By
+CC       similarity). Interacts with RAB13; downstream effector of RAB13
+CC       involved in tight junction assembly (By similarity). Found in a
+CC       complex at least composed of MROH2B isoform 2, PRKACA isoform 2
+CC       and TCP11 (PubMed:27105888). Interacts with MROH2B isoform 2
+CC       (PubMed:27105888). Interacts with HSF1 (By similarity). Isoform 2
+CC       interacts with TCP11 (PubMed:27105888). {ECO:0000250,
+CC       ECO:0000250|UniProtKB:P17612, ECO:0000269|PubMed:22323819}.
+CC   -!- INTERACTION:
+CC       P31324:Prkar2b; NbExp=3; IntAct=EBI-400564, EBI-455340;
+CC   -!- SUBCELLULAR LOCATION: Cytoplasm {ECO:0000269|PubMed:18367160}.
+CC       Cell membrane {ECO:0000250}. Nucleus {ECO:0000250}. Mitochondrion
+CC       {ECO:0000269|PubMed:18367160}. Membrane
+CC       {ECO:0000250|UniProtKB:P17612}; Lipid-anchor
+CC       {ECO:0000250|UniProtKB:P17612}. Note=Translocates into the nucleus
+CC       (monomeric catalytic subunit) (By similarity). The inactive
+CC       holoenzyme is found in the cytoplasm. Distributed throughout the
+CC       cytoplasm in meiotically incompetent oocytes. Associated to
+CC       mitochondrion as meiotic competence is acquired. Aggregates around
+CC       the germinal vesicles (GV) at the immature GV stage oocytes.
+CC       Colocalizes with HSF1 in nuclear stress bodies (nSBs) upon heat
+CC       shock (By similarity). {ECO:0000250,
+CC       ECO:0000250|UniProtKB:P17612}.
+CC   -!- SUBCELLULAR LOCATION: Isoform 2: Cell projection, cilium,
+CC       flagellum {ECO:0000269|PubMed:27105888}. Cytoplasmic vesicle,
+CC       secretory vesicle, acrosome {ECO:0000269|PubMed:27105888}.
+CC       Note=Expressed in the midpiece region of the sperm flagellum (By
+CC       similarity). Colocalizes with MROH2B and TCP11 on the acrosome and
+CC       tail regions in round spermatids and spermatozoa regardless of the
+CC       capacitation status of the sperm (PubMed:27105888). {ECO:0000250,
+CC       ECO:0000269|PubMed:27105888}.
+CC   -!- ALTERNATIVE PRODUCTS:
+CC       Event=Alternative splicing; Named isoforms=2;
+CC       Name=1; Synonyms=C-alpha-1;
+CC         IsoId=P05132-1; Sequence=Displayed;
+CC       Name=2; Synonyms=C-alpha-2, C-alpha-S, C(s);
+CC         IsoId=P05132-2; Sequence=VSP_004760;
+CC   -!- TISSUE SPECIFICITY: Isoform 2 is sperm specific.
+CC   -!- DEVELOPMENTAL STAGE: Accumulates in oocytes before fertilization
+CC       but fades out after fertilization. {ECO:0000269|PubMed:18367160}.
+CC   -!- PTM: Autophosphorylated. Phosphorylation is enhanced by vitamin
+CC       K(2) (By similarity). Phosphorylated on threonine and serine
+CC       residues. Phosphorylation on Thr-198 is required for full
+CC       activity. {ECO:0000250, ECO:0000269|PubMed:8395513,
+CC       ECO:0000269|PubMed:9707564}.
+CC   -!- PTM: Asn-3 is partially deaminated to Asp-3 giving rise to 2 major
+CC       isoelectric variants, called CB and CA respectively.
+CC   -!- PTM: When myristoylated, Ser-11 is autophosphorylated probably in
+CC       conjunction with deamidation of Asn-3.
+CC       {ECO:0000269|PubMed:11141074, ECO:0000269|PubMed:8395513}.
+CC   -!- PTM: Phosphorylated at Tyr-331 by activated receptor tyrosine
+CC       kinases EGFR and PDGFR; this increases catalytic efficienncy.
+CC       {ECO:0000269|PubMed:21866565}.
+CC   -!- DISRUPTION PHENOTYPE: Frequent early postnatal lethality.
+CC       Survivals are runted accompanied with mature sperm exhibiting
+CC       defective forward motility. {ECO:0000269|PubMed:11875122}.
+CC   -!- SIMILARITY: Belongs to the protein kinase superfamily. AGC Ser/Thr
+CC       protein kinase family. cAMP subfamily. {ECO:0000305}.
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see http://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; M19960; AAA39937.1; -; Genomic_DNA.
+DR   EMBL; M18240; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M18241; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19953; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19954; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19955; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19956; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19957; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19958; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M19959; AAA39937.1; JOINED; Genomic_DNA.
+DR   EMBL; M12303; AAA39936.1; -; mRNA.
+DR   EMBL; BC003238; AAH03238.1; -; mRNA.
+DR   EMBL; BC054834; AAH54834.1; -; mRNA.
+DR   EMBL; AF239743; AAF76425.1; -; mRNA.
+DR   CCDS; CCDS22463.1; -. [P05132-1]
+DR   CCDS; CCDS85574.1; -. [P05132-2]
+DR   PIR; A28619; OKMSCA.
+DR   RefSeq; NP_001264827.1; NM_001277898.1. [P05132-2]
+DR   RefSeq; NP_032880.1; NM_008854.5. [P05132-1]
+DR   UniGene; Mm.19111; -.
+DR   PDB; 1APM; X-ray; 2.00 A; E=2-351.
+DR   PDB; 1ATP; X-ray; 2.20 A; E=2-351.
+DR   PDB; 1BKX; X-ray; 2.60 A; A=2-351.
+DR   PDB; 1BX6; X-ray; 2.10 A; A=2-351.
+DR   PDB; 1FMO; X-ray; 2.20 A; E=2-351.
+DR   PDB; 1J3H; X-ray; 2.90 A; A/B=2-351.
+DR   PDB; 1JBP; X-ray; 2.20 A; E=2-351.
+DR   PDB; 1JLU; X-ray; 2.25 A; E=2-351.
+DR   PDB; 1L3R; X-ray; 2.00 A; E=2-351.
+DR   PDB; 1PVK; Model; -; B=16-351.
+DR   PDB; 1RDQ; X-ray; 1.26 A; E=2-351.
+DR   PDB; 1RE8; X-ray; 2.10 A; A=2-351.
+DR   PDB; 1REJ; X-ray; 2.20 A; A=2-351.
+DR   PDB; 1REK; X-ray; 2.30 A; A=2-351.
+DR   PDB; 1SYK; X-ray; 2.80 A; A/B=2-351.
+DR   PDB; 2CPK; X-ray; 2.70 A; E=2-351.
+DR   PDB; 2ERZ; X-ray; 2.20 A; E=1-351.
+DR   PDB; 2QCS; X-ray; 2.20 A; A=2-351.
+DR   PDB; 2QUR; X-ray; 2.50 A; A=2-351.
+DR   PDB; 2QVS; X-ray; 2.50 A; E=2-351.
+DR   PDB; 3FHI; X-ray; 2.00 A; A=2-351.
+DR   PDB; 3FJQ; X-ray; 1.60 A; E=2-351.
+DR   PDB; 3IDB; X-ray; 1.62 A; A=2-351.
+DR   PDB; 3IDC; X-ray; 2.70 A; A=2-351.
+DR   PDB; 3J4Q; EM; 35.00 A; D/E=1-351.
+DR   PDB; 3J4R; EM; 35.00 A; D/E=1-351.
+DR   PDB; 3O7L; X-ray; 2.80 A; B/D=2-351.
+DR   PDB; 3OW3; X-ray; 1.90 A; A=2-351.
+DR   PDB; 3PVB; X-ray; 3.30 A; A=7-351.
+DR   PDB; 3QAL; X-ray; 1.70 A; E=2-351.
+DR   PDB; 3QAM; X-ray; 1.92 A; E=2-351.
+DR   PDB; 3TNP; X-ray; 2.30 A; C/F=2-351.
+DR   PDB; 3TNQ; X-ray; 3.10 A; B=2-351.
+DR   PDB; 3X2U; X-ray; 2.40 A; A=1-351.
+DR   PDB; 3X2V; X-ray; 1.77 A; A=1-351.
+DR   PDB; 3X2W; X-ray; 1.70 A; A=1-351.
+DR   PDB; 4DFX; X-ray; 1.35 A; E=2-351.
+DR   PDB; 4DFY; X-ray; 3.00 A; A/E=1-351.
+DR   PDB; 4DFZ; X-ray; 2.00 A; E=2-351.
+DR   PDB; 4DG0; X-ray; 2.00 A; E=2-351.
+DR   PDB; 4DG2; X-ray; 2.00 A; E=2-351.
+DR   PDB; 4DG3; X-ray; 1.80 A; E=1-351.
+DR   PDB; 4DH1; X-ray; 2.00 A; A=16-351.
+DR   PDB; 4DH3; X-ray; 2.20 A; A=2-351.
+DR   PDB; 4DH5; X-ray; 2.20 A; A=2-351.
+DR   PDB; 4DH7; X-ray; 1.80 A; A=2-351.
+DR   PDB; 4DH8; X-ray; 2.30 A; A=2-351.
+DR   PDB; 4DIN; X-ray; 3.70 A; A=2-351.
+DR   PDB; 4HPT; X-ray; 2.15 A; E=2-351.
+DR   PDB; 4HPU; X-ray; 1.55 A; E=2-351.
+DR   PDB; 4IAC; X-ray; 2.15 A; A=2-351.
+DR   PDB; 4IAD; X-ray; 1.90 A; A=2-351.
+DR   PDB; 4IAF; X-ray; 2.20 A; A=2-351.
+DR   PDB; 4IAI; X-ray; 1.55 A; A=2-351.
+DR   PDB; 4IAK; X-ray; 1.60 A; A=2-351.
+DR   PDB; 4IAY; X-ray; 2.00 A; A=2-351.
+DR   PDB; 4IAZ; X-ray; 1.85 A; A=2-351.
+DR   PDB; 4IB0; X-ray; 1.87 A; A=2-351.
+DR   PDB; 4IB1; X-ray; 1.63 A; A=2-351.
+DR   PDB; 4IB3; X-ray; 2.20 A; A=2-351.
+DR   PDB; 4NTS; X-ray; 2.90 A; A/B=2-351.
+DR   PDB; 4NTT; X-ray; 3.50 A; A/B=2-351.
+DR   PDB; 4O21; X-ray; 1.95 A; A=16-351.
+DR   PDB; 4O22; X-ray; 1.70 A; A=16-351.
+DR   PDB; 4WBB; X-ray; 2.80 A; B=2-351.
+DR   PDB; 4X6Q; X-ray; 2.52 A; C=2-351.
+DR   PDB; 4X6R; X-ray; 2.40 A; A=2-351.
+DR   PDB; 4XW4; X-ray; 1.82 A; A=15-351.
+DR   PDB; 4XW5; X-ray; 1.95 A; A=15-351.
+DR   PDB; 4XW6; X-ray; 1.90 A; A=15-351.
+DR   PDB; 5JR7; X-ray; 3.56 A; A/C=2-351.
+DR   PDBsum; 1APM; -.
+DR   PDBsum; 1ATP; -.
+DR   PDBsum; 1BKX; -.
+DR   PDBsum; 1BX6; -.
+DR   PDBsum; 1FMO; -.
+DR   PDBsum; 1J3H; -.
+DR   PDBsum; 1JBP; -.
+DR   PDBsum; 1JLU; -.
+DR   PDBsum; 1L3R; -.
+DR   PDBsum; 1PVK; -.
+DR   PDBsum; 1RDQ; -.
+DR   PDBsum; 1RE8; -.
+DR   PDBsum; 1REJ; -.
+DR   PDBsum; 1REK; -.
+DR   PDBsum; 1SYK; -.
+DR   PDBsum; 2CPK; -.
+DR   PDBsum; 2ERZ; -.
+DR   PDBsum; 2QCS; -.
+DR   PDBsum; 2QUR; -.
+DR   PDBsum; 2QVS; -.
+DR   PDBsum; 3FHI; -.
+DR   PDBsum; 3FJQ; -.
+DR   PDBsum; 3IDB; -.
+DR   PDBsum; 3IDC; -.
+DR   PDBsum; 3J4Q; -.
+DR   PDBsum; 3J4R; -.
+DR   PDBsum; 3O7L; -.
+DR   PDBsum; 3OW3; -.
+DR   PDBsum; 3PVB; -.
+DR   PDBsum; 3QAL; -.
+DR   PDBsum; 3QAM; -.
+DR   PDBsum; 3TNP; -.
+DR   PDBsum; 3TNQ; -.
+DR   PDBsum; 3X2U; -.
+DR   PDBsum; 3X2V; -.
+DR   PDBsum; 3X2W; -.
+DR   PDBsum; 4DFX; -.
+DR   PDBsum; 4DFY; -.
+DR   PDBsum; 4DFZ; -.
+DR   PDBsum; 4DG0; -.
+DR   PDBsum; 4DG2; -.
+DR   PDBsum; 4DG3; -.
+DR   PDBsum; 4DH1; -.
+DR   PDBsum; 4DH3; -.
+DR   PDBsum; 4DH5; -.
+DR   PDBsum; 4DH7; -.
+DR   PDBsum; 4DH8; -.
+DR   PDBsum; 4DIN; -.
+DR   PDBsum; 4HPT; -.
+DR   PDBsum; 4HPU; -.
+DR   PDBsum; 4IAC; -.
+DR   PDBsum; 4IAD; -.
+DR   PDBsum; 4IAF; -.
+DR   PDBsum; 4IAI; -.
+DR   PDBsum; 4IAK; -.
+DR   PDBsum; 4IAY; -.
+DR   PDBsum; 4IAZ; -.
+DR   PDBsum; 4IB0; -.
+DR   PDBsum; 4IB1; -.
+DR   PDBsum; 4IB3; -.
+DR   PDBsum; 4NTS; -.
+DR   PDBsum; 4NTT; -.
+DR   PDBsum; 4O21; -.
+DR   PDBsum; 4O22; -.
+DR   PDBsum; 4WBB; -.
+DR   PDBsum; 4X6Q; -.
+DR   PDBsum; 4X6R; -.
+DR   PDBsum; 4XW4; -.
+DR   PDBsum; 4XW5; -.
+DR   PDBsum; 4XW6; -.
+DR   PDBsum; 5JR7; -.
+DR   ProteinModelPortal; P05132; -.
+DR   SMR; P05132; -.
+DR   BioGrid; 202192; 20.
+DR   DIP; DIP-6086N; -.
+DR   IntAct; P05132; 13.
+DR   MINT; MINT-4051347; -.
+DR   STRING; 10090.ENSMUSP00000005606; -.
+DR   BindingDB; P05132; -.
+DR   iPTMnet; P05132; -.
+DR   PhosphoSitePlus; P05132; -.
+DR   EPD; P05132; -.
+DR   MaxQB; P05132; -.
+DR   PaxDb; P05132; -.
+DR   PeptideAtlas; P05132; -.
+DR   PRIDE; P05132; -.
+DR   Ensembl; ENSMUST00000005606; ENSMUSP00000005606; ENSMUSG00000005469. [P05132-1]
+DR   Ensembl; ENSMUST00000211558; ENSMUSP00000147256; ENSMUSG00000005469. [P05132-2]
+DR   GeneID; 18747; -.
+DR   KEGG; mmu:18747; -.
+DR   UCSC; uc009mll.3; mouse. [P05132-1]
+DR   UCSC; uc009mlm.2; mouse. [P05132-2]
+DR   CTD; 5566; -.
+DR   MGI; MGI:97592; Prkaca.
+DR   eggNOG; KOG0616; Eukaryota.
+DR   eggNOG; ENOG410XPQQ; LUCA.
+DR   GeneTree; ENSGT00810000125385; -.
+DR   HOGENOM; HOG000233033; -.
+DR   HOVERGEN; HBG108317; -.
+DR   InParanoid; P05132; -.
+DR   KO; K04345; -.
+DR   OMA; GQHFAMK; -.
+DR   OrthoDB; EOG091G10O8; -.
+DR   PhylomeDB; P05132; -.
+DR   TreeFam; TF313399; -.
+DR   BRENDA; 2.7.11.11; 3474.
+DR   Reactome; R-MMU-163358; PKA-mediated phosphorylation of key metabolic factors.
+DR   Reactome; R-MMU-163560; Triglyceride catabolism.
+DR   Reactome; R-MMU-163615; PKA activation.
+DR   Reactome; R-MMU-164378; PKA activation in glucagon signalling.
+DR   Reactome; R-MMU-180024; DARPP-32 events.
+DR   Reactome; R-MMU-381676; Glucagon-like Peptide-1 (GLP1) regulates insulin secretion.
+DR   Reactome; R-MMU-392517; Rap1 signalling.
+DR   Reactome; R-MMU-422356; Regulation of insulin secretion.
+DR   Reactome; R-MMU-432040; Vasopressin regulates renal water homeostasis via Aquaporins.
+DR   Reactome; R-MMU-5610783; Degradation of GLI2 by the proteasome.
+DR   Reactome; R-MMU-5610785; GLI3 is processed to GLI3R by the proteasome.
+DR   Reactome; R-MMU-5610787; Hedgehog "off" state.
+DR   Reactome; R-MMU-5621575; CD209 (DC-SIGN) signaling.
+DR   Reactome; R-MMU-5687128; MAPK6/MAPK4 signaling.
+DR   Reactome; R-MMU-8963896; HDL assembly.
+DR   Reactome; R-MMU-983231; Factors involved in megakaryocyte development and platelet production.
+DR   ChiTaRS; Prkaca; mouse.
+DR   EvolutionaryTrace; P05132; -.
+DR   PRO; PR:P05132; -.
+DR   Proteomes; UP000000589; Chromosome 8.
+DR   Bgee; ENSMUSG00000005469; -.
+DR   CleanEx; MM_PRKACA; -.
+DR   Genevisible; P05132; MM.
+DR   GO; GO:0001669; C:acrosomal vesicle; IDA:UniProtKB.
+DR   GO; GO:0005952; C:cAMP-dependent protein kinase complex; IMP:CAFA.
+DR   GO; GO:0005813; C:centrosome; ISO:MGI.
+DR   GO; GO:0097546; C:ciliary base; IDA:MGI.
+DR   GO; GO:0005737; C:cytoplasm; IDA:MGI.
+DR   GO; GO:0005829; C:cytosol; ISO:MGI.
+DR   GO; GO:0043197; C:dendritic spine; IDA:SynGO.
+DR   GO; GO:0070062; C:extracellular exosome; ISO:MGI.
+DR   GO; GO:0045171; C:intercellular bridge; ISO:MGI.
+DR   GO; GO:0005739; C:mitochondrion; IDA:MGI.
+DR   GO; GO:0031594; C:neuromuscular junction; IDA:MGI.
+DR   GO; GO:0016607; C:nuclear speck; ISO:MGI.
+DR   GO; GO:0005654; C:nucleoplasm; TAS:Reactome.
+DR   GO; GO:0031588; C:nucleotide-activated protein kinase complex; ISO:MGI.
+DR   GO; GO:0005634; C:nucleus; IDA:MGI.
+DR   GO; GO:0048471; C:perinuclear region of cytoplasm; ISS:UniProtKB.
+DR   GO; GO:0005886; C:plasma membrane; IDA:MGI.
+DR   GO; GO:0044853; C:plasma membrane raft; ISO:MGI.
+DR   GO; GO:0036126; C:sperm flagellum; IDA:UniProtKB.
+DR   GO; GO:0097225; C:sperm midpiece; ISS:UniProtKB.
+DR   GO; GO:0005524; F:ATP binding; IDA:CAFA.
+DR   GO; GO:0004691; F:cAMP-dependent protein kinase activity; IDA:UniProtKB.
+DR   GO; GO:0000287; F:magnesium ion binding; IDA:CAFA.
+DR   GO; GO:0030145; F:manganese ion binding; IMP:CAFA.
+DR   GO; GO:0019904; F:protein domain specific binding; IPI:CAFA.
+DR   GO; GO:0034237; F:protein kinase A regulatory subunit binding; IPI:CAFA.
+DR   GO; GO:0004672; F:protein kinase activity; IDA:MGI.
+DR   GO; GO:0019901; F:protein kinase binding; ISO:MGI.
+DR   GO; GO:0004674; F:protein serine/threonine kinase activity; IDA:CAFA.
+DR   GO; GO:0004712; F:protein serine/threonine/tyrosine kinase activity; ISO:MGI.
+DR   GO; GO:0031625; F:ubiquitin protein ligase binding; ISO:MGI.
+DR   GO; GO:0071333; P:cellular response to glucose stimulus; ISO:MGI.
+DR   GO; GO:0034605; P:cellular response to heat; ISS:UniProtKB.
+DR   GO; GO:0071374; P:cellular response to parathyroid hormone stimulus; IMP:MGI.
+DR   GO; GO:0035556; P:intracellular signal transduction; TAS:Reactome.
+DR   GO; GO:0001707; P:mesoderm formation; IGI:MGI.
+DR   GO; GO:0050804; P:modulation of synaptic transmission; IMP:MGI.
+DR   GO; GO:0006397; P:mRNA processing; ISO:MGI.
+DR   GO; GO:1901621; P:negative regulation of smoothened signaling pathway involved in dorsal/ventral neural tube patterning; IGI:MGI.
+DR   GO; GO:0001843; P:neural tube closure; IGI:MGI.
+DR   GO; GO:0018105; P:peptidyl-serine phosphorylation; IDA:CAFA.
+DR   GO; GO:0018107; P:peptidyl-threonine phosphorylation; IDA:MGI.
+DR   GO; GO:0071158; P:positive regulation of cell cycle arrest; IDA:UniProtKB.
+DR   GO; GO:0046827; P:positive regulation of protein export from nucleus; IMP:MGI.
+DR   GO; GO:0046777; P:protein autophosphorylation; IDA:MGI.
+DR   GO; GO:0006468; P:protein phosphorylation; IDA:MGI.
+DR   GO; GO:2000810; P:regulation of bicellular tight junction assembly; ISO:MGI.
+DR   GO; GO:0045667; P:regulation of osteoblast differentiation; ISO:MGI.
+DR   GO; GO:0061136; P:regulation of proteasomal protein catabolic process; ISO:MGI.
+DR   GO; GO:0070613; P:regulation of protein processing; IGI:MGI.
+DR   GO; GO:0048240; P:sperm capacitation; IDA:UniProtKB.
+DR   GO; GO:0019433; P:triglyceride catabolic process; TAS:Reactome.
+DR   InterPro; IPR000961; AGC-kinase_C.
+DR   InterPro; IPR011009; Kinase-like_dom.
+DR   InterPro; IPR000719; Prot_kinase_dom.
+DR   InterPro; IPR017441; Protein_kinase_ATP_BS.
+DR   InterPro; IPR008271; Ser/Thr_kinase_AS.
+DR   Pfam; PF00069; Pkinase; 1.
+DR   SMART; SM00133; S_TK_X; 1.
+DR   SMART; SM00220; S_TKc; 1.
+DR   SUPFAM; SSF56112; SSF56112; 1.
+DR   PROSITE; PS51285; AGC_KINASE_CTER; 1.
+DR   PROSITE; PS00107; PROTEIN_KINASE_ATP; 1.
+DR   PROSITE; PS50011; PROTEIN_KINASE_DOM; 1.
+DR   PROSITE; PS00108; PROTEIN_KINASE_ST; 1.
+PE   1: Evidence at protein level;
+KW   3D-structure; Alternative splicing; ATP-binding; cAMP; Cell membrane;
+KW   Cell projection; Cilium; Complete proteome; Cytoplasm;
+KW   Cytoplasmic vesicle; Flagellum; Kinase; Lipoprotein; Membrane;
+KW   Mitochondrion; Myristate; Nucleotide-binding; Nucleus; Phosphoprotein;
+KW   Reference proteome; Serine/threonine-protein kinase; Transferase.
+FT   INIT_MET      1      1       Removed. {ECO:0000269|PubMed:11141074}.
+FT   CHAIN         2    351       cAMP-dependent protein kinase catalytic
+FT                                subunit alpha.
+FT                                /FTId=PRO_0000086053.
+FT   DOMAIN       44    298       Protein kinase. {ECO:0000255|PROSITE-
+FT                                ProRule:PRU00159}.
+FT   DOMAIN      299    351       AGC-kinase C-terminal.
+FT   NP_BIND      50     58       ATP.
+FT   NP_BIND     122    128       ATP.
+FT   NP_BIND     169    172       ATP.
+FT   ACT_SITE    167    167       Proton acceptor.
+FT   BINDING      73     73       ATP.
+FT   MOD_RES       3      3       Deamidated asparagine; partial.
+FT                                {ECO:0000269|PubMed:11141074}.
+FT   MOD_RES      11     11       Phosphoserine; by autocatalysis.
+FT                                {ECO:0000269|PubMed:11141074,
+FT                                ECO:0000269|PubMed:8395513}.
+FT   MOD_RES      49     49       Phosphothreonine.
+FT                                {ECO:0000250|UniProtKB:P17612}.
+FT   MOD_RES     140    140       Phosphoserine.
+FT                                {ECO:0000269|PubMed:22323819,
+FT                                ECO:0000305|PubMed:8395513}.
+FT   MOD_RES     196    196       Phosphothreonine.
+FT                                {ECO:0000250|UniProtKB:P17612}.
+FT   MOD_RES     198    198       Phosphothreonine; by PDPK1.
+FT                                {ECO:0000269|PubMed:22323819,
+FT                                ECO:0000269|PubMed:8395513,
+FT                                ECO:0000269|PubMed:9707564}.
+FT   MOD_RES     202    202       Phosphothreonine.
+FT                                {ECO:0000250|UniProtKB:P17612}.
+FT   MOD_RES     331    331       Phosphotyrosine.
+FT                                {ECO:0000269|PubMed:21866565}.
+FT   MOD_RES     339    339       Phosphoserine.
+FT                                {ECO:0000305|PubMed:8395513}.
+FT   LIPID         2      2       N-myristoyl glycine.
+FT                                {ECO:0000269|PubMed:11141074}.
+FT   VAR_SEQ       1     15       MGNAAAAKKGSEQES -> MASSSND (in isoform
+FT                                2). {ECO:0000303|PubMed:10982398}.
+FT                                /FTId=VSP_004760.
+FT   MUTAGEN     198    198       T->D: No phosphorylation by PDPK1.
+FT   MUTAGEN     286    286       K->P: Impaired inhibition by the R-
+FT                                subunit. {ECO:0000269|PubMed:19122195}.
+FT   MUTAGEN     328    328       F->A: Reduced catalytic activity and
+FT                                impaired inhibition by the R-subunit.
+FT                                {ECO:0000269|PubMed:19122195}.
+FT   CONFLICT     33     33       T -> D (in Ref. 2; AAA39936).
+FT                                {ECO:0000305}.
+FT   CONFLICT    287    287       N -> D (in Ref. 2; AAA39936).
+FT                                {ECO:0000305}.
+FT   HELIX         3      7       {ECO:0000244|PDB:4DFX}.
+FT   TURN          9     12       {ECO:0000244|PDB:4DFX}.
+FT   HELIX        16     32       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX        41     43       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND       44     52       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND       57     63       {ECO:0000244|PDB:1RDQ}.
+FT   TURN         64     66       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND       69     76       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX        77     82       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX        86     96       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND      107    112       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND      114    122       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       129    136       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       141    160       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND      162    164       {ECO:0000244|PDB:1BKX}.
+FT   HELIX       170    172       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND      173    175       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND      181    183       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       186    188       {ECO:0000244|PDB:1RE8}.
+FT   HELIX       203    205       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       208    211       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       219    234       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       244    253       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       264    273       {ECO:0000244|PDB:1RDQ}.
+FT   TURN        278    280       {ECO:0000244|PDB:1RDQ}.
+FT   TURN        282    284       {ECO:0000244|PDB:4XW6}.
+FT   TURN        286    289       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       290    293       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       296    298       {ECO:0000244|PDB:1RDQ}.
+FT   HELIX       303    307       {ECO:0000244|PDB:1RDQ}.
+FT   STRAND      321    326       {ECO:0000244|PDB:1REK}.
+FT   TURN        345    350       {ECO:0000244|PDB:1RDQ}.
+SQ   SEQUENCE   351 AA;  40571 MW;  02F85D66EB21A1FA CRC64;
+     MGNAAAAKKG SEQESVKEFL AKAKEDFLKK WETPSQNTAQ LDQFDRIKTL GTGSFGRVML
+     VKHKESGNHY AMKILDKQKV VKLKQIEHTL NEKRILQAVN FPFLVKLEFS FKDNSNLYMV
+     MEYVAGGEMF SHLRRIGRFS EPHARFYAAQ IVLTFEYLHS LDLIYRDLKP ENLLIDQQGY
+     IQVTDFGFAK RVKGRTWTLC GTPEYLAPEI ILSKGYNKAV DWWALGVLIY EMAAGYPPFF
+     ADQPIQIYEK IVSGKVRFPS HFSSDLKDLL RNLLQVDLTK RFGNLKNGVN DIKNHKWFAT
+     TDWIAIYQRK VEAPFIPKFK GPGDTSNFDD YEEEEIRVSI NEKCGKEFTE F
+//

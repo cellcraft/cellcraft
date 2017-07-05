@@ -1,0 +1,279 @@
+ENTRY       18747             CDS       T01002
+NAME        Prkaca, PKCD, Pkaca
+DEFINITION  (RefSeq) protein kinase, cAMP dependent, catalytic, alpha
+ORTHOLOGY   K04345  protein kinase A [EC:2.7.11.11]
+ORGANISM    mmu  Mus musculus (mouse)
+PATHWAY     mmu01522  Endocrine resistance
+            mmu04010  MAPK signaling pathway
+            mmu04014  Ras signaling pathway
+            mmu04020  Calcium signaling pathway
+            mmu04024  cAMP signaling pathway
+            mmu04062  Chemokine signaling pathway
+            mmu04114  Oocyte meiosis
+            mmu04140  Autophagy - animal
+            mmu04211  Longevity regulating pathway
+            mmu04213  Longevity regulating pathway - multiple species
+            mmu04261  Adrenergic signaling in cardiomyocytes
+            mmu04270  Vascular smooth muscle contraction
+            mmu04310  Wnt signaling pathway
+            mmu04340  Hedgehog signaling pathway
+            mmu04371  Apelin signaling pathway
+            mmu04530  Tight junction
+            mmu04540  Gap junction
+            mmu04611  Platelet activation
+            mmu04713  Circadian entrainment
+            mmu04720  Long-term potentiation
+            mmu04723  Retrograde endocannabinoid signaling
+            mmu04724  Glutamatergic synapse
+            mmu04725  Cholinergic synapse
+            mmu04726  Serotonergic synapse
+            mmu04727  GABAergic synapse
+            mmu04728  Dopaminergic synapse
+            mmu04740  Olfactory transduction
+            mmu04742  Taste transduction
+            mmu04750  Inflammatory mediator regulation of TRP channels
+            mmu04910  Insulin signaling pathway
+            mmu04911  Insulin secretion
+            mmu04912  GnRH signaling pathway
+            mmu04913  Ovarian steroidogenesis
+            mmu04914  Progesterone-mediated oocyte maturation
+            mmu04915  Estrogen signaling pathway
+            mmu04916  Melanogenesis
+            mmu04918  Thyroid hormone synthesis
+            mmu04919  Thyroid hormone signaling pathway
+            mmu04921  Oxytocin signaling pathway
+            mmu04922  Glucagon signaling pathway
+            mmu04923  Regulation of lipolysis in adipocytes
+            mmu04924  Renin secretion
+            mmu04925  Aldosterone synthesis and secretion
+            mmu04961  Endocrine and other factor-regulated calcium reabsorption
+            mmu04962  Vasopressin-regulated water reabsorption
+            mmu04970  Salivary secretion
+            mmu04971  Gastric acid secretion
+            mmu04976  Bile secretion
+            mmu05012  Parkinson"s disease
+            mmu05020  Prion diseases
+            mmu05030  Cocaine addiction
+            mmu05031  Amphetamine addiction
+            mmu05032  Morphine addiction
+            mmu05034  Alcoholism
+            mmu05146  Amoebiasis
+            mmu05165  Human papillomavirus infection
+            mmu05166  HTLV-I infection
+            mmu05169  Epstein-Barr virus infection
+            mmu05200  Pathways in cancer
+            mmu05203  Viral carcinogenesis
+            mmu05205  Proteoglycans in cancer
+            mmu05414  Dilated cardiomyopathy (DCM)
+MODULE      mmu_M00695  cAMP signaling
+BRITE       KEGG Orthology (KO) [BR:mmu00001]
+             Environmental Information Processing
+              Signal transduction
+               04014 Ras signaling pathway
+                18747 (Prkaca)
+               04010 MAPK signaling pathway
+                18747 (Prkaca)
+               04310 Wnt signaling pathway
+                18747 (Prkaca)
+               04340 Hedgehog signaling pathway
+                18747 (Prkaca)
+               04371 Apelin signaling pathway
+                18747 (Prkaca)
+               04020 Calcium signaling pathway
+                18747 (Prkaca)
+               04024 cAMP signaling pathway
+                18747 (Prkaca)
+             Cellular Processes
+              Transport and catabolism
+               04140 Autophagy - animal
+                18747 (Prkaca)
+              Cell growth and death
+               04114 Oocyte meiosis
+                18747 (Prkaca)
+              Cellular community - eukaryotes
+               04530 Tight junction
+                18747 (Prkaca)
+               04540 Gap junction
+                18747 (Prkaca)
+             Organismal Systems
+              Immune system
+               04611 Platelet activation
+                18747 (Prkaca)
+               04062 Chemokine signaling pathway
+                18747 (Prkaca)
+              Endocrine system
+               04911 Insulin secretion
+                18747 (Prkaca)
+               04910 Insulin signaling pathway
+                18747 (Prkaca)
+               04922 Glucagon signaling pathway
+                18747 (Prkaca)
+               04923 Regulation of lipolysis in adipocyte
+                18747 (Prkaca)
+               04912 GnRH signaling pathway
+                18747 (Prkaca)
+               04913 Ovarian Steroidogenesis
+                18747 (Prkaca)
+               04915 Estrogen signaling pathway
+                18747 (Prkaca)
+               04914 Progesterone-mediated oocyte maturation
+                18747 (Prkaca)
+               04921 Oxytocin signaling pathway
+                18747 (Prkaca)
+               04918 Thyroid hormone synthesis
+                18747 (Prkaca)
+               04919 Thyroid hormone signaling pathway
+                18747 (Prkaca)
+               04916 Melanogenesis
+                18747 (Prkaca)
+               04924 Renin secretion
+                18747 (Prkaca)
+               04925 Aldosterone synthesis and secretion
+                18747 (Prkaca)
+              Circulatory system
+               04261 Adrenergic signaling in cardiomyocytes
+                18747 (Prkaca)
+               04270 Vascular smooth muscle contraction
+                18747 (Prkaca)
+              Digestive system
+               04970 Salivary secretion
+                18747 (Prkaca)
+               04971 Gastric acid secretion
+                18747 (Prkaca)
+               04976 Bile secretion
+                18747 (Prkaca)
+              Excretory system
+               04962 Vasopressin-regulated water reabsorption
+                18747 (Prkaca)
+               04961 Endocrine and other factor-regulated calcium reabsorption
+                18747 (Prkaca)
+              Nervous system
+               04724 Glutamatergic synapse
+                18747 (Prkaca)
+               04727 GABAergic synapse
+                18747 (Prkaca)
+               04725 Cholinergic synapse
+                18747 (Prkaca)
+               04728 Dopaminergic synapse
+                18747 (Prkaca)
+               04726 Serotonergic synapse
+                18747 (Prkaca)
+               04720 Long-term potentiation
+                18747 (Prkaca)
+               04723 Retrograde endocannabinoid signaling
+                18747 (Prkaca)
+              Sensory system
+               04740 Olfactory transduction
+                18747 (Prkaca)
+               04742 Taste transduction
+                18747 (Prkaca)
+               04750 Inflammatory mediator regulation of TRP channels
+                18747 (Prkaca)
+              Aging
+               04211 Longevity regulating pathway - mammal
+                18747 (Prkaca)
+               04213 Longevity regulating pathway - multiple species
+                18747 (Prkaca)
+              Environmental adaptation
+               04713 Circadian entrainment
+                18747 (Prkaca)
+             Human Diseases
+              Cancers
+               05200 Pathways in cancer
+                18747 (Prkaca)
+               05205 Proteoglycans in cancer
+                18747 (Prkaca)
+               05203 Viral carcinogenesis
+                18747 (Prkaca)
+              Neurodegenerative diseases
+               05012 Parkinson"s disease
+                18747 (Prkaca)
+               05020 Prion diseases
+                18747 (Prkaca)
+              Substance dependence
+               05030 Cocaine addiction
+                18747 (Prkaca)
+               05031 Amphetamine addiction
+                18747 (Prkaca)
+               05032 Morphine addiction
+                18747 (Prkaca)
+               05034 Alcoholism
+                18747 (Prkaca)
+              Cardiovascular diseases
+               05414 Dilated cardiomyopathy (DCM)
+                18747 (Prkaca)
+              Infectious diseases
+               05166 HTLV-I infection
+                18747 (Prkaca)
+               05169 Epstein-Barr virus infection
+                18747 (Prkaca)
+               05165 Human papillomavirus infection
+                18747 (Prkaca)
+               05146 Amoebiasis
+                18747 (Prkaca)
+              Drug resistance
+               01522 Endocrine resistance
+                18747 (Prkaca)
+            Enzymes [BR:mmu01000]
+             2. Transferases
+              2.7  Transferring phosphorus-containing groups
+               2.7.11  Protein-serine/threonine kinases
+                2.7.11.11  cAMP-dependent protein kinase
+                 18747 (Prkaca)
+            Protein kinases [BR:mmu01001]
+             Serine/threonine protein kinases: AGC group
+              PKA family
+               18747 (Prkaca)
+            Messenger RNA biogenesis [BR:mmu03019]
+             Eukaryotic Type
+              mRNA surveillance and transport factors
+               mRNA cycle factors
+                Common to processing body (P body) and stress granule
+                 18747 (Prkaca)
+            Chromosome [BR:mmu03036]
+             Eukaryotic Type
+              Centrosome formation and ciliogenesis proteins
+               Kinases and associated factors
+                18747 (Prkaca)
+POSITION    8; 8 C2
+MOTIF       Pfam: Pkinase Pkinase_Tyr Kinase-like Haspin_kinase
+DBLINKS     NCBI-GeneID: 18747
+            NCBI-ProteinID: NP_032880
+            MGI: 97592
+            Ensembl: ENSMUSG00000005469
+            Vega: OTTMUSG00000061189
+            UniProt: P05132
+STRUCTURE   PDB: 1RDQ 4DFX 4IAI 4HPU 4IAK 3FJQ 3IDB 4IB1 3X2W 4O22 3QAL
+                 3X2V 4DH7 4DG3 4XW4 4IAZ 4IB0 4XW6 4IAD 3OW3 3QAM 4XW5
+                 4O21 4IAY 4DH1 4DFZ 4DG0 4DG2 3FHI 1L3R 1APM 1RE8 1BX6
+                 4IAC 4HPT 4IB3 4IAF 4DH3 4DH5 2QCS 2ERZ 1REJ 1JBP 1FMO
+                 1ATP 1JLU 4DH8 3TNP 1REK 3X2U 4X6R 2QVS 2QUR 4X6Q 1BKX
+                 3IDC 2CPK 4WBB 3O7L 1SYK 4NTS 1J3H 4DFY 3PVB 4NTT 5JR7
+                 4DIN 3J4Q 3J4R
+AASEQ       351
+            MGNAAAAKKGSEQESVKEFLAKAKEDFLKKWETPSQNTAQLDQFDRIKTLGTGSFGRVML
+            VKHKESGNHYAMKILDKQKVVKLKQIEHTLNEKRILQAVNFPFLVKLEFSFKDNSNLYMV
+            MEYVAGGEMFSHLRRIGRFSEPHARFYAAQIVLTFEYLHSLDLIYRDLKPENLLIDQQGY
+            IQVTDFGFAKRVKGRTWTLCGTPEYLAPEIILSKGYNKAVDWWALGVLIYEMAAGYPPFF
+            ADQPIQIYEKIVSGKVRFPSHFSSDLKDLLRNLLQVDLTKRFGNLKNGVNDIKNHKWFAT
+            TDWIAIYQRKVEAPFIPKFKGPGDTSNFDDYEEEEIRVSINEKCGKEFTEF
+NTSEQ       1056
+            atgggcaacgccgccgccgccaagaagggcagcgagcaggagagcgtgaaagagttccta
+            gccaaagccaaggaagatttcctgaaaaaatgggagaccccttctcagaatacagcccag
+            ttggatcagtttgatagaatcaagacccttggcaccggctcctttgggcgagtgatgctg
+            gtgaagcacaaggagagtgggaaccactacgccatgaagatcttagacaagcagaaggtg
+            gtgaagctaaagcagatcgagcacactctgaatgagaagcgcatcctgcaggccgtcaac
+            ttcccgttcctggtcaaacttgaattctccttcaaggacaactcaaacctgtacatggtc
+            atggagtatgtagctggtggcgagatgttctcccacctacggcggattggaaggttcagc
+            gagccccatgcccgtttctacgcggcgcagatcgtcctgacctttgagtatctgcactcc
+            ctggacctcatctaccgggacctgaagcccgagaatcttctcatcgaccagcagggctat
+            attcaggtgacagacttcggttttgccaagcgtgtgaaaggccgtacttggaccttgtgt
+            gggacccctgagtacttggcccccgagattatcctgagcaaaggctacaacaaggctgtg
+            gactggtgggctctcggagtcctcatctacgagatggctgctggttacccacccttcttc
+            gctgaccagcctatccagatctatgagaaaatcgtctctgggaaggtgcggttcccatcc
+            cacttcagctctgacttgaaggacctgctgcggaaccttctgcaggtggatctcaccaag
+            cgctttgggaacctcaagaacggggtcaatgacatcaagaaccacaagtggtttgccacg
+            actgactggattgccatctatcagagaaaggtggaagctcccttcataccaaagtttaaa
+            ggccctggggacacgagtaactttgacgactatgaggaggaagagatccgggtctccatc
+            aatgagaagtgtggcaaggagtttactgagttttag
+///

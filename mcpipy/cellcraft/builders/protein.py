@@ -3,28 +3,54 @@ import os.path
 import re
 import urllib
 import xml.etree.ElementTree as ET
-from collections import *
+from collections import defaultdict
+from pymongo import MongoClient
 from datetime import datetime, timedelta
 import numpy as np
 from biopandas.pdb import PandasPdb
+from cellcraft.builders.grid import create_bins_from_coordinates
 from cellcraft.connectors.db_connectors import uniprot_id_call, uniprot_connector, kegg_connector
-from pymongo import MongoClient
-from cellcraft.config import text, col
+from cellcraft.config import CLEAR_COLORS_PROT, DARK_COLORS_PROT, TEXTURE_PROT
 from cellcraft.builders.complex_structure import ComplexStructure
 
 
 def get_pdb_complex(name, theta, blocksize, threshold):
-    coor_df, item_info = get_pdb_items(name)
-
-    # coor_df dataframe with 'x_coord', 'y_coord', 'z_coord' and integer id column
-    # dict {chain id int: {'texture': int, 'color': int}}
-
+    coor_df, chain_block = get_pdb_from_source(name)
     bin_count_df = create_bins_from_coordinates(
-        coor_df, theta, blocksize, threshold, id_column='integer id column')
-    return bin_count_df, item_info
+        coor_df, theta, blocksize, threshold, id_column='chain_id')
+    return bin_count_df, chain_block
 
 
-# Define features of each item in ProteinComplex and
+def get_pdb_from_source(name):
+    protein_pdb = PandasPdb().fetch_pdb(name)
+    prot_df = protein_pdb.df['ATOM'].ix[:, ['chain_id', 'x_coord', 'y_coord', 'z_Coord']]
+    prot_df['chain_id'], dict_chains = string_to_int(prot_df['chain_id'])
+    chain_block = define_items_color_texture_protein(dict_chains)
+    return protein_pdb, chain_block
+
+
+def string_to_int(list_str):
+    d = {s: i for i, s in enumerate(list_str.unique())}
+    list_chains_int = list_str.map(d)
+    return list_chains_int, d
+
+
+def define_items_color_texture_protein(dict_chains):
+    c_1 = np.random.shuffle(CLEAR_COLORS_PROT)
+    c_2 = np.random.shuffle(DARK_COLORS_PROT)
+    d = {}
+    for i, chain in enumerate(dict_chains.values()):
+        if i % 2 == 0:
+            color = c_1[i // 2]
+        else:
+            color = c_2[i // 3]
+        d[chain] = {
+            'texture': TEXTURE_PROT,
+            'color': color
+        }
+    return d
+
+
 class Protein():
     # define potein biological info from scientific databases
     def __init__(self, pid, pdbin, chain_id, gos, entrez_ids, ensembl_ids, ECs, kopath_ids, kpathways, dbname,

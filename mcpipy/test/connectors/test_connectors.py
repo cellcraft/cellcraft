@@ -1,13 +1,9 @@
 import json
 import os
-import re
-import xmltodict
-import pandas as pd
-from collections import defaultdict
 from pymongo import MongoClient
 from cellcraft.config import DB, PATH_TO_FIXTURES
-from cellcraft.connectors.db_connectors import insert_to_mongo, protein_data_bank_connector, kegg_connector, \
-    uniprot_connector, uniprot_id_call
+from cellcraft.connectors.db_connectors import insert_to_mongo, uniprot_connector, uniprot_id_call, \
+    extract_uniprot_id_from_call, extract_biological_info_from_uniprot
 
 
 def test_insert_to_mongo():
@@ -28,28 +24,16 @@ def test_insert_to_mongo():
     assert len(items) > 0
 
 
-def test_kegg_connector():
-    kegg_id = "mmu:18747"
-    result = kegg_connector(kegg_id)
-    str_result = result.read().decode('utf8').replace("'", '"')
-    organism = [" ".join(x.split(" ")[4:]) for x in str_result.split("\n") if len(re.findall("^ORGANISM", x)) > 0]
-    uniprot_rows = [x.split(";") for x in str_result.split("\n") if len(re.findall("^DR", x)) > 0]
-    uniprot_df = pd.DataFrame(uniprot_rows, columns=['id_name', 'id1', 'id2', 'id3', 'id4'])
-    uniprot_df['id_name'] = [x[0].split("  ")[1] for x in uniprot_rows]
-    assert len(str_result) > 0
-    assert result.status == 200
+def test_uniprot_id_call():
+    with open(os.path.join(PATH_TO_FIXTURES, "uniprot_id_call_response.txt"), "r") as text:
+        uniprot_id = extract_uniprot_id_from_call(text.read())
+
+    assert uniprot_id == 'P00514'
 
 
 def test_uniprot_connector():
-    # TODO mock connection
-    uniprot_id = "P05132"
-    uniprot_df = uniprot_connector(uniprot_id)
-    assert len(uniprot_df) > 0
+    with open(os.path.join(PATH_TO_FIXTURES, "uniprot_response.txt"), "r") as text:
+        bio_uniprot = extract_biological_info_from_uniprot(text.read())
 
-
-def test_uniprot_id_call():
-    # TODO mock connection
-    pdb_id = "5JR7"
-    result = uniprot_id_call(pdb_id)
-    assert len(result) > 0
-    assert result.status == 200
+    assert bio_uniprot['pfam'][0] == 'PF00069'
+    assert len(bio_uniprot) == 7

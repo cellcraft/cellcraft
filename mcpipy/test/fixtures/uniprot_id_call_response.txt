@@ -1,0 +1,67 @@
+<?xml version="1.0" standalone="no" ?>
+<dasalignment xmlns="http://www.efamily.org.uk/xml/das/2004/06/17/dasalignment.xsd" xmlns:align="http://www.efamily.org.uk/xml/das/2004/06/17/alignment.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:schemaLocation="http://www.efamily.org.uk/xml/das/2004/06/17/dasalignment.xsd http://www.efamily.org.uk/xml/das/2004/06/17/dasalignment.xsd">
+  <alignment alignType="PDB_SP">
+    <alignObject dbAccessionId="5JR7" intObjectId="5JR7" objectVersion="unknown" type="STRUCTURE" dbSource="PDB" dbVersion="latest" dbCoordSys="PDBresnum,Protein Structure">
+      <alignObjectDetail dbSource="PDB" property="title">Crystal structure of an ACRDYS heterodimer [RIa(92-365):C] of PKA</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="citation">Structure of a PKA RI alpha Recurrent Acrodysostosis Mutant Explains Defective cAMP-Dependent Activation.</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="pubmed_id">27825928</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="method">X-RAY DIFFRACTION</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="release">2017-03-15</alignObjectDetail>
+    </alignObject>
+    <alignObject dbAccessionId="P05132" intObjectId="P05132" objectVersion="unknown" type="PROTEIN" dbSource="UniProt" dbVersion="latest" dbCoordSys="UniProt,Protein Sequence">
+      <alignObjectDetail dbSource="UniProtKB" property="title"></alignObjectDetail>
+    </alignObject>
+    <block blockOrder="1">
+      <segment intObjectId="5JR7.A" start="13" end="350" />
+      <segment intObjectId="P05132" start="14" end="351" />
+    </block>
+  </alignment>
+  <alignment alignType="PDB_SP">
+    <alignObject dbAccessionId="5JR7" intObjectId="5JR7" objectVersion="unknown" type="STRUCTURE" dbSource="PDB" dbVersion="latest" dbCoordSys="PDBresnum,Protein Structure">
+      <alignObjectDetail dbSource="PDB" property="title">Crystal structure of an ACRDYS heterodimer [RIa(92-365):C] of PKA</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="citation">Structure of a PKA RI alpha Recurrent Acrodysostosis Mutant Explains Defective cAMP-Dependent Activation.</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="pubmed_id">27825928</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="method">X-RAY DIFFRACTION</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="release">2017-03-15</alignObjectDetail>
+    </alignObject>
+    <alignObject dbAccessionId="P00514" intObjectId="P00514" objectVersion="unknown" type="PROTEIN" dbSource="UniProt" dbVersion="latest" dbCoordSys="UniProt,Protein Sequence">
+      <alignObjectDetail dbSource="UniProtKB" property="title"></alignObjectDetail>
+    </alignObject>
+    <block blockOrder="1">
+      <segment intObjectId="5JR7.B" start="92" end="358" />
+      <segment intObjectId="P00514" start="93" end="359" />
+    </block>
+  </alignment>
+  <alignment alignType="PDB_SP">
+    <alignObject dbAccessionId="5JR7" intObjectId="5JR7" objectVersion="unknown" type="STRUCTURE" dbSource="PDB" dbVersion="latest" dbCoordSys="PDBresnum,Protein Structure">
+      <alignObjectDetail dbSource="PDB" property="title">Crystal structure of an ACRDYS heterodimer [RIa(92-365):C] of PKA</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="citation">Structure of a PKA RI alpha Recurrent Acrodysostosis Mutant Explains Defective cAMP-Dependent Activation.</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="pubmed_id">27825928</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="method">X-RAY DIFFRACTION</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="release">2017-03-15</alignObjectDetail>
+    </alignObject>
+    <alignObject dbAccessionId="P05132" intObjectId="P05132" objectVersion="unknown" type="PROTEIN" dbSource="UniProt" dbVersion="latest" dbCoordSys="UniProt,Protein Sequence">
+      <alignObjectDetail dbSource="UniProtKB" property="title"></alignObjectDetail>
+    </alignObject>
+    <block blockOrder="1">
+      <segment intObjectId="5JR7.C" start="13" end="350" />
+      <segment intObjectId="P05132" start="14" end="351" />
+    </block>
+  </alignment>
+  <alignment alignType="PDB_SP">
+    <alignObject dbAccessionId="5JR7" intObjectId="5JR7" objectVersion="unknown" type="STRUCTURE" dbSource="PDB" dbVersion="latest" dbCoordSys="PDBresnum,Protein Structure">
+      <alignObjectDetail dbSource="PDB" property="title">Crystal structure of an ACRDYS heterodimer [RIa(92-365):C] of PKA</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="citation">Structure of a PKA RI alpha Recurrent Acrodysostosis Mutant Explains Defective cAMP-Dependent Activation.</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="pubmed_id">27825928</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="method">X-RAY DIFFRACTION</alignObjectDetail>
+      <alignObjectDetail dbSource="PDB" property="release">2017-03-15</alignObjectDetail>
+    </alignObject>
+    <alignObject dbAccessionId="P00514" intObjectId="P00514" objectVersion="unknown" type="PROTEIN" dbSource="UniProt" dbVersion="latest" dbCoordSys="UniProt,Protein Sequence">
+      <alignObjectDetail dbSource="UniProtKB" property="title"></alignObjectDetail>
+    </alignObject>
+    <block blockOrder="1">
+      <segment intObjectId="5JR7.D" start="92" end="357" />
+      <segment intObjectId="P00514" start="93" end="358" />
+    </block>
+  </alignment>
+</dasalignment>
