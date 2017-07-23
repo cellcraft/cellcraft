@@ -1,0 +1,89 @@
+{
+  "colors": {
+    "black": {
+      "id": 15,
+      "color_code": "#141519"
+    },
+    "red": {
+      "id": 14,
+      "color_code": "#A12722"
+    },
+    "green": {
+      "id": 13,
+      "color_code": "#546D1B"
+    },
+    "brown": {
+      "id": 12,
+      "color_code": "#724728"
+    },
+    "blue": {
+      "id": 11,
+      "color_code": "#35399D"
+    },
+    "purple": {
+      "id": 10,
+      "color_code": "#792AAC"
+    },
+    "cyan": {
+      "id": 9,
+      "color_code": "#158991"
+    },
+    "light_grey": {
+      "id": 8,
+      "color_code": "#8E8E86"
+    },
+    "grey": {
+      "id": 7,
+      "color_code": "#3E4447"
+    },
+    "pink": {
+      "id": 6,
+      "color_code": "#ED8DAC"
+    },
+    "lime": {
+      "id": 5,
+      "color_code": "#70B919"
+    },
+    "yellow": {
+      "id": 4,
+      "color_code": "#F8C627"
+    },
+    "light_blue": {
+      "id": 3,
+      "color_code": "#3AAFD9"
+    },
+    "magenta": {
+      "id": 2,
+      "color_code": "#BD44B3"
+    },
+    "orange": {
+      "id": 1,
+      "color_code": "#F07613"
+    },
+    "white": {
+      "id": 0,
+      "color_code": "#E9ECEC"
+    }
+  },
+  "light_color_names": [
+    "orange",
+    "magenta",
+    "yellow",
+    "pink",
+    "purple",
+    "brown",
+    "red"
+  ],
+  "dark_color_names": [
+    "light_blue",
+    "lime",
+    "cyan",
+    "blue",
+    "green"
+  ],
+  "textures": {
+    "wool": 35,
+    "crystal": 95,
+    "full": 159
+  }
+}

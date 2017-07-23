@@ -10,8 +10,8 @@ import numpy as np
 from biopandas.pdb import PandasPdb
 from cellcraft.builders.grid import create_bins_from_coordinates
 from cellcraft.connectors.db_connectors import uniprot_id_call, uniprot_connector, kegg_connector
-from cellcraft.config import CLEAR_COLORS_PROT, DARK_COLORS_PROT, TEXTURE_PROT
-from cellcraft.builders.complex_structure import ComplexStructure
+from cellcraft.config import load_block_appearance
+#from cellcraft.builders.complex_structure import ComplexStructure
 
 
 def get_pdb_complex(name, theta, blocksize, threshold):
@@ -36,19 +36,24 @@ def string_to_int(list_str):
 
 
 def define_items_color_texture_protein(dict_chains):
-    c_1 = np.random.shuffle(CLEAR_COLORS_PROT)
-    c_2 = np.random.shuffle(DARK_COLORS_PROT)
-    d = {}
+    block_appearance = load_block_appearance()
+    np.random.shuffle(block_appearance["light_color_names"])
+    np.random.shuffle(block_appearance["dark_color_names"])
+    d_appearance = {}
+    odd = 0
+    even = 0
     for i, chain in enumerate(dict_chains.values()):
         if i % 2 == 0:
-            color = c_1[i // 2]
+            color = block_appearance["light_color_names"][even]
+            even += 1
         else:
-            color = c_2[i // 3]
-        d[chain] = {
-            'texture': TEXTURE_PROT,
-            'color': color
+            color = block_appearance["dark_color_names"][odd]
+            odd += 1
+        d_appearance[chain] = {
+            'texture': block_appearance["textures"]["wool"],
+            'color': block_appearance["colors"][color]["id"]
         }
-    return d
+    return d_appearance
 
 
 class Protein():
@@ -290,26 +295,26 @@ class Protein():
 
 
 # protein pdb cleaner (BioPython)
-class NonHetSelect(Select):
-    def accept_residue(self, residue):
-        return 1 if residue.id[0] == " " else 0
+#class NonHetSelect(Select):
+#    def accept_residue(self, residue):
+#        return 1 if residue.id[0] == " " else 0
 
 
 # select chain from pdb (BioPython)
-class ChainSelect(Select):
-    # create the chain name variable for Select class
-    def __init__(self, chname):
-        self.chname = chname
+#class ChainSelect(Select):
+#    # create the chain name variable for Select class
+#    def __init__(self, chname):
+#        self.chname = chname
 
-    def accept_chain(self, chain):
-        if chain.get_id() == self.chname:
-            return 1
-        else:
-            return 0
+#    def accept_chain(self, chain):
+#        if chain.get_id() == self.chname:
+#            return 1
+#        else:
+#            return 0
 
 
 # split the protein complex and define features
-class ProteinComplex(ComplexStructure):
+class ProteinComplex():
     def __init__(self, pdbin, threshold, blocksize):
         self.pdbin = pdbin
         print('Get PDB.')
