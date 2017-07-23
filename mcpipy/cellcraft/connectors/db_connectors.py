@@ -7,7 +7,7 @@ import itertools
 import xmltodict
 import pandas as pd
 from pymongo import MongoClient
-from cellcraft.config import DB, DB_HOST, DB_PORT, CELLCRAFT_NODE_URL
+from cellcraft.config import CELLCRAFT_NODE_URL
 
 
 def get_item(_id):
@@ -19,9 +19,9 @@ def get_item(_id):
 
 def get_items(**params):
     url = urllib.parse.urljoin(CELLCRAFT_NODE_URL, 'items')
-    r = requests.get(url, params=params)
-    r_data = r.json()['data']
-    return r_data
+    response = requests.get(url, params=params)
+    response_data = response.json()['data']
+    return response_data
 
 
 def store_on_node(data_dict):
