@@ -3,6 +3,10 @@ import json
 import logging
 
 
+# cellcraft node
+CELLCRAFT_NODE_URL="http://localhost"
+
+
 # path to cache where pickle files will be stored
 PATH_RESOURCES='cellcraft/resources'
 PATH_CACHE='cellcraft/cache/'

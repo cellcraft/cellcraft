@@ -1,12 +1,20 @@
 import logging
 import urllib
+import urlparse
 import json
+import requests
 import re
 import itertools
 import xmltodict
 import pandas as pd
 from pymongo import MongoClient
-from cellcraft.config import DB, DB_HOST, DB_PORT
+from cellcraft.config import DB, DB_HOST, DB_PORT, CELLCRAFT_NODE_URL
+
+
+def store_on_node(data):
+    url = urlparse.urljoin(CELLCRAFT_NODE_URL, 'items')
+    r = requests.post(url, data={'data': data})
+    print(r)
 
 
 def insert_to_mongo(item_info_json, database):
