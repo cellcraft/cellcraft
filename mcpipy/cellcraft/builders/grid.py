@@ -31,7 +31,7 @@ def eulerAnglesToRotationMatrix(theta):
         [1, 0, 0],
         [0, math.cos(theta[0]), -math.sin(theta[0])],
         [0, math.sin(theta[0]), math.cos(theta[0])]
-    ])     
+    ])
     R_y = np.array([
         [math.cos(theta[1]), 0, math.sin(theta[1])],
         [0, 1, 0],
@@ -47,23 +47,23 @@ def eulerAnglesToRotationMatrix(theta):
     return R
 
 
-def bin_coordinates(id_sr, coor_arr, blocksize, threshold):
+def bin_coordinates(chain_id, coor_arr, blocksize, threshold):
+    n_coordinates = 3
     grid_bins = [
         np.arange(coor_arr[:, i].min(), coor_arr[:, i].max() + blocksize, blocksize)
-        for i in range(3)
+        for i in range(n_coordinates)
     ]
     bin_corr_arr = np.array(
-        [np.digitize(coor_arr[:, i], grid_bins[i], right=True) for i in range(3)]).T
+        [np.digitize(coor_arr[:, i], grid_bins[i], right=True) for i in range(n_coordinates)]).T
 
-    df = pd.DataFrame(bin_corr_arr, columns=['x_coord', 'y_coord', 'z_coord'], index=id_sr.index)
-    df['id'] = id_sr
+    df = pd.DataFrame(bin_corr_arr, columns=['x_coord', 'y_coord', 'z_coord'], index=chain_id.index)
+    df['id'] = chain_id
     df['count'] = 1
 
     count = df.set_index(['x_coord', 'y_coord', 'z_coord', 'id'])['count'] \
-              .groupby(level=[0, 1, 2, 3]).count().sort_values()
+        .groupby(level=[0, 1, 2, 3]).count().sort_values()
     count = count[count > threshold]
     count = count.reset_index(level=3).groupby(level=[0, 1, 2]).first()
-
     bin_count_df = count.reset_index()
 
     return bin_count_df

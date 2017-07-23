@@ -22,6 +22,10 @@ config/
 crash-reports/
 eula.txt
 libraries/
+mcpipy/cellcraft/resources/cellpack/*.x3d
+mcpipy/cellcraft/resources/cellpack/*.csv
+mcpipy/cellcraft/resources/cellpack/*.ipynb
+mcpipy/cellcraft/resources/cache/*.pkl
 logs/
 try1/
 /.*

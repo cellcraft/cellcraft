@@ -9,8 +9,14 @@ CELLCRAFT_NODE_URL="http://localhost:4534"
 
 # path to cache where pickle files will be stored
 PATH_RESOURCES='cellcraft/resources'
-PATH_CACHE='cellcraft/cache/'
+PATH_CACHE='cellcraft/resources/cache/'
 PATH_TEST_CACHE='test/fixtures/cache/'
+
+# path to cellpack structures after processing them
+PATH_CELLPACK = 'cellcraft/resources/cellpack/'
+
+# cellpack parameters
+envelop_id = 22
 
 # database name to store biological information and coordinates of structures
 DB='cellcraft'
