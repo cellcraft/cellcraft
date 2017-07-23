@@ -4,7 +4,7 @@ import logging
 
 
 # cellcraft node
-CELLCRAFT_NODE_URL="http://localhost"
+CELLCRAFT_NODE_URL="http://localhost:4534"
 
 
 # path to cache where pickle files will be stored

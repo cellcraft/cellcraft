@@ -1,6 +1,5 @@
 import logging
 import urllib
-import urlparse
 import json
 import requests
 import re
@@ -11,10 +10,27 @@ from pymongo import MongoClient
 from cellcraft.config import DB, DB_HOST, DB_PORT, CELLCRAFT_NODE_URL
 
 
+def get_item(_id):
+    url = urllib.parse.urljoin(CELLCRAFT_NODE_URL, f'items/{_id}')
+    r = requests.get(url)
+    print(url, _id)
+    r_data = r.json()['data']
+    return r_data
+
+
+def get_items(**params):
+    url = urllib.parse.urljoin(CELLCRAFT_NODE_URL, 'items')
+    r = requests.get(url, params=params)
+    r_data = r.json()['data']
+    return r_data
+
+
 def store_on_node(data):
-    url = urlparse.urljoin(CELLCRAFT_NODE_URL, 'items')
-    r = requests.post(url, data={'data': data})
-    print(r)
+    url = urllib.parse.urljoin(CELLCRAFT_NODE_URL, 'items')
+    r = requests.post(url, json={'data': data})
+    r_data = r.json()['data']
+    logging.info("Stored item with id {}.".format(r_data['item_id']))
+    return r_data
 
 
 def insert_to_mongo(item_info_json, database):
