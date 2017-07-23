@@ -39,7 +39,7 @@ class CellcraftGridStore():
 
     def create_file_name(self, **keys):
         keys = OrderedDict(sorted(keys.items(), key=lambda t: t[0]))
-        file_name = '__'.join(['{}_{}'.format(k, v) for k, v in keys.items()])
+        file_name = '__'.join(['{}_{}'.format(k, parse_list_to_string(v)) for k, v in keys.items()])
         return file_name
 
     def get_path_to_cache(self, file_name):
@@ -64,4 +64,9 @@ def get_complex(mode, name, theta, blocksize, threshold, usecache, path=PATH_CAC
     return bio_complex
 
 
-
+def parse_list_to_string(list_elements):
+    if isinstance(list_elements, list):
+        string = "_".join(str(x) for x in list_elements)
+    else:
+        string = list_elements
+    return string

@@ -23,10 +23,10 @@ def get_pdb_complex(name, theta, blocksize, threshold):
 
 def get_pdb_from_source(name):
     protein_pdb = PandasPdb().fetch_pdb(name)
-    prot_df = protein_pdb.df['ATOM'].ix[:, ['chain_id', 'x_coord', 'y_coord', 'z_Coord']]
+    prot_df = protein_pdb.df['ATOM'].ix[:, ['chain_id', 'x_coord', 'y_coord', 'z_coord']]
     prot_df['chain_id'], dict_chains = string_to_int(prot_df['chain_id'])
     chain_block = define_items_color_texture_protein(dict_chains)
-    return protein_pdb, chain_block
+    return prot_df, chain_block
 
 
 def string_to_int(list_str):

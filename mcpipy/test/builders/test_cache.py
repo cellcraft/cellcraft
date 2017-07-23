@@ -1,4 +1,3 @@
-
 from cellcraft.config import PATH_TEST_CACHE
 from cellcraft.builders.cache import get_complex, CellcraftGridStore
 import logging
