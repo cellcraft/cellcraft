@@ -42,13 +42,14 @@ mongodump --db cellcraft --out cellcraft/mongo_storage/data/cellcraft-backup
 
 * Install pyenv and run setup the cellcraft pyenv
 ```
+brew install pyenv-virtualenv
 echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
 source ~/.bash_profile
-pyenv install 3.5.2
-pyenv global 3.5.2
+pyenv install 3.6.2
+pyenv global 3.6.2
 source ~/.bash_profile
 
-pyenv virtualenv cellcraft
+pyenv virtualenv 3.6.2 cellcraft
 pyenv activate cellcraft
 ```
 
