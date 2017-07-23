@@ -85,10 +85,19 @@ java -jar forge-1.12-14.21.0.2359-universal.jar
 - choose Multiplayer
 - choose Direct Connect
 - add 0.0.0.0 as server adress and join server
-- run for pdb mode: /py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15 -C
-- run for cellpack mode:
+- run for pdb mode:
+```
+/py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15 -C
+```
+- or run for pdb mode from cache:
+```
+/py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15`
+```
+- run for cellpack mode (remove -C if run structure from cache):
     - download hiv.x3d and hiv.csv from our server
-    - run: /py cellcraft -m cellpack -n hiv -t 2 -s 4 -he -15 -C
+```
+/py cellcraft -m cellpack -n hiv -t 2 -s 4 -he -15 -C`
+```
 
 
 

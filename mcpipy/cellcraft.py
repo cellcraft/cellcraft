@@ -16,9 +16,9 @@ def main(args):
 
     try:
         # Extract the grid, colors and biological information from given structure
-        bio_complex = get_complex(
-            args.mode, args.name, args.theta, args.size, args.threshold, args.usecache)
-    except:
+        bio_complex = get_complex(args.mode, args.name, args.theta, args.size, args.threshold, args.usecache)
+        logging.info("The structure {} was successfully loaded.".format(args.name))
+    except Exception as exp:
         logging.exception("Error loading structure.")
         raise
 
@@ -28,14 +28,16 @@ def main(args):
             [int(minecraft_player_coordinates.x), 
              int(minecraft_player_coordinates.y) + int(args.height),
              int(minecraft_player_coordinates.z)])
-    except:
-        logging.exception("Error getting player position.")
+        logging.info("The coordinates of the player {} where successfully obtained.".format(complex_coordinates))
+    except Exception as exp:
+        logging.exception("Error extracting player position coordinates.")
         raise
 
     try:
         add_numpy_array_to_minecraft(minecraft_conn, complex_coordinates, bio_complex)
-    except:
-        logging.exception("Error putting structures.")
+        logging.info("")
+    except Exception as exp:
+        logging.exception("Error throwing structures into the minecraft server.")
         raise
 
 

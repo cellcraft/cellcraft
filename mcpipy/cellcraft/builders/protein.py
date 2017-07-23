@@ -11,7 +11,6 @@ from biopandas.pdb import PandasPdb
 from cellcraft.builders.grid import create_bins_from_coordinates
 from cellcraft.connectors.db_connectors import uniprot_id_call, uniprot_connector, kegg_connector
 from cellcraft.config import load_block_appearance
-#from cellcraft.builders.complex_structure import ComplexStructure
 
 
 def get_pdb_complex(name, theta, blocksize, threshold):
