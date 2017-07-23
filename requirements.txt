@@ -18,4 +18,3 @@ vpython==2.0.8
 biopandas==0.2.2
 xmltodict==0.11.0
 urllib
-wget
