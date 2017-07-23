@@ -1,3 +1,4 @@
+import logging
 import numpy as np
 from biopandas.pdb import PandasPdb
 from cellcraft.builders.grid import create_bins_from_coordinates
@@ -57,8 +58,9 @@ def store_location_biological_prot_data(complex_coordinates, name):
     uniprot_id = uniprot_id_call(name)
     bio_uniprot_data = extract_biological_info_from_uniprot(uniprot_id)
 
+    logging.info("Requested data for coordinates {}: {}".format(complex_coordinates, bio_uniprot_data))
     data_dict = {
-        "location": complex_coordinates,
+        "location": complex_coordinates.tolist(),
         "pdb_id": name,
         "uniprot_id": uniprot_id,
         "organism": bio_uniprot_data["organism"],

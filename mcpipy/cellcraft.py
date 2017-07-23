@@ -40,12 +40,11 @@ def main(args):
         logging.exception("Error throwing structures into the minecraft server.")
         raise
 
-    if args.mode is "pdb":
-        try:
-            data_dict = store_location_biological_prot_data(complex_coordinates, args.name)
-            logging.info("Data correctly stored in server: {}".format(data_dict))
-        except Exception as exp:
-            logging.exception("Error while sending data to server.")
+    try:
+        data_dict = store_location_biological_prot_data(complex_coordinates, args.name)
+        logging.info("Data correctly stored in server: {}".format(data_dict))
+    except Exception as exp:
+        logging.exception("Error while sending data to server.")
 
 
 if __name__ == "__main__":

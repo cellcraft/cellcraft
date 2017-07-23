@@ -12,6 +12,9 @@ PATH_RESOURCES='cellcraft/resources'
 PATH_CACHE='cellcraft/resources/cache/'
 PATH_TEST_CACHE='test/fixtures/cache/'
 
+# path to fixtures
+PATH_TO_FIXTURES="test/fixtures"
+
 # path to cellpack structures after processing them
 PATH_CELLPACK = 'cellcraft/resources/cellpack/'
 
@@ -29,5 +32,22 @@ def load_block_appearance():
     return block_appearance
 
 
-# path to fixtures
-PATH_TO_FIXTURES="test/fixtures"
+current_env = os.environ.get('app_env')
+root_logger = logging.getLogger()
+
+current_env = 'test'
+
+if current_env == 'cellcraft':
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 27017
+    root_logger.setLevel(logging.INFO)
+
+
+elif current_env == 'test':
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 27017
+    root_logger.setLevel(logging.DEBUG)
+
+else:
+    logging.warning('Please configure a environment using now default dev environment for config')
+    root_logger.setLevel(logging.DEBUG)

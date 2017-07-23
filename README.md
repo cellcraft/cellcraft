@@ -96,7 +96,7 @@ java -jar forge-1.12-14.21.0.2359-universal.jar
 - run for cellpack mode (remove -C if run structure from cache):
     - download hiv.x3d and hiv.csv from our server
 ```
-/py cellcraft -m cellpack -n hiv -t 2 -s 4 -he -15 -C`
+/py cellcraft -m cellpack -n hiv -t 2 -s 4 -he -15 -C
 ```
 
 
