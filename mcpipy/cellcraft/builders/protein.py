@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import numpy as np
 from biopandas.pdb import PandasPdb
 from cellcraft.builders.grid import create_bins_from_coordinates
-from cellcraft.connectors.db_connectors import uniprot_id_call, uniprot_connector, kegg_connector
+from cellcraft.connectors.db_connectors import uniprot_id_call, extract_biological_info_from_uniprot, insert_to_mongo
 from cellcraft.config import load_block_appearance
 
 
@@ -44,13 +44,13 @@ def define_items_color_texture_protein(dict_chains):
     for i, chain in enumerate(dict_chains.values()):
         if i % 2 == 0:
             color = block_appearance["light_color_names"][even]
-            if even == len(block_appearance["light_color_names"])-1:
+            if even == len(block_appearance["light_color_names"]) - 1:
                 even = 0
             else:
                 even += 1
         else:
             color = block_appearance["dark_color_names"][odd]
-            if odd == len(block_appearance["dark_color_names"])-1:
+            if odd == len(block_appearance["dark_color_names"]) - 1:
                 odd = 0
             else:
                 odd += 1
@@ -59,6 +59,11 @@ def define_items_color_texture_protein(dict_chains):
             'color': block_appearance["colors"][color]["id"]
         }
     return d_appearance
+
+
+def store_location_biological_prot_data(complex_coordinates, name):
+    uniprot_id_call()
+    insert_to_mongo(item_info_json, database)
 
 
 class Protein():
@@ -300,13 +305,13 @@ class Protein():
 
 
 # protein pdb cleaner (BioPython)
-#class NonHetSelect(Select):
+# class NonHetSelect(Select):
 #    def accept_residue(self, residue):
 #        return 1 if residue.id[0] == " " else 0
 
 
 # select chain from pdb (BioPython)
-#class ChainSelect(Select):
+# class ChainSelect(Select):
 #    # create the chain name variable for Select class
 #    def __init__(self, chname):
 #        self.chname = chname

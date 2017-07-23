@@ -1,9 +1,9 @@
 import numpy as np
 import argparse
 import logging
-from mcpi.block import Block
 from cellcraft.connectors.minecraft_server import minecraft_connector, add_numpy_array_to_minecraft
 from cellcraft.builders.cache import get_complex
+from cellcraft.builders.protein import store_location_biological_prot_data
 
 
 def main(args):
@@ -25,7 +25,7 @@ def main(args):
     try:
         minecraft_conn, minecraft_player_coordinates = minecraft_connector()
         complex_coordinates = np.array(
-            [int(minecraft_player_coordinates.x), 
+            [int(minecraft_player_coordinates.x),
              int(minecraft_player_coordinates.y) + int(args.height),
              int(minecraft_player_coordinates.z)])
         logging.info("The coordinates of the player {} where successfully obtained.".format(complex_coordinates))
@@ -35,10 +35,17 @@ def main(args):
 
     try:
         add_numpy_array_to_minecraft(minecraft_conn, complex_coordinates, bio_complex)
-        logging.info("")
+        logging.info("Structure successfully transformed into blocks and loaded into Minecraft.")
     except Exception as exp:
         logging.exception("Error throwing structures into the minecraft server.")
         raise
+
+    if args.mode is "pdb":
+        try:
+            store_location_biological_prot_data(complex_coordinates, args.name)
+            logging.info("Structure successfully transformed into blocks and loaded into Minecraft.")
+        except Exception as exp:
+            logging.exception("Error throwing structures into the minecraft server.")
 
 
 if __name__ == "__main__":

@@ -5,7 +5,8 @@ import os
 from collections import OrderedDict
 import pickle
 from cellcraft.config import PATH_CACHE
-# from cellcraft.builders.protein import get_cellpack_complex
+from cellcraft.builders.cellpack import get_cellpack_complex
+from cellcraft.builders.protein import get_pdb_complex
 from cellcraft.builders.complex import get_complex_from_source
 import logging
 
@@ -46,6 +47,24 @@ class CellcraftGridStore():
         return self.cache_dir + file_name + '.pkl'
 
 
+def get_complex_from_source(mode, name, theta, blocksize, threshold):
+    if mode == 'cellpack':
+        try:
+            bio_complex = get_cellpack_complex(name, theta, blocksize, threshold)
+            logging.info("The cellpack {} was correctly loaded from source.".format(name))
+        except Exception as exp:
+            logging.exception("The cellpack {} can not be loaded from source.".format(name))
+    elif mode == 'pdb':
+        try:
+            bio_complex = get_pdb_complex(name, theta, blocksize, threshold)
+            logging.info("The pdb {} was correctly loaded from source.".format(name))
+        except Exception as exp:
+            logging.exception("The pdb {} can not be loaded from source.".format(name))
+    else:
+        raise ValueError('Unknown mode: {}'.format(mode))
+    return bio_complex
+
+
 def get_complex(mode, name, theta, blocksize, threshold, usecache, path=PATH_CACHE):
     # check for complex in cache
     cgs = CellcraftGridStore(path)
@@ -56,7 +75,7 @@ def get_complex(mode, name, theta, blocksize, threshold, usecache, path=PATH_CAC
             mode=mode, name=name, theta=theta, blocksize=blocksize, threshold=threshold)
         logging.info("The structure {} was correctly loaded from store.".format(name))
     else:
-        bio_complex = get_complex_from_source(mode, name, theta, blocksize, threshold, usecache)
+        bio_complex = get_complex_from_source(mode, name, theta, blocksize, threshold)
         cgs.put_on_cache(
             bio_complex, mode=mode, name=name, theta=theta, blocksize=blocksize, 
             threshold=threshold)
