@@ -12,7 +12,12 @@
 __main__.py
 __pycache__/
 *.pyc
-/*.json
+banned-ips.json
+banned-players.json
+ops.json
+usercache.json
+usernamecache.json
+whitelist.json
 config/
 crash-reports/
 eula.txt

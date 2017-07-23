@@ -45,10 +45,16 @@ def define_items_color_texture_protein(dict_chains):
     for i, chain in enumerate(dict_chains.values()):
         if i % 2 == 0:
             color = block_appearance["light_color_names"][even]
-            even += 1
+            if even == len(block_appearance["light_color_names"])-1:
+                even = 0
+            else:
+                even += 1
         else:
             color = block_appearance["dark_color_names"][odd]
-            odd += 1
+            if odd == len(block_appearance["dark_color_names"])-1:
+                odd = 0
+            else:
+                odd += 1
         d_appearance[chain] = {
             'texture': block_appearance["textures"]["wool"],
             'color': block_appearance["colors"][color]["id"]
