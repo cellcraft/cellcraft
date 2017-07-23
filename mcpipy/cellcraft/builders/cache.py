@@ -7,7 +7,6 @@ import pickle
 from cellcraft.config import PATH_CACHE
 from cellcraft.builders.cellpack import get_cellpack_complex
 from cellcraft.builders.protein import get_pdb_complex
-from cellcraft.builders.complex import get_complex_from_source
 import logging
 
 

@@ -12,10 +12,9 @@ from cellcraft.config import DB, DB_HOST, DB_PORT, CELLCRAFT_NODE_URL
 
 def get_item(_id):
     url = urllib.parse.urljoin(CELLCRAFT_NODE_URL, f'items/{_id}')
-    r = requests.get(url)
-    print(url, _id)
-    r_data = r.json()['data']
-    return r_data
+    response = requests.get(url)
+    response_data = response.json()['data']
+    return response_data
 
 
 def get_items(**params):
@@ -25,12 +24,12 @@ def get_items(**params):
     return r_data
 
 
-def store_on_node(data):
+def store_on_node(data_dict):
     url = urllib.parse.urljoin(CELLCRAFT_NODE_URL, 'items')
-    r = requests.post(url, json={'data': data})
-    r_data = r.json()['data']
-    logging.info("Stored item with id {}.".format(r_data['item_id']))
-    return r_data
+    response = requests.post(url, json={'data': data_dict})
+    item_id = response.json()['data']['item_id']
+    logging.info("Stored item with id {}.".format(item_id))
+    return item_id
 
 
 def insert_to_mongo(item_info_json, database):

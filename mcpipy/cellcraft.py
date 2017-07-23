@@ -42,10 +42,10 @@ def main(args):
 
     if args.mode is "pdb":
         try:
-            store_location_biological_prot_data(complex_coordinates, args.name)
-            logging.info("Structure successfully transformed into blocks and loaded into Minecraft.")
+            data_dict = store_location_biological_prot_data(complex_coordinates, args.name)
+            logging.info("Data correctly stored in server: {}".format(data_dict))
         except Exception as exp:
-            logging.exception("Error throwing structures into the minecraft server.")
+            logging.exception("Error while sending data to server.")
 
 
 if __name__ == "__main__":

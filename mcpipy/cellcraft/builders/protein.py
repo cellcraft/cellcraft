@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import numpy as np
 from biopandas.pdb import PandasPdb
 from cellcraft.builders.grid import create_bins_from_coordinates
-from cellcraft.connectors.db_connectors import uniprot_id_call, extract_biological_info_from_uniprot, insert_to_mongo
+from cellcraft.connectors.db_connectors import uniprot_id_call, extract_biological_info_from_uniprot, store_on_node
 from cellcraft.config import load_block_appearance
 
 
@@ -62,8 +62,23 @@ def define_items_color_texture_protein(dict_chains):
 
 
 def store_location_biological_prot_data(complex_coordinates, name):
-    uniprot_id_call()
-    insert_to_mongo(item_info_json, database)
+    uniprot_id = uniprot_id_call(name)
+    bio_uniprot_data = extract_biological_info_from_uniprot(uniprot_id)
+
+    data_dict = {
+        "location": complex_coordinates,
+        "pdb_id": name,
+        "uniprot_id": uniprot_id,
+        "organism": bio_uniprot_data["organism"],
+        "genes_ensembl": bio_uniprot_data["ensembl"],
+        "genes_entrez": bio_uniprot_data["gene_id"],
+        "pfam_id": bio_uniprot_data["pfam"],
+        "go_terms": bio_uniprot_data["go"],
+        "kegg_ids": bio_uniprot_data["kegg"],
+        "ko_ids": bio_uniprot_data["ko"]
+    }
+    store_on_node(data_dict)
+    return data_dict
 
 
 class Protein():
