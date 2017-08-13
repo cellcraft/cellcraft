@@ -68,11 +68,12 @@ pip install -r requirements.txt
 #### Installation of Minecraft Server with RaspberryJamMod
 - Download forge installer (version 1.12) from http://files.minecraftforge.net/ (same then above)
 - Run forge installer and install server into the root directory of the repo
+```java -jar forge-*-installer.jar```
 - Download from https://github.com/arpruss/raspberryjammod/releases the mods.zip
 - Unzip the mods.zip and copy the mods folder content into the mods folder in the root directory of the repo
-- Run the forge-1.12-14.21.0.2359-universal.jar once
-- Edit the eula.txt and change false to true
-- Start the server running forge-1.12-14.21.0.2359-universal.jar again
+- Run the forge-*-universal.jar that has been generated in the same directory
+```java -jar forge-*-universal.jar```
+- Edit the eula.txt file generated in the same directory and change false to true
 
 #### Starting the server with cellcraft
 - Start the server in the root folder of the repo with your python environment correctly setup and start the server
