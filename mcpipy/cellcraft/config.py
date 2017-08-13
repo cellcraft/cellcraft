@@ -25,6 +25,9 @@ envelop_id = 22
 DB='cellcraft'
 TEST_DB='test'
 
+# fix maximum amount of structures saved on cache
+MAXIMUM_NUM_STRUCTURES_CACHE = 8
+
 # load block appear appearance json
 def load_block_appearance():
     with open(os.path.join(PATH_RESOURCES, "block_appearance.json")) as appearance_json:

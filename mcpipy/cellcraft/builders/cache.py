@@ -2,9 +2,11 @@
 define features of CellcraftGrid()
 """
 import os
+from os import listdir
+from os.path import isfile, join
 from collections import OrderedDict
 import pickle
-from cellcraft.config import PATH_CACHE
+from cellcraft.config import PATH_CACHE, MAXIMUM_NUM_STRUCTURES_CACHE
 from cellcraft.builders.cellpack import get_cellpack_complex
 from cellcraft.builders.protein import get_pdb_complex
 import logging
@@ -29,6 +31,11 @@ class CellcraftGridStore():
             return pickle.load(f)
 
     def put_on_cache(self, obj, **keys):
+        # clean cache number of files exceeded
+        onlyfiles = [f for f in listdir(self.cache_dir) if isfile(join(self.cache_dir, f))]
+        if len(onlyfiles) > MAXIMUM_NUM_STRUCTURES_CACHE:
+            os.remove(self.cache_dir + onlyfiles[0])
+
         file_name = self.create_file_name(**keys)
         return self._put_on_cache(obj, file_name)
 
