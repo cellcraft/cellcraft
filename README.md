@@ -68,31 +68,33 @@ pip install -r requirements.txt
 #### Installation of Minecraft Server with RaspberryJamMod
 - Download forge installer (version 1.12) from http://files.minecraftforge.net/ (same then above)
 - Run forge installer and install server into the root directory of the repo
-```java -jar forge-*-installer.jar```
+
+```java -jar forge-version-installer.jar```
 - Download from https://github.com/arpruss/raspberryjammod/releases the mods.zip
 - Unzip the mods.zip and copy the mods folder content into the mods folder in the root directory of the repo
 - Run the forge-*-universal.jar that has been generated in the same directory
-```java -jar forge-*-universal.jar```
+
+```java -jar forge-version-universal.jar```
 - Edit the eula.txt file generated in the same directory and change false to true
 
 #### Starting the server with cellcraft
 - Start the server in the root folder of the repo with your python environment correctly setup and start the server
 ```
-java -jar forge-1.12-14.21.0.2359-universal.jar
+java -jar forge-version-universal.jar
 ```
 
 ### Now you are ready to start! Join the server
 - start the client
 - choose Multiplayer
 - choose Direct Connect
-- add 0.0.0.0 as server adress and join server
+- add 0.0.0.0 as server address and join server
 - run for pdb mode:
 ```
 /py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15 -C
 ```
 - or run for pdb mode from cache:
 ```
-/py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15`
+/py cellcraft -m pdb -n 3J9U -t 2 -s 4 -he -15
 ```
 - run for cellpack mode (remove -C if run structure from cache):
     - download hiv.x3d and hiv.csv from our server
