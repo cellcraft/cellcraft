@@ -2,7 +2,8 @@ import logging
 import numpy as np
 from biopandas.pdb import PandasPdb
 from cellcraft.builders.grid import create_bins_from_coordinates
-from cellcraft.connectors.db_connectors import uniprot_id_call, extract_biological_info_from_uniprot, store_on_node
+from cellcraft.connectors.db_connectors import extract_uniprot_id_from_call, extract_biological_info_from_uniprot, \
+    store_on_node, uniprot_id_call, uniprot_connector
 from cellcraft.config import load_block_appearance
 
 
@@ -55,8 +56,11 @@ def define_items_color_texture_protein(dict_chains):
 
 
 def store_location_biological_prot_data(complex_coordinates, name):
-    uniprot_id = uniprot_id_call(name)
-    bio_uniprot_data = extract_biological_info_from_uniprot(uniprot_id)
+    uniprot_response_id = uniprot_id_call(name)
+    uniprot_id = extract_uniprot_id_from_call(uniprot_response_id)
+
+    uniprot_response_data = uniprot_connector(uniprot_id)
+    bio_uniprot_data = extract_biological_info_from_uniprot(uniprot_response_data)
 
     logging.info("Requested data for coordinates {}: {}".format(complex_coordinates, bio_uniprot_data))
     data_dict = {

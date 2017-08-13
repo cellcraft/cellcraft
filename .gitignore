@@ -9,6 +9,8 @@
 *.ipynb_checkpoints
 *.ipynb
 *.jar
+*.log
+*.lock
 __main__.py
 __pycache__/
 *.pyc

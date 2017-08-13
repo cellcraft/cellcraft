@@ -1,4 +1,5 @@
-from cellcraft.builders.protein import define_items_color_texture_protein
+import pandas as pd
+from cellcraft.builders.protein import define_items_color_texture_protein, store_location_biological_prot_data
 
 
 def test_define_items_color_texture_protein():
